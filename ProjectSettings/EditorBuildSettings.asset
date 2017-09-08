@@ -5,6 +5,12 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/danbatis/scenes/action.unity
     guid: c3fb3efe9683d0b47ab900f0888b3f77
+  - enabled: 0
+    path: Assets/danbatis/scenes/badPrototype.unity
+    guid: bad1d21bc2a77f44198372109b0a9063
+  - enabled: 1
+    path: Assets/danbatis/scenes/thirdProt.unity
+    guid: 3e76ce9283545a64ebac2aea458078db

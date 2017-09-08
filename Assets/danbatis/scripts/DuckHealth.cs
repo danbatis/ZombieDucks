@@ -32,7 +32,7 @@ public class DuckHealth : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (beingDamaged == 0) {
+		if (beingDamaged == 0 && playerTransform) {
 			navAgent.SetDestination (playerTransform.position);
 			navAgent.Resume ();
 		}
@@ -69,5 +69,10 @@ public class DuckHealth : MonoBehaviour {
 		hitedFX.transform.up = hitnorm;
 		Destroy(hitedFX, fxTime);
 		Destroy(gameObject);
+	}
+	void OnCollisionEnter(Collision collision){
+		//Debug.Log ("<color=red>"+gameObject.name+"collided with: "+collision.gameObject.name+"</color>");
+		if (collision.transform.tag == "Player")
+			collision.gameObject.GetComponent<playerControl>().Damage(2.0f*transform.forward,5);
 	}
 }

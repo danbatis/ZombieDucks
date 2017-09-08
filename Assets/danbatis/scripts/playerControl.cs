@@ -1,12 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(CharacterController))]
 
 public class playerControl : MonoBehaviour {
 	Transform myTransform;
-	public float speed = 10.0f;
+	public float baseSpeed = 5.0f;
+	float speed;
 	public float gravity = 9.81f;
 	public float jumpPower = 5.0f;
 
@@ -44,24 +46,102 @@ public class playerControl : MonoBehaviour {
 	public AnimationClip runBClip;
 	public AnimationClip walkRClip;
 	public AnimationClip walkLClip;
-	AnimationClip current;
+	AnimationClip mainClip;
+	AnimationClip blendClip;
+	public float blendTarget = 0.5f;
 
 	Vector3 aimTarget;
+	float vertIn;
+	float horIn;
+	Light flickeringLight;
+	bool flickering;
+	float startedFlicker;
+
+	//damage
+	Vector3 damageVector;
+	float life = 100.0f;
+	float startDamage;
+	public GameObject deathPrefab;
+	public float damageRelief=10.0f;
+	public float perceptibleDelta=1.0f;
+	public float speedDrag = 2.5f;
+	public float recoverTime = 3.0f;
+	public float recoverRate = 5.0f;
+
+	Text winMsg;
+	Text loseMsg;
+
+	Image healthIndicator;
+
+	void Awake(){
+		myAnim = GetComponent<Animation> ();
+		myAnim[runFClip.name].speed = 1.3f;	
+	}
 
 	// Use this for initialization
 	void Start () {
+		
 		myTransform = transform;
 		myControl = GetComponent<CharacterController> ();	
 		myAudio = GetComponent<AudioSource>();
-		myAnim = GetComponent<Animation> ();
 		movement = new Vector3();
-		current = idleClip;
+		damageVector = Vector3.zero;
+		mainClip = idleClip;
+		flickeringLight = GameObject.Find("flickerLight").GetComponent<Light>();
+		healthIndicator = GameObject.Find("Canvas/healthBar/health").GetComponent<Image>();
+		winMsg = GameObject.Find("Canvas/winMsg").GetComponent<Text>();
+		winMsg.enabled = false;
+		loseMsg = GameObject.Find("Canvas/loseMsg").GetComponent<Text>();
+		loseMsg.enabled = false;
+		speed = baseSpeed;
 	}
 	
 	// Update is called once per frame
-	void Update () {
-		forthMove = Input.GetAxis ("Vertical") * speed * Time.deltaTime;
-		latMove = Input.GetAxis ("Horizontal") * speed * Time.deltaTime;
+	void Update () {		
+		vertIn = Input.GetAxis ("Vertical");
+		horIn = Input.GetAxis ("Horizontal");
+
+		if (vertIn > 0) {
+			mainClip = runFClip;
+			if (horIn > 0) {
+				blendClip = walkRClip;
+			}
+			else{
+				if (horIn < 0)
+					blendClip = walkLClip;
+				else
+					blendClip = mainClip;
+			}
+		} else {
+			if (vertIn < 0) {
+				mainClip = runBClip;
+				vertIn *= 0.5f;
+				if (horIn > 0) {
+					blendClip = walkRClip;
+				}
+				else{
+					if (horIn < 0)
+						blendClip = walkLClip;
+					else
+						blendClip = mainClip;
+				}
+			} 
+			else {
+				if (horIn > 0) {
+					mainClip = walkRClip;
+				}
+				else{
+					if (horIn < 0)
+						mainClip = walkLClip;
+					else
+						mainClip = idleClip;
+				}
+				blendClip = mainClip;
+			}
+		}
+
+		forthMove = vertIn * speed * Time.deltaTime;
+		latMove = horIn * speed * Time.deltaTime;
 
 		if (Input.GetKeyUp ("space"))
 			jumpReleased = true;
@@ -76,10 +156,15 @@ public class playerControl : MonoBehaviour {
 			vertMove -= gravity * Time.deltaTime;
 		}
 
-		movement = forthMove * myTransform.forward + latMove * myTransform.right + vertMove * Vector3.up;
+		movement = forthMove * myTransform.forward + latMove * myTransform.right + vertMove * Vector3.up + damageVector;
 		if (movement.magnitude != 0)
 			myControl.Move (movement);
 		//Debug.Log("<color=blue>ground: "+myControl.isGrounded.ToString()+"</color>");
+
+		if (damageVector.magnitude >= perceptibleDelta)
+			damageVector -= damageRelief * Time.deltaTime * damageVector;
+		else
+			damageVector = Vector3.zero;
 
 		if (Input.GetMouseButtonDown (0)) {
 			RaycastHit shootHit;
@@ -105,14 +190,32 @@ public class playerControl : MonoBehaviour {
 				StartCoroutine (Shoot (false, Vector3.zero));
 			}
 		}
-		if (aiming == 0) {
-			myAnim.CrossFade (current.name, crossfadeTime);
+
+		myAnim.CrossFade (mainClip.name, crossfadeTime);
+		if(blendClip.name != mainClip.name)
+			myAnim.Blend(blendClip.name, blendTarget);
+
+		if (life < 100){
+			if (startDamage <= recoverTime) {
+				startDamage += Time.deltaTime;
+			} else {
+				life += recoverRate * Time.deltaTime;
+				UpdateLife();
+			}
 		}
+
+		if(Input.GetKeyDown("u"))
+			Application.LoadLevel(0);
 	}
 	void LateUpdate(){
 		if (aiming != 0) {
 			//AimGun(aimHere.position);
-			AimGun(aimTarget);
+			AimGun (aimTarget);
+			FlickerLight();
+		}
+		else {
+			flickering = false;
+			flickeringLight.enabled = false;
 		}
 	}
 
@@ -157,6 +260,65 @@ public class playerControl : MonoBehaviour {
 		upperArm.transform.Rotate(180f,0f,0f);
 		arm.transform.right = -(aimTarget - arm.transform.position);
 		arm.transform.Rotate(180f,0f,0f);	
+	}
+
+	void FlickerLight(){
+		if (!flickering) {
+			flickering = true;
+			startedFlicker = 0.0f;
+			flickeringLight.enabled = true;
+		}
+		else{
+			startedFlicker += Time.deltaTime;
+			if(startedFlicker >= 0.1f)
+				flickeringLight.enabled = false;
+			if(startedFlicker >= 0.2f)
+				flickeringLight.enabled = true;
+			if (startedFlicker >= 0.3f) {
+				flickeringLight.enabled = false;
+				startedFlicker = 0.0f;
+			}
+		}
+	}
+
+	void OnCollisionEnter(Collision collision){
+		//Debug.Log ("<color=green>"+gameObject.name+"collided with: "+collision.gameObject.name+"</color>");
+		if (collision.gameObject.tag == "Finish")
+			WinGame();
+	}
+
+	void UpdateLife(){
+		healthIndicator.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal,(life*2));
+		healthIndicator.rectTransform.localPosition = new Vector3(life-100.0f,0f,0f);
+	}
+	public void Damage(Vector3 DamageDir, int damageAmount){
+		startDamage = 0.0f;
+		damageVector += DamageDir;
+		life -= damageAmount;
+		UpdateLife();
+		speed = baseSpeed - (1-life/100)*speedDrag;
+		if (life <= 0)
+			Death();
+	}
+	void Death(){
+		GameObject deathDoll = GameObject.Instantiate(deathPrefab, myTransform.position, myTransform.rotation);
+		mainCamera.GetComponent<ThirdPersonCamera> ().target = deathDoll.transform;
+		loseMsg.enabled = true;
+		flickeringLight.enabled = true;
+		Destroy(gameObject);
+
+	}
+	void WinGame(){
+		winMsg.enabled = true;
+		Debug.Log ("<color=yellow>Win Game!!</color>");
+		Time.timeScale = 0.2f;
+		flickeringLight.enabled = true;
+		StartCoroutine(EndGame());
+	}
+
+	IEnumerator EndGame(){
+		yield return new WaitForSeconds(1.0f);
+		Time.timeScale = 0f;
 	}
 }
 
