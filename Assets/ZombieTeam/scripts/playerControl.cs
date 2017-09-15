@@ -30,7 +30,7 @@ public class playerControl : MonoBehaviour {
 	bool jumpReleased = true;
 
 	//aim vars
-	public Transform mainCamera;
+	public Transform camTransform;
 	public Transform arm;
 	public Transform upperArm;
 	public float aimOffset = 2.0f;
@@ -94,6 +94,9 @@ public class playerControl : MonoBehaviour {
 		loseMsg = GameObject.Find("Canvas/loseMsg").GetComponent<Text>();
 		loseMsg.enabled = false;
 		speed = baseSpeed;
+
+		if (camTransform == null)
+			camTransform = GameObject.FindGameObjectWithTag("MainCamera").transform;
 	}
 	
 	// Update is called once per frame
@@ -168,7 +171,7 @@ public class playerControl : MonoBehaviour {
 
 		if (Input.GetMouseButtonDown (0)) {
 			RaycastHit shootHit;
-			if (Physics.Raycast (mainCamera.position, mainCamera.forward, out shootHit, aimMask)) {
+			if (Physics.Raycast (camTransform.position, camTransform.forward, out shootHit, aimMask)) {
 				Debug.Log ("<color=blue>shooting on " + shootHit.transform.name + "</color>");
 				//check if target object is in front of the player or not
 				Vector3 shootDir = shootHit.point - myTransform.position;
@@ -302,7 +305,7 @@ public class playerControl : MonoBehaviour {
 	}
 	void Death(){
 		GameObject deathDoll = GameObject.Instantiate(deathPrefab, myTransform.position, myTransform.rotation);
-		mainCamera.GetComponent<ThirdPersonCamera> ().target = deathDoll.transform;
+		camTransform.GetComponent<ThirdPersonCamera> ().target = deathDoll.transform;
 		loseMsg.enabled = true;
 		flickeringLight.enabled = true;
 		Destroy(gameObject);

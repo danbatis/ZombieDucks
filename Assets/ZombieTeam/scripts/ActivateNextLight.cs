@@ -87,7 +87,10 @@ public class ActivateNextLight : MonoBehaviour {
 		monitorPlayer = false;
 		Debug.Log ("<color=red>"+gameObject.name+"killed player</color>");
 		myAudio.PlayOneShot(killSound);
-		playerTransform.GetComponent<FirstPersonController>().enabled = false;
+		FirstPersonController fp = playerTransform.GetComponent<FirstPersonController>();
+		if(fp != null)
+			fp.enabled = false;
+
 		//Instantiate death effect
 		levelManager.GameOver();
 	}

@@ -11,7 +11,10 @@ public class AlignToCamera : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		
+		if (playerTransform == null)
+			playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
+		if (playerCamera == null)
+			playerCamera = GameObject.FindGameObjectWithTag("MainCamera").transform;		
 	}
 	
 	// Update is called once per frame
