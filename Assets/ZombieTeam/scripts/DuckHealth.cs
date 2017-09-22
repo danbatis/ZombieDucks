@@ -21,6 +21,9 @@ public class DuckHealth : MonoBehaviour {
 	public float damageTime = 0.5f;
 	int beingDamaged = 0;
 	Transform playerTransform;
+	playerControl pc;
+	playerControlPlus pcp;
+	
 
 		// Use this for initialization
 	void Start () {
@@ -28,6 +31,8 @@ public class DuckHealth : MonoBehaviour {
 		navAgent = GetComponent<NavMeshAgent> ();
 
 		playerTransform = GameObject.FindGameObjectWithTag ("Player").transform;
+		pc = playerTransform.GetComponent<playerControl>();
+		pcp = playerTransform.GetComponent<playerControlPlus>();
 	}
 	
 	// Update is called once per frame
@@ -72,7 +77,11 @@ public class DuckHealth : MonoBehaviour {
 	}
 	void OnCollisionEnter(Collision collision){
 		//Debug.Log ("<color=red>"+gameObject.name+"collided with: "+collision.gameObject.name+"</color>");
-		if (collision.transform.tag == "Player")
-			collision.gameObject.GetComponent<playerControl>().Damage(2.0f*transform.forward,5);
+		if (collision.transform.tag == "Player"){
+			if(pc)
+				pc.Damage(2.0f*transform.forward,5);
+			if(pcp)
+				pcp.Damage(2.0f*transform.forward,5);
+		}
 	}
 }

@@ -73,6 +73,9 @@ public class playerControl : MonoBehaviour {
 
 	Image healthIndicator;
 
+	bool gameEnded;
+	public float shiningSpeed = 0.5f;
+
 	void Awake(){
 		myAnim = GetComponent<Animation> ();
 		myAnim[runFClip.name].speed = 1.3f;	
@@ -217,8 +220,10 @@ public class playerControl : MonoBehaviour {
 			FlickerLight();
 		}
 		else {
-			flickering = false;
-			flickeringLight.enabled = false;
+			if (!gameEnded) {
+				flickering = false;
+				flickeringLight.enabled = false;
+			}
 		}
 	}
 
@@ -313,6 +318,7 @@ public class playerControl : MonoBehaviour {
 	}
 	void WinGame(){
 		winMsg.enabled = true;
+		gameEnded = true;
 		Debug.Log ("<color=yellow>Win Game!!</color>");
 		Time.timeScale = 0.2f;
 		flickeringLight.enabled = true;

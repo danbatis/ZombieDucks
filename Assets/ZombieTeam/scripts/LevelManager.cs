@@ -41,7 +41,8 @@ public class LevelManager : MonoBehaviour {
 		ReloadGame ();
 	}
 
-	void ReloadGame(){
+	public void ReloadGame(){
+		Time.timeScale = 1.0f;
 		Application.LoadLevel(Application.loadedLevelName);
 	}
 }
