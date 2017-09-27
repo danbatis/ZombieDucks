@@ -2424,6 +2424,16 @@ Prefab:
       propertyPath: m_Name
       value: afroBoy
       objectReference: {fileID: 0}
+    - target: {fileID: 82756465698176462, guid: 7c41776d4f61b874881ed0f1076741cc,
+        type: 2}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 16dfec3145e00ac4fab09f0926d58743, type: 3}
+    - target: {fileID: 114710871570651518, guid: 7c41776d4f61b874881ed0f1076741cc,
+        type: 2}
+      propertyPath: impulseAnimTime
+      value: 0.15
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 7c41776d4f61b874881ed0f1076741cc, type: 2}
   m_IsPrefabParent: 0

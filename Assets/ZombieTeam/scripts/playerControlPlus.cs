@@ -11,6 +11,9 @@ public class playerControlPlus : MonoBehaviour {
 	float speed;
 	public float gravity = 9.81f;
 	public float jumpPower = 5.0f;
+	public float impulseAnimTime = 0.5f;
+	bool jumping = false;
+	bool preparingJump = false;
 
 	public GameObject hitFX;
 	public GameObject shootingFX;
@@ -95,10 +98,16 @@ public class playerControlPlus : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {		
+	void Update () {
+		if(Input.GetKeyDown("y"))
+			myAnim.SetBool("jump", true);
+		
 		vertIn = Input.GetAxis ("Vertical");
 		horIn = Input.GetAxis ("Horizontal");
 			
+		myAnim.SetFloat("forth",vertIn);
+		myAnim.SetFloat("sideways",horIn);
+		
 		/*
 		if (vertIn > 0) {
 			//mainClip = runFClip;
@@ -146,19 +155,29 @@ public class playerControlPlus : MonoBehaviour {
 		if (Input.GetKeyUp ("space"))
 			jumpReleased = true;
 
-		if (myControl.isGrounded) {
-			vertMove = 0.0f;
-			myAnim.SetBool("airborne", false);
-			if (Input.GetKey ("space") && jumpReleased) {
-				vertMove = jumpPower;
-				jumpReleased = false;
-				myAnim.SetBool("jump", true);
-			}
+		if (myControl.isGrounded){
+			if(!preparingJump){
+				vertMove = 0.0f;
+				myAnim.SetBool("airborne", false);
+				Debug.Log("landed");
+			
+				if (Input.GetKey ("space") && jumpReleased) {
+					jumpReleased = false;
+					myAnim.SetBool("jump", true);
+					preparingJump = true;
+					StartCoroutine(PrepareJump());
+				}
+			}			
 		} else {
 			vertMove -= gravity * Time.deltaTime;
-			if(vertMove < 0 && myAnim.GetBool("jump")){
+			if(vertMove < 0 && myAnim.GetBool("jump") && jumping){				
 				myAnim.SetBool("jump", false);
 				myAnim.SetBool("airborne", true);
+				jumping = false;
+			}
+			if(vertMove > 0){
+				jumping = true;
+				preparingJump = false;
 			}
 		}
 
@@ -282,6 +301,10 @@ public class playerControlPlus : MonoBehaviour {
 		}
 	}
 
+	IEnumerator PrepareJump(){
+		yield return new WaitForSeconds(impulseAnimTime);
+		vertMove = jumpPower;
+	}
 	void OnCollisionEnter(Collision collision){
 		//Debug.Log ("<color=green>"+gameObject.name+"collided with: "+collision.gameObject.name+"</color>");
 		if (collision.gameObject.tag == "Finish")
