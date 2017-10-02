@@ -92,6 +92,6 @@ public class ActivateNextLight : MonoBehaviour {
 			fp.enabled = false;
 
 		//Instantiate death effect
-		levelManager.GameOver();
+		levelManager.GameOver(4.0f);
 	}
 }

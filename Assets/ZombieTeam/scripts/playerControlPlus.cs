@@ -64,14 +64,22 @@ public class playerControlPlus : MonoBehaviour {
 
 	Text winMsg;
 	Text loseMsg;
+	bool alive = true;
 
 	Image healthIndicator;
 
 	bool gameEnded;
+	LevelManager levelManager;
 	public float shiningSpeed = 0.5f;
+	int inAir;
+	public int inAirLimit = 10;
+	bool evading;
+	public float evadeTime = 1.0f;
+	bool busy;
 
 	void Awake(){
 		myAnim = GetComponent<Animator> ();
+		levelManager = GameObject.Find("level").GetComponent<LevelManager>();
 	}
 
 	// Use this for initialization
@@ -99,14 +107,17 @@ public class playerControlPlus : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if(Input.GetKeyDown("y"))
-			myAnim.SetBool("jump", true);
-		
-		vertIn = Input.GetAxis ("Vertical");
-		horIn = Input.GetAxis ("Horizontal");
+		if (Input.GetKeyDown("left ctrl") && !busy){
+			StartCoroutine(Evade());
+		}
 			
-		myAnim.SetFloat("forth",vertIn);
-		myAnim.SetFloat("sideways",horIn);
+		if(!evading){
+			vertIn = Input.GetAxis ("Vertical");
+			horIn = Input.GetAxis ("Horizontal");
+			myAnim.SetFloat("forth",vertIn);
+			myAnim.SetFloat("sideways",horIn);
+		}
+		
 		
 		/*
 		if (vertIn > 0) {
@@ -156,12 +167,17 @@ public class playerControlPlus : MonoBehaviour {
 			jumpReleased = true;
 
 		if (myControl.isGrounded){
-			if(!preparingJump){
-				vertMove = 0.0f;
+			inAir = 0;
+			if(myAnim.GetBool("airborne")){
 				myAnim.SetBool("airborne", false);
-				Debug.Log("landed");
+				StartCoroutine(FreePC(0.3f));
+			}
+			if(!preparingJump){
+				vertMove = 0.0f;				
+				//Debug.Log("landed");
 			
-				if (Input.GetKey ("space") && jumpReleased) {
+				if (Input.GetKey ("space") && jumpReleased && !busy) {
+					busy = true;
 					jumpReleased = false;
 					myAnim.SetBool("jump", true);
 					preparingJump = true;
@@ -169,6 +185,10 @@ public class playerControlPlus : MonoBehaviour {
 				}
 			}			
 		} else {
+			inAir++;
+			if(inAir >= inAirLimit)
+				myAnim.SetBool("airborne", true);
+			
 			vertMove -= gravity * Time.deltaTime;
 			if(vertMove < 0 && myAnim.GetBool("jump") && jumping){				
 				myAnim.SetBool("jump", false);
@@ -180,8 +200,9 @@ public class playerControlPlus : MonoBehaviour {
 				preparingJump = false;
 			}
 		}
-
-		movement = forthMove * myTransform.forward + latMove * myTransform.right + vertMove * Vector3.up + damageVector;
+		//Debug.Log("inAir: "+inAir.ToString());
+		
+		movement = forthMove * myTransform.forward + latMove * myTransform.right + vertMove *Time.deltaTime* Vector3.up + damageVector;
 		if (movement.magnitude != 0)
 			myControl.Move (movement);
 		//Debug.Log("<color=blue>ground: "+myControl.isGrounded.ToString()+"</color>");
@@ -191,7 +212,7 @@ public class playerControlPlus : MonoBehaviour {
 		else
 			damageVector = Vector3.zero;
 
-		if (Input.GetMouseButtonDown (0)) {
+		if (Input.GetMouseButtonDown (0) && !gameEnded && !evading) {
 			RaycastHit shootHit;
 			if (Physics.Raycast (camTransform.position, camTransform.forward, out shootHit, aimMask)) {
 				Debug.Log ("<color=blue>shooting on " + shootHit.transform.name + "</color>");
@@ -212,7 +233,7 @@ public class playerControlPlus : MonoBehaviour {
 				}
 			} else {
 				Debug.Log ("<color=blue>shooting on nothing</color>");
-				StartCoroutine (Shoot (false, Vector3.zero));
+				StartCoroutine (Shoot (true, upperArm.position + 100f*myTransform.forward));
 			}
 		}
 		
@@ -276,10 +297,10 @@ public class playerControlPlus : MonoBehaviour {
 	}
 
 	void AimGun(Vector3 aimTarget){
-		upperArm.transform.right = -(aimTarget - Vector3.up*aimOffset - arm.transform.position);
-		upperArm.transform.Rotate(180f,0f,0f);
-		arm.transform.right = -(aimTarget - arm.transform.position);
-		arm.transform.Rotate(180f,0f,0f);	
+		upperArm.right = -(aimTarget - Vector3.up*aimOffset - arm.position);
+		upperArm.Rotate(180f,0f,0f);
+		arm.right = -(aimTarget - arm.position);
+		arm.Rotate(180f,0f,0f);	
 	}
 
 	void FlickerLight(){
@@ -316,20 +337,26 @@ public class playerControlPlus : MonoBehaviour {
 		healthIndicator.rectTransform.localPosition = new Vector3(life-100.0f,0f,0f);
 	}
 	public void Damage(Vector3 DamageDir, int damageAmount){
-		startDamage = 0.0f;
-		damageVector += DamageDir;
-		life -= damageAmount;
-		UpdateLife();
-		speed = baseSpeed - (1-life/100)*speedDrag;
-		if (life <= 0)
-			Death();
+		if(!evading){
+			startDamage = 0.0f;
+			damageVector += DamageDir;
+			life -= damageAmount;
+			UpdateLife();
+			speed = baseSpeed - (1-life/100)*speedDrag;
+			if (life <= 0)
+				Death();
+		}
 	}
 	void Death(){
-		GameObject deathDoll = GameObject.Instantiate(deathPrefab, myTransform.position, myTransform.rotation);
-		camTransform.GetComponent<ThirdPersonCamera> ().target = deathDoll.transform;
-		loseMsg.enabled = true;
-		flickeringLight.enabled = true;
-		Destroy(gameObject);
+		if(alive){
+			alive = false;
+			GameObject deathDoll = GameObject.Instantiate(deathPrefab, myTransform.position, myTransform.rotation);
+			camTransform.GetComponent<ThirdPersonCamera> ().target = deathDoll.transform;
+			loseMsg.enabled = true;
+			flickeringLight.enabled = true;
+			levelManager.GameOver(6.0f);
+			Destroy(gameObject);
+		}
 
 	}
 	void WinGame(){
@@ -344,6 +371,29 @@ public class playerControlPlus : MonoBehaviour {
 	IEnumerator EndGame(){
 		yield return new WaitForSeconds(1.0f);
 		Time.timeScale = 0f;
+		levelManager.GameOver(2.0f);
+	}
+	IEnumerator Evade(){
+		Debug.Log("<color=red>started evade</color>");
+		float prepareFactor = 0.2f;
+		evading = true;
+		busy = true;
+		myAnim.SetBool("evading",true);
+		vertIn = 0.0f;
+		horIn = 0f;
+		yield return new WaitForSeconds(prepareFactor*evadeTime);
+		vertIn = 1.0f;
+		yield return new WaitForSeconds((1-prepareFactor)*evadeTime);
+		myAnim.SetBool("evading",false);		
+		vertIn = 0.0f;
+		evading = false;
+		StartCoroutine(FreePC(1.5f*prepareFactor*evadeTime));		
+		Debug.Log("<color=green>finished evade</color>");
+	}
+	IEnumerator FreePC(float freeTime){
+		yield return new WaitForSeconds(freeTime);
+		busy = false;
+		Debug.Log("<color=blue>freee</color>");
 	}
 }
 

@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class LevelManager : MonoBehaviour {
 	Image blackScreen;
 	float fadeToGameOver;
-	public float fadeToGameOverTime = 2.0f;
+	float fadeToGameOverTime = 2.0f;
 	bool gameEnded;
 	public float reloadTime = 1.0f;
 
@@ -14,6 +14,7 @@ public class LevelManager : MonoBehaviour {
 	void Start () {
 		blackScreen = GameObject.Find ("Canvas/BlackScreen").GetComponent<Image>();
 		blackScreen.color = new Color(0f,0f,0f,0f);
+		fadeToGameOver = 0f;
 	}
 	
 	// Update is called once per frame
@@ -26,18 +27,19 @@ public class LevelManager : MonoBehaviour {
 				StartCoroutine(RestartGame());
 			}
 			else {
-				fadeToGameOver += Time.deltaTime;
+				fadeToGameOver += Time.unscaledDeltaTime;
 				blackScreen.color = new Color(0f,0f,0f,fadeToGameOver / fadeToGameOverTime);
 			}
 		}		
 	}
 
-	public void GameOver(){
+	public void GameOver(float FadeToGameOverTime){
+		fadeToGameOverTime = FadeToGameOverTime;
 		gameEnded = true; 	
 	}
 
 	IEnumerator RestartGame(){
-		yield return new WaitForSeconds(reloadTime);
+		yield return new WaitForSecondsRealtime(reloadTime);
 		ReloadGame ();
 	}
 

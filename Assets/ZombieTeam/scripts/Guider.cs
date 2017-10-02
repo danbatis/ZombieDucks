@@ -17,9 +17,8 @@ public class Guider : MonoBehaviour {
 	Transform playerTransform;
 	NavMeshAgent navAgent;
 	public float distFarPlayer = 10.0f;
-	public float distNearPlayer = 2.0f;
-	public float distNearObjective = 2.0f;
-	bool going = false;
+	
+	float dist;
 
 	// Use this for initialization
 	void Start () {
@@ -29,6 +28,7 @@ public class Guider : MonoBehaviour {
 		playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
 		navAgent = GetComponent<NavMeshAgent>();
 		myTransform = transform;
+		navAgent.SetDestination (playerTransform.position);
 	}
 	
 	// Update is called once per frame
@@ -39,34 +39,27 @@ public class Guider : MonoBehaviour {
 
 		//only do something when the player is alive
 		if (playerTransform != null) {
-			//guide the player!
-			if (going) {
-				//check if too far from player
-				if (Vector3.Distance (myTransform.position, playerTransform.position) >= distFarPlayer) {
-					going = false;
-					navAgent.SetDestination (playerTransform.position);
-				} else {
-					//otherwise just check if it is close enough for the next objective point
-					if (!navAgent.pathPending) {
-						if (navAgent.remainingDistance <= navAgent.stoppingDistance) {
-							if (!navAgent.hasPath) {
-								if (currentDestination < objectives.Length - 1) {
-									currentDestination++;
-									navAgent.SetDestination (objectives [currentDestination].position);
-								}
+			dist = Vector3.Distance (Vector3.ProjectOnPlane(myTransform.position, Vector3.up), Vector3.ProjectOnPlane(playerTransform.position, Vector3.up));
+			//Debug.Log("Distance to player: "+dist.ToString());
+
+			//check if too far from player
+			if (dist >= distFarPlayer) {					
+				navAgent.Stop();
+				//navAgent.SetDestination (playerTransform.position);
+			} else {				
+				navAgent.Resume();
+				//otherwise just check if it is close enough for the next objective point
+				if (!navAgent.pathPending) {
+					if (navAgent.remainingDistance <= navAgent.stoppingDistance) {
+						if (!navAgent.hasPath) {
+							if (currentDestination < objectives.Length - 1) {
+								currentDestination++;
+								navAgent.SetDestination (objectives [currentDestination].position);
 							}
 						}
 					}
 				}
-			} else {
-				navAgent.SetDestination (playerTransform.position);
-				//check if close enough to the player
-				if (Vector3.Distance (myTransform.position, playerTransform.position) < distNearPlayer) {
-					going = true;
-					navAgent.SetDestination (objectives [currentDestination].position);
-				}
-			}
-		}
-		
+			}			
+		}		
 	}
 }

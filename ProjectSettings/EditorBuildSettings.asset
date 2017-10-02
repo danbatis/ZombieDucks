@@ -17,6 +17,12 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/ZombieTeam/scenes/prepProdProt2.unity
     guid: 00521067764031e4fa9f1167fc788346
-  - enabled: 1
+  - enabled: 0
     path: Assets/ZombieTeam/scenes/prepProdProt3.unity
     guid: afb35cbae9db09345ba3bd2dd14d891a
+  - enabled: 0
+    path: Assets/ZombieTeam/scenes/prepProdProt4.unity
+    guid: c337a9969f085e54d91e0c1d6948152f
+  - enabled: 1
+    path: Assets/ZombieTeam/scenes/VerticalSlice.unity
+    guid: 772195940a96a8d45a741786aa7ff21a
