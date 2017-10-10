@@ -8,7 +8,7 @@ public class LevelManager : MonoBehaviour {
 	float fadeToGameOver;
 	float fadeToGameOverTime = 2.0f;
 	bool gameEnded;
-	public float reloadTime = 1.0f;
+	public float reloadTime = 2.0f;
 	public bool pausedGame;
 
 	// Use this for initialization
