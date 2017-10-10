@@ -1,161 +1,118 @@
 fileFormatVersion: 2
-guid: e6a403329028f61468127e26506d1b76
-timeCreated: 1506713493
+guid: 5c774ea7532070c40a0fb461a1e04b39
+timeCreated: 1507225861
 licenseType: Free
 ModelImporter:
   serializedVersion: 21
   fileIDToRecycleName:
     100000: beak1
     100002: beak2
-    100004: duckBody
-    100006: feather1
-    100008: feather10
-    100010: feather11
-    100012: feather2
-    100014: feather3
-    100016: feather4
-    100018: feather5
-    100020: feather6
-    100022: feather7
-    100024: feather8
-    100026: feather9
-    100028: leftEye1
-    100030: pCube1
-    100032: polySurface2
-    100034: polySurface4
-    100036: rightEye1
-    100038: transform1
-    100040: transform2
-    100042: //RootNode
-    100044: curvedFeather1
-    100046: curvedFeather10
-    100048: curvedFeather11
-    100050: curvedFeather2
-    100052: curvedFeather3
-    100054: curvedFeather4
-    100056: curvedFeather5
-    100058: curvedFeather6
-    100060: curvedFeather7
-    100062: curvedFeather8
-    100064: curvedFeather9
+    100004: breast
+    100006: collar
+    100008: curvedFeather1
+    100010: curvedFeather10
+    100012: curvedFeather11
+    100014: curvedFeather2
+    100016: curvedFeather3
+    100018: curvedFeather4
+    100020: curvedFeather5
+    100022: curvedFeather6
+    100024: curvedFeather7
+    100026: curvedFeather8
+    100028: curvedFeather9
+    100030: duckBody
+    100032: duckRoot
+    100034: head
+    100036: jugular
+    100038: leftEye1
+    100040: lowerJaw
+    100042: lowerJawTip
+    100044: Mid
+    100046: pCube1
+    100048: polySurface2
+    100050: polySurface4
+    100052: rightEye1
+    100054: Tail
+    100056: TailTip
+    100058: transform1
+    100060: transform2
+    100062: upperJaw
+    100064: upperJawTip
+    100066: //RootNode
     400000: beak1
     400002: beak2
-    400004: duckBody
-    400006: feather1
-    400008: feather10
-    400010: feather11
-    400012: feather2
-    400014: feather3
-    400016: feather4
-    400018: feather5
-    400020: feather6
-    400022: feather7
-    400024: feather8
-    400026: feather9
-    400028: leftEye1
-    400030: pCube1
-    400032: polySurface2
-    400034: polySurface4
-    400036: rightEye1
-    400038: transform1
-    400040: transform2
-    400042: //RootNode
-    400044: curvedFeather1
-    400046: curvedFeather10
-    400048: curvedFeather11
-    400050: curvedFeather2
-    400052: curvedFeather3
-    400054: curvedFeather4
-    400056: curvedFeather5
-    400058: curvedFeather6
-    400060: curvedFeather7
-    400062: curvedFeather8
-    400064: curvedFeather9
-    2300000: beak2
-    2300002: duckBody
-    2300004: feather1
-    2300006: feather10
-    2300008: feather11
-    2300010: feather2
-    2300012: feather3
-    2300014: feather4
-    2300016: feather5
-    2300018: feather6
-    2300020: feather7
-    2300022: feather8
-    2300024: feather9
-    2300026: leftEye1
-    2300028: polySurface2
-    2300030: polySurface4
-    2300032: rightEye1
-    2300034: curvedFeather1
-    2300036: curvedFeather10
-    2300038: curvedFeather11
-    2300040: curvedFeather2
-    2300042: curvedFeather3
-    2300044: curvedFeather4
-    2300046: curvedFeather5
-    2300048: curvedFeather6
-    2300050: curvedFeather7
-    2300052: curvedFeather8
-    2300054: curvedFeather9
-    3300000: beak2
-    3300002: duckBody
-    3300004: feather1
-    3300006: feather10
-    3300008: feather11
-    3300010: feather2
-    3300012: feather3
-    3300014: feather4
-    3300016: feather5
-    3300018: feather6
-    3300020: feather7
-    3300022: feather8
-    3300024: feather9
-    3300026: leftEye1
-    3300028: polySurface2
-    3300030: polySurface4
-    3300032: rightEye1
-    3300034: curvedFeather1
-    3300036: curvedFeather10
-    3300038: curvedFeather11
-    3300040: curvedFeather2
-    3300042: curvedFeather3
-    3300044: curvedFeather4
-    3300046: curvedFeather5
-    3300048: curvedFeather6
-    3300050: curvedFeather7
-    3300052: curvedFeather8
-    3300054: curvedFeather9
+    400004: breast
+    400006: collar
+    400008: curvedFeather1
+    400010: curvedFeather10
+    400012: curvedFeather11
+    400014: curvedFeather2
+    400016: curvedFeather3
+    400018: curvedFeather4
+    400020: curvedFeather5
+    400022: curvedFeather6
+    400024: curvedFeather7
+    400026: curvedFeather8
+    400028: curvedFeather9
+    400030: duckBody
+    400032: duckRoot
+    400034: head
+    400036: jugular
+    400038: leftEye1
+    400040: lowerJaw
+    400042: lowerJawTip
+    400044: Mid
+    400046: pCube1
+    400048: polySurface2
+    400050: polySurface4
+    400052: rightEye1
+    400054: Tail
+    400056: TailTip
+    400058: transform1
+    400060: transform2
+    400062: upperJaw
+    400064: upperJawTip
+    400066: //RootNode
     4300000: leftEye1
     4300002: polySurface2
     4300004: rightEye1
     4300006: polySurface4
     4300008: duckBody
-    4300010: feather3
-    4300012: feather1
-    4300014: feather2
-    4300016: feather5
-    4300018: feather4
-    4300020: feather11
-    4300022: feather9
-    4300024: feather10
-    4300026: feather6
-    4300028: feather7
-    4300030: feather8
-    4300032: beak2
-    4300034: curvedFeather1
-    4300036: curvedFeather2
-    4300038: curvedFeather3
-    4300040: curvedFeather4
-    4300042: curvedFeather5
-    4300044: curvedFeather6
-    4300046: curvedFeather7
-    4300048: curvedFeather8
-    4300050: curvedFeather9
-    4300052: curvedFeather10
-    4300054: curvedFeather11
+    4300010: beak2
+    4300012: curvedFeather1
+    4300014: curvedFeather2
+    4300016: curvedFeather3
+    4300018: curvedFeather4
+    4300020: curvedFeather5
+    4300022: curvedFeather6
+    4300024: curvedFeather7
+    4300026: curvedFeather8
+    4300028: curvedFeather9
+    4300030: curvedFeather10
+    4300032: curvedFeather11
+    7400000: Take 001
+    7400002: duckSwim
+    7400004: duckIdle
+    7400006: duckBite
+    7400008: duckDamage
     9500000: //RootNode
+    13700000: beak2
+    13700002: curvedFeather1
+    13700004: curvedFeather10
+    13700006: curvedFeather11
+    13700008: curvedFeather2
+    13700010: curvedFeather3
+    13700012: curvedFeather4
+    13700014: curvedFeather5
+    13700016: curvedFeather6
+    13700018: curvedFeather7
+    13700020: curvedFeather8
+    13700022: curvedFeather9
+    13700024: duckBody
+    13700026: leftEye1
+    13700028: polySurface2
+    13700030: polySurface4
+    13700032: rightEye1
   materials:
     importMaterials: 1
     materialName: 0
@@ -179,7 +136,147 @@ ModelImporter:
     animationWrapMode: 0
     extraExposedTransformPaths: []
     extraUserProperties: []
-    clipAnimations: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Take 001
+      takeName: Take 001
+      firstFrame: 1
+      lastFrame: 96
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 1
+    - serializedVersion: 16
+      name: duckSwim
+      takeName: Take 001
+      firstFrame: 1
+      lastFrame: 24
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 1
+    - serializedVersion: 16
+      name: duckIdle
+      takeName: Take 001
+      firstFrame: 24
+      lastFrame: 48
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 1
+    - serializedVersion: 16
+      name: duckBite
+      takeName: Take 001
+      firstFrame: 49
+      lastFrame: 72
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 1
+    - serializedVersion: 16
+      name: duckDamage
+      takeName: Take 001
+      firstFrame: 73
+      lastFrame: 96
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 1
     isReadable: 1
   meshes:
     lODScreenPercentages: []

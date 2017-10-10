@@ -60,8 +60,7 @@ public class ThirdPersonCamera : MonoBehaviour {
 		} else {
 		*/
 		Vector3 newForth = target.forward;
-		if (useMouse) {
-			Cursor.lockState = CursorLockMode.Locked;
+		if (useMouse) {			
 			float xRot = CrossPlatformInputManager.GetAxis ("Mouse X") * XSensitivity;
 			float yRot = CrossPlatformInputManager.GetAxis ("Mouse Y") * YSensitivity;
 			//Debug.Log ("rotx: "+xRot.ToString()+" roty: "+yRot.ToString());

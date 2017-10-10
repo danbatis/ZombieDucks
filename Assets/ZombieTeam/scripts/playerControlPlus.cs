@@ -76,10 +76,13 @@ public class playerControlPlus : MonoBehaviour {
 	bool evading;
 	public float evadeTime = 1.0f;
 	bool busy;
+	bool beingDamaged;
+	AlignToCamera myAlign;
 
 	void Awake(){
-		myAnim = GetComponent<Animator> ();
+		myAnim = GetComponent<Animator>();
 		levelManager = GameObject.Find("level").GetComponent<LevelManager>();
+		myAlign = GetComponent<AlignToCamera>();
 	}
 
 	// Use this for initialization
@@ -93,10 +96,10 @@ public class playerControlPlus : MonoBehaviour {
 		
 		flickeringLight = GameObject.Find("flickerLight").GetComponent<Light>();
 		Debug.Log("flicker light father: "+GameObject.Find("flickerLight").transform.parent.name);
-		healthIndicator = GameObject.Find("Canvas/healthBar/health").GetComponent<Image>();
-		winMsg = GameObject.Find("Canvas/winMsg").GetComponent<Text>();
+		healthIndicator = GameObject.Find("basicCanvas/healthBar/health").GetComponent<Image>();
+		winMsg = GameObject.Find("basicCanvas/winMsg").GetComponent<Text>();
 		winMsg.enabled = false;
-		loseMsg = GameObject.Find("Canvas/loseMsg").GetComponent<Text>();
+		loseMsg = GameObject.Find("basicCanvas/loseMsg").GetComponent<Text>();
 		loseMsg.enabled = false;
 		speed = baseSpeed;
 		gameEnded = false;
@@ -110,55 +113,35 @@ public class playerControlPlus : MonoBehaviour {
 		if (Input.GetKeyDown("left ctrl") && !busy){
 			StartCoroutine(Evade());
 		}
-			
-		if(!evading){
+		
+		//testing damage animations
+		if(Input.GetKeyDown("g")){
+			/*
+			myAnim.SetFloat("damageX",1.0f);
+			myAnim.SetFloat("damageY",1.0f);
+			myAnim.SetBool("damage",true);
+			//myAnim.SetBool("damage",false);
+			beingDamaged = true;
+			StartCoroutine(FreeDamagePC(0.5f));
+			*/
+			DuckDamage(Vector3.zero, 1);
+		}
+		if(Input.GetKeyDown("f"))
+			DuckDamage((-10)*myTransform.forward, 1);
+		if(Input.GetKeyDown("b"))
+			DuckDamage(10*myTransform.forward, 1);
+		if(Input.GetKeyDown("v"))
+			DuckDamage((-10)*myTransform.right, 1);
+		if(Input.GetKeyDown("h"))
+			DuckDamage(10*myTransform.right, 1);
+		
+		//drive animations		
+		if(!evading && !levelManager.pausedGame && !beingDamaged){
 			vertIn = Input.GetAxis ("Vertical");
 			horIn = Input.GetAxis ("Horizontal");
 			myAnim.SetFloat("forth",vertIn);
-			myAnim.SetFloat("sideways",horIn);
+			myAnim.SetFloat("side",horIn);
 		}
-		
-		
-		/*
-		if (vertIn > 0) {
-			//mainClip = runFClip;
-			if (horIn > 0) {
-				//blendClip = walkRClip;
-			}
-			else{
-				if (horIn < 0)
-					//blendClip = walkLClip;
-				else
-					//blendClip = mainClip;
-			}
-		} else {
-			if (vertIn < 0) {
-				//mainClip = runBClip;
-				vertIn *= 0.5f;
-				if (horIn > 0) {
-					//blendClip = walkRClip;
-				}
-				else{
-					if (horIn < 0)
-						//blendClip = walkLClip;
-					else
-						//blendClip = mainClip;
-				}
-			} 
-			else {
-				if (horIn > 0) {
-					//mainClip = walkRClip;
-				}
-				else{
-					if (horIn < 0)
-						//mainClip = walkLClip;
-					else
-						//mainClip = idleClip;
-				}
-				//blendClip = mainClip;
-			}
-		}
-		*/
 		
 		forthMove = vertIn * speed * Time.deltaTime;
 		latMove = horIn * speed * Time.deltaTime;
@@ -185,10 +168,11 @@ public class playerControlPlus : MonoBehaviour {
 				}
 			}			
 		} else {
-			inAir++;
-			if(inAir >= inAirLimit)
-				myAnim.SetBool("airborne", true);
-			
+			if(!levelManager.pausedGame){
+				inAir++;
+				if(inAir >= inAirLimit)
+					myAnim.SetBool("airborne", true);
+			}
 			vertMove -= gravity * Time.deltaTime;
 			if(vertMove < 0 && myAnim.GetBool("jump") && jumping){				
 				myAnim.SetBool("jump", false);
@@ -202,7 +186,7 @@ public class playerControlPlus : MonoBehaviour {
 		}
 		//Debug.Log("inAir: "+inAir.ToString());
 		
-		movement = forthMove * myTransform.forward + latMove * myTransform.right + vertMove *Time.deltaTime* Vector3.up + damageVector;
+		movement = forthMove * myTransform.forward + latMove * myTransform.right + vertMove *Time.deltaTime* Vector3.up + damageVector*Time.deltaTime;
 		if (movement.magnitude != 0)
 			myControl.Move (movement);
 		//Debug.Log("<color=blue>ground: "+myControl.isGrounded.ToString()+"</color>");
@@ -212,7 +196,7 @@ public class playerControlPlus : MonoBehaviour {
 		else
 			damageVector = Vector3.zero;
 
-		if (Input.GetMouseButtonDown (0) && !gameEnded && !evading) {
+		if (Input.GetMouseButtonDown (0) && !gameEnded && !evading && !levelManager.pausedGame) {
 			RaycastHit shootHit;
 			if (Physics.Raycast (camTransform.position, camTransform.forward, out shootHit, aimMask)) {
 				Debug.Log ("<color=blue>shooting on " + shootHit.transform.name + "</color>");
@@ -222,18 +206,18 @@ public class playerControlPlus : MonoBehaviour {
 				float angleCrossShootDir = Vector3.Angle (Vector3.Cross (myTransform.right, shootDirProj), Vector3.up);
 				Debug.Log ("<color=blue>angle: " + angleCrossShootDir.ToString () + "</color>");
 				if (angleCrossShootDir == 180) {
-					StartCoroutine (Shoot (true, shootHit.point));
+					StartCoroutine (Shoot(true, shootHit.point));
 					HitExplosion (shootHit.point, shootHit.normal);
 
 					DuckHealth targetHealth = shootHit.transform.GetComponent<DuckHealth> ();
 					if (targetHealth)
 						targetHealth.Damage (shootHit.point, shootHit.normal);
 				} else {
-					StartCoroutine (Shoot (false, Vector3.zero));
+					StartCoroutine (Shoot(false, Vector3.zero));
 				}
 			} else {
 				Debug.Log ("<color=blue>shooting on nothing</color>");
-				StartCoroutine (Shoot (true, upperArm.position + 100f*myTransform.forward));
+				StartCoroutine (Shoot(true, upperArm.position + 100f*myTransform.forward));
 			}
 		}
 		
@@ -336,8 +320,17 @@ public class playerControlPlus : MonoBehaviour {
 		healthIndicator.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal,(life*2));
 		healthIndicator.rectTransform.localPosition = new Vector3(life-100.0f,0f,0f);
 	}
-	public void Damage(Vector3 DamageDir, int damageAmount){
-		if(!evading){
+	public void DuckDamage(Vector3 DamageDir, int damageAmount){
+		if(!evading && !beingDamaged){
+			myAnim.SetBool("damage",true);
+			
+			float damX = Vector3.Dot(myTransform.right, DamageDir.normalized);
+			float damY = Vector3.Dot(myTransform.forward, DamageDir.normalized);
+			
+			myAnim.SetFloat("duckDamageX",damX);
+			myAnim.SetFloat("duckDamageY",damY);
+			StartCoroutine(FreeDamagePC(0.5f));
+			//Debug.Log("<color=red>damage happened X: "+damX.ToString()+" Y: "+damY.ToString()+"</color>");
 			startDamage = 0.0f;
 			damageVector += DamageDir;
 			life -= damageAmount;
@@ -377,6 +370,7 @@ public class playerControlPlus : MonoBehaviour {
 		Debug.Log("<color=red>started evade</color>");
 		float prepareFactor = 0.2f;
 		evading = true;
+		myAlign.enabled = false;
 		busy = true;
 		myAnim.SetBool("evading",true);
 		vertIn = 0.0f;
@@ -387,13 +381,21 @@ public class playerControlPlus : MonoBehaviour {
 		myAnim.SetBool("evading",false);		
 		vertIn = 0.0f;
 		evading = false;
+		myAlign.enabled = true;
 		StartCoroutine(FreePC(1.5f*prepareFactor*evadeTime));		
 		Debug.Log("<color=green>finished evade</color>");
 	}
 	IEnumerator FreePC(float freeTime){
 		yield return new WaitForSeconds(freeTime);
 		busy = false;
+		myAnim.SetBool("damage",false);
 		Debug.Log("<color=blue>freee</color>");
+	}
+	
+	IEnumerator FreeDamagePC(float freeTime){
+		yield return new WaitForSeconds(freeTime);
+		beingDamaged = false;
+		myAnim.SetBool("damage",false);
 	}
 }
 

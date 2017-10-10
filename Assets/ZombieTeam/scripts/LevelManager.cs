@@ -9,10 +9,11 @@ public class LevelManager : MonoBehaviour {
 	float fadeToGameOverTime = 2.0f;
 	bool gameEnded;
 	public float reloadTime = 1.0f;
+	public bool pausedGame;
 
 	// Use this for initialization
 	void Start () {
-		blackScreen = GameObject.Find ("Canvas/BlackScreen").GetComponent<Image>();
+		blackScreen = GameObject.Find ("basicCanvas/BlackScreen").GetComponent<Image>();
 		blackScreen.color = new Color(0f,0f,0f,0f);
 		fadeToGameOver = 0f;
 	}
@@ -22,6 +23,19 @@ public class LevelManager : MonoBehaviour {
 		if (Input.GetKeyDown (KeyCode.R))
 			ReloadGame ();
 
+		if (Input.GetKeyDown (KeyCode.P)){
+			if(pausedGame){
+				pausedGame = false;
+				Time.timeScale = 1.0f;
+				Cursor.lockState = CursorLockMode.Locked;				
+			}
+			else{
+				pausedGame = true;
+				Time.timeScale = 0.0f;
+				Cursor.lockState = CursorLockMode.None;
+			}
+		}
+		
 		if (gameEnded) {
 			if (fadeToGameOver > fadeToGameOverTime) {				
 				StartCoroutine(RestartGame());
