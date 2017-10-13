@@ -16,7 +16,7 @@ public class AttackDetection : MonoBehaviour {
 		pc = playerTransform.GetComponent<playerControl>();
 		pcp = playerTransform.GetComponent<playerControlPlus>();
 		fatherTransform = transform.parent.parent.parent.parent.parent;
-		Debug.Log("beak fatherTransform: "+fatherTransform.name);
+		//Debug.Log("beak fatherTransform: "+fatherTransform.name);
 	}
 	
 	// Update is called once per frame
@@ -25,7 +25,7 @@ public class AttackDetection : MonoBehaviour {
 	}
 	
 	void OnCollisionEnter(Collision collision){
-		Debug.Log ("<color=red>"+gameObject.name+"collided with: "+collision.gameObject.name+"</color>");
+		//Debug.Log ("<color=red>"+gameObject.name+"collided with: "+collision.gameObject.name+"</color>");
 		if(collision.transform.tag == "Player" && lethal){
 			if(pc)
 				pc.Damage(10.0f*fatherTransform.forward,5);

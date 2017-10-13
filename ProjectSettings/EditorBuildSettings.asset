@@ -23,6 +23,18 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/ZombieTeam/scenes/prepProdProt4.unity
     guid: c337a9969f085e54d91e0c1d6948152f
-  - enabled: 1
+  - enabled: 0
     path: Assets/ZombieTeam/scenes/VerticalSlice.unity
     guid: 772195940a96a8d45a741786aa7ff21a
+  - enabled: 1
+    path: Assets/ZombieTeam/scenes/GameTitle.unity
+    guid: a0565ab9e0be33049bd0e5e869612c6c
+  - enabled: 1
+    path: Assets/ZombieTeam/scenes/level1plus.unity
+    guid: 4342d1de00097994994c0c951ce4d68f
+  - enabled: 1
+    path: Assets/ZombieTeam/scenes/level2plus.unity
+    guid: dda7230cb9598df4ca4fc5a3af7db4fb
+  - enabled: 1
+    path: Assets/ZombieTeam/scenes/level3plus.unity
+    guid: 9356261cbff883e42817ec9ffcbb8f6e

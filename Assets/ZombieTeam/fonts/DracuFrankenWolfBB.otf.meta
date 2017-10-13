@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: f6944c216e55c2042b088c3398832d5f
+timeCreated: 1507760622
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: DracuFrankenWolf BB
+  fontNames:
+  - DracuFrankenWolf BB
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

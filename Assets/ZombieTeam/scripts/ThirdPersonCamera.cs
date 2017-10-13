@@ -50,8 +50,6 @@ public class ThirdPersonCamera : MonoBehaviour {
 
 	void Update ()
 	{
-		
-		
 		/*
 		if (Input.GetKey ("left shift")) {
 			targetVirtual = target.position + camDistance * target.forward + camHeight*target.up;
@@ -125,16 +123,14 @@ public class ThirdPersonCamera : MonoBehaviour {
 
 		myTransform.position = Vector3.Lerp (myTransform.position, targetVirtual, Time.deltaTime * smoothTrans);
 	}
-
 	/*
 	void OnTriggerEnter(Collider other){
-		Debug.Log (gameObject.name+"trigger with: "+other.gameObject.name);
+		Debug.Log(gameObject.name+"trigger with: "+other.gameObject.name);
 		if (!ocludingElements.Contains (other.gameObject.name)) {
 			ocludingElements.Add (other.gameObject.name);
 		}
 		cameraOcluded = true;
 	}
-
 	void OnTriggerExit(Collider other){
 		Debug.Log (gameObject.name+"trigger out: "+other.gameObject.name);
 		if (ocludingElements.Contains (other.gameObject.name)) {
@@ -145,11 +141,8 @@ public class ThirdPersonCamera : MonoBehaviour {
 		if(ocludingElements.Count==0)
 			cameraOcluded = false;
 	}
-
-
 	void OnCollisionEnter(Collision collision){
 		Debug.Log (gameObject.name+"collided with: "+collision.gameObject.name);
 	}
 	*/
-
 }

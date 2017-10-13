@@ -78,6 +78,9 @@ public class playerControlPlus : MonoBehaviour {
 	bool busy;
 	bool beingDamaged;
 	AlignToCamera myAlign;
+	GameObject mygun;
+	public bool haveGun = true;
+	RawImage crossHairs;
 
 	void Awake(){
 		myAnim = GetComponent<Animator>();
@@ -97,6 +100,7 @@ public class playerControlPlus : MonoBehaviour {
 		flickeringLight = GameObject.Find("flickerLight").GetComponent<Light>();
 		Debug.Log("flicker light father: "+GameObject.Find("flickerLight").transform.parent.name);
 		healthIndicator = GameObject.Find("basicCanvas/healthBar/health").GetComponent<Image>();
+		crossHairs = GameObject.Find("basicCanvas/aim").GetComponent<RawImage>();
 		winMsg = GameObject.Find("basicCanvas/winMsg").GetComponent<Text>();
 		winMsg.enabled = false;
 		loseMsg = GameObject.Find("basicCanvas/loseMsg").GetComponent<Text>();
@@ -104,26 +108,26 @@ public class playerControlPlus : MonoBehaviour {
 		speed = baseSpeed;
 		gameEnded = false;
 
+		mygun = GameObject.Find(gameObject.name+"/b_root/b_pelvis/b_spine/b_spine1/b_spine2/b_neck/b_rightClavicle/b_rightUpperArm/b_rightForearm/b_rightHand/weapon_gun");
+		
+		mygun.SetActive(haveGun);
+		crossHairs.enabled = haveGun;
+		
 		if (camTransform == null)
 			camTransform = GameObject.FindGameObjectWithTag("MainCamera").transform;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		if (Input.GetKeyDown("left ctrl") && !busy){
+		mygun.SetActive(haveGun);
+		crossHairs.enabled = haveGun;
+
+		if ((Input.GetKeyDown(KeyCode.LeftControl) || Input.GetKeyDown(KeyCode.F))&& !busy){
 			StartCoroutine(Evade());
 		}
-		
+		/*
 		//testing damage animations
-		if(Input.GetKeyDown("g")){
-			/*
-			myAnim.SetFloat("damageX",1.0f);
-			myAnim.SetFloat("damageY",1.0f);
-			myAnim.SetBool("damage",true);
-			//myAnim.SetBool("damage",false);
-			beingDamaged = true;
-			StartCoroutine(FreeDamagePC(0.5f));
-			*/
+		if(Input.GetKeyDown("g")){			
 			DuckDamage(Vector3.zero, 1);
 		}
 		if(Input.GetKeyDown("f"))
@@ -134,6 +138,7 @@ public class playerControlPlus : MonoBehaviour {
 			DuckDamage((-10)*myTransform.right, 1);
 		if(Input.GetKeyDown("h"))
 			DuckDamage(10*myTransform.right, 1);
+		*/
 		
 		//drive animations		
 		if(!evading && !levelManager.pausedGame && !beingDamaged){
@@ -196,7 +201,7 @@ public class playerControlPlus : MonoBehaviour {
 		else
 			damageVector = Vector3.zero;
 
-		if (Input.GetMouseButtonDown (0) && !gameEnded && !evading && !levelManager.pausedGame) {
+		if (Input.GetMouseButtonDown (0) && !gameEnded && !evading && !levelManager.pausedGame && haveGun) {
 			RaycastHit shootHit;
 			if (Physics.Raycast (camTransform.position, camTransform.forward, out shootHit, aimMask)) {
 				Debug.Log ("<color=blue>shooting on " + shootHit.transform.name + "</color>");
@@ -358,6 +363,7 @@ public class playerControlPlus : MonoBehaviour {
 		Debug.Log ("<color=yellow>Win Game!!</color>");
 		Time.timeScale = 0.2f;
 		flickeringLight.enabled = true;
+		levelManager.winGame = true;
 		StartCoroutine(EndGame());
 	}
 
