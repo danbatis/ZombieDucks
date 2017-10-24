@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 [RequireComponent(typeof(CharacterController))]
 
-public class playerControlPlus : MonoBehaviour {
+public class PlayerControlPlus : MonoBehaviour {
 	Transform myTransform;
 	public float baseSpeed = 5.0f;
 	float speed;
@@ -80,7 +80,18 @@ public class playerControlPlus : MonoBehaviour {
 	AlignToCamera myAlign;
 	GameObject mygun;
 	public bool haveGun = true;
+	public bool canEvade = true;
+	public bool canJump = true;
 	RawImage crossHairs;
+	public int shotsCounter;
+
+	public AudioClip hurtSound1;
+	public AudioClip hurtSound2;
+	public AudioClip hurtSound3;
+
+	public int candlesLit;
+	public int minCandlesLit2Advance = 1;
+	bool gameWon;
 
 	void Awake(){
 		myAnim = GetComponent<Animator>();
@@ -90,7 +101,8 @@ public class playerControlPlus : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		
+		shotsCounter = 0;
+		candlesLit = 0;
 		myTransform = transform;
 		myControl = GetComponent<CharacterController> ();	
 		myAudio = GetComponent<AudioSource>();
@@ -122,7 +134,7 @@ public class playerControlPlus : MonoBehaviour {
 		mygun.SetActive(haveGun);
 		crossHairs.enabled = haveGun;
 
-		if ((Input.GetKeyDown(KeyCode.LeftControl) || Input.GetKeyDown(KeyCode.F))&& !busy){
+		if ((Input.GetKeyDown(KeyCode.LeftControl) || Input.GetKeyDown(KeyCode.F))&& !busy && canEvade){
 			StartCoroutine(Evade());
 		}
 		/*
@@ -139,9 +151,9 @@ public class playerControlPlus : MonoBehaviour {
 		if(Input.GetKeyDown("h"))
 			DuckDamage(10*myTransform.right, 1);
 		*/
-		
+
 		//drive animations		
-		if(!evading && !levelManager.pausedGame && !beingDamaged){
+		if(!evading && !levelManager.pausedGame && !beingDamaged && !gameWon){
 			vertIn = Input.GetAxis ("Vertical");
 			horIn = Input.GetAxis ("Horizontal");
 			myAnim.SetFloat("forth",vertIn);
@@ -164,7 +176,7 @@ public class playerControlPlus : MonoBehaviour {
 				vertMove = 0.0f;				
 				//Debug.Log("landed");
 			
-				if (Input.GetKey ("space") && jumpReleased && !busy) {
+				if (Input.GetKey ("space") && jumpReleased && !busy && canJump) {
 					busy = true;
 					jumpReleased = false;
 					myAnim.SetBool("jump", true);
@@ -214,9 +226,24 @@ public class playerControlPlus : MonoBehaviour {
 					StartCoroutine (Shoot(true, shootHit.point));
 					HitExplosion (shootHit.point, shootHit.normal);
 
-					DuckHealth targetHealth = shootHit.transform.GetComponent<DuckHealth> ();
-					if (targetHealth)
-						targetHealth.Damage (shootHit.point, shootHit.normal);
+					ShotSensitive targetShot = shootHit.transform.GetComponent<ShotSensitive> ();
+					if (targetShot) {
+						targetShot.ShootHit(shootHit.point, shootHit.normal);
+					}
+					/*
+					else{
+						CandleManager candleMan = shootHit.transform.GetComponent<CandleManager>();
+						if (candleMan) {
+							candleMan.PlayerHit ();
+						}
+						else{
+							FuzeBoxManager fuzeBox = shootHit.transform.GetComponent<FuzeBoxManager>();
+							if(fuzeBox)
+								fuzeBox.PlayerHit ();
+						}
+					}
+					*/
+					
 				} else {
 					StartCoroutine (Shoot(false, Vector3.zero));
 				}
@@ -254,7 +281,7 @@ public class playerControlPlus : MonoBehaviour {
 			aiming += 1;
 			aimTarget = Target;
 		}
-
+		shotsCounter++;
 		myAudio.PlayOneShot(shootSound);
 		Vector3 shootOrigin = gunTransform.position - gunLength * gunTransform.right + gunHeight * gunTransform.forward;
 		GameObject shootFX = GameObject.Instantiate(shootingFX, shootOrigin, gunTransform.rotation, gunTransform);
@@ -315,10 +342,14 @@ public class playerControlPlus : MonoBehaviour {
 		yield return new WaitForSeconds(impulseAnimTime);
 		vertMove = jumpPower;
 	}
-	void OnCollisionEnter(Collision collision){
-		//Debug.Log ("<color=green>"+gameObject.name+"collided with: "+collision.gameObject.name+"</color>");
-		if (collision.gameObject.tag == "Finish")
-			WinGame();
+	void OnTriggerEnter(Collider other){
+		//Debug.Log ("<color=green>"+gameObject.name+"collided with: "+other.gameObject.name+"</color>");
+		if (other.gameObject.tag == "Finish") {
+			if(candlesLit >= minCandlesLit2Advance) {
+				levelManager.LogMessage ("shotsFired;" + shotsCounter.ToString ());
+				WinGame ();
+			}
+		}
 	}
 
 	void UpdateLife(){
@@ -327,6 +358,14 @@ public class playerControlPlus : MonoBehaviour {
 	}
 	public void DuckDamage(Vector3 DamageDir, int damageAmount){
 		if(!evading && !beingDamaged){
+			switch (Random.Range(0, 2)) {
+			case 0:myAudio.PlayOneShot(hurtSound1,0.5f);
+				break;
+			case 1:myAudio.PlayOneShot(hurtSound2,0.5f);
+				break;
+			case 2:myAudio.PlayOneShot(hurtSound3,0.5f);
+				break;
+			}
 			myAnim.SetBool("damage",true);
 			
 			float damX = Vector3.Dot(myTransform.right, DamageDir.normalized);
@@ -345,8 +384,9 @@ public class playerControlPlus : MonoBehaviour {
 				Death();
 		}
 	}
-	void Death(){
+	void Death(){		
 		if(alive){
+			levelManager.LogMessage("player died at "+myTransform.position.ToString()+"; looking at "+myTransform.rotation.eulerAngles.ToString());
 			alive = false;
 			GameObject deathDoll = GameObject.Instantiate(deathPrefab, myTransform.position, myTransform.rotation);
 			camTransform.GetComponent<ThirdPersonCamera> ().target = deathDoll.transform;
@@ -355,9 +395,10 @@ public class playerControlPlus : MonoBehaviour {
 			levelManager.GameOver(6.0f);
 			Destroy(gameObject);
 		}
-
 	}
 	void WinGame(){
+		gameWon = true;
+		ZeroInput();
 		winMsg.enabled = true;
 		gameEnded = true;
 		Debug.Log ("<color=yellow>Win Game!!</color>");
@@ -402,6 +443,13 @@ public class playerControlPlus : MonoBehaviour {
 		yield return new WaitForSeconds(freeTime);
 		beingDamaged = false;
 		myAnim.SetBool("damage",false);
+	}
+
+	public void ZeroInput(){
+		vertIn = 0f;
+		horIn = 0f;
+		myAnim.SetFloat("forth",vertIn);
+		myAnim.SetFloat("side",horIn);
 	}
 }
 

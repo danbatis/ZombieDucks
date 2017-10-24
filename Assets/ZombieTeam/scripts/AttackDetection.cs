@@ -6,15 +6,15 @@ public class AttackDetection : MonoBehaviour {
 
 	Transform playerTransform;
 	Transform fatherTransform;
-	playerControl pc;
-	playerControlPlus pcp;
+	PlayerControl pc;
+	PlayerControlPlus pcp;
 	public bool lethal;
 	
 	// Use this for initialization
 	void Start(){		
 		playerTransform = GameObject.FindGameObjectWithTag ("Player").transform;
-		pc = playerTransform.GetComponent<playerControl>();
-		pcp = playerTransform.GetComponent<playerControlPlus>();
+		pc = playerTransform.GetComponent<PlayerControl>();
+		pcp = playerTransform.GetComponent<PlayerControlPlus>();
 		fatherTransform = transform.parent.parent.parent.parent.parent;
 		//Debug.Log("beak fatherTransform: "+fatherTransform.name);
 	}

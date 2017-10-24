@@ -4,9 +4,9 @@ using UnityEngine;
 using UnityEngine.AI;
 
 
-public class DuckHealth : MonoBehaviour {
+public class DuckHealth : ShotSensitive {
 	public int life = 3;
-	AudioSource myAudio;
+	//AudioSource myAudio;
 	public AudioClip damageSound;
 	public AudioClip deathSound;
 
@@ -21,6 +21,7 @@ public class DuckHealth : MonoBehaviour {
 
 	public float damageTime = 0.5f;
 	public float attackDist = 2.0f;
+	public float protectDist = 3.0f;
 	public float attackTime = 0.5f;
 	bool attacking;
 	
@@ -28,6 +29,10 @@ public class DuckHealth : MonoBehaviour {
 	Transform playerTransform;
 	Transform myTransform;
 	AttackDetection atk;
+	LevelManager levelManager;
+	public bool taskProtect;
+	Transform targetToProtect;
+	public float timeToFace = 10.0f;
 	
 
 	// Use this for initialization
@@ -38,24 +43,51 @@ public class DuckHealth : MonoBehaviour {
 		myAnim = GetComponent<Animator>();
 		
 		playerTransform = GameObject.FindGameObjectWithTag ("Player").transform;
+		levelManager = GameObject.Find("level").GetComponent<LevelManager>();
 		atk = GetComponentInChildren<AttackDetection>();
+
+		GameObject fuzeBox = GameObject.FindGameObjectWithTag("fuzeBox"); 
+		if (fuzeBox) {
+			targetToProtect = fuzeBox.transform;
+		} 
+		else{
+			taskProtect = false;
+		}
 	}
 	
 	// Update is called once per frame
 	void Update(){
-		if (beingDamaged == 0 && playerTransform && !attacking){
-			if(Vector3.Distance(playerTransform.position, myTransform.position) < attackDist){
-				navAgent.Stop();
-				Attack();
-			}
-			else{
-				navAgent.SetDestination (playerTransform.position);
-				navAgent.Resume();
-				myAnim.SetFloat("speed", navAgent.velocity.magnitude/navAgent.speed);
-			}
-		}
+		if(taskProtect){
+			if(beingDamaged == 0 && targetToProtect && !attacking){
+				if (Vector3.Distance (targetToProtect.position, myTransform.position) < protectDist) {
+					navAgent.Stop ();
+					FacePlayer();
+					if (Vector3.Distance (playerTransform.position, myTransform.position) < attackDist)
+						Attack ();
+					
+					//just stay there close to what he is protecting
+				} else {
+					navAgent.SetDestination (targetToProtect.position);
+					navAgent.Resume ();
+					myAnim.SetFloat ("speed", navAgent.velocity.magnitude / navAgent.speed);
+				}
+			} else {
+				navAgent.Stop ();
+			}			
+		} 
 		else{
-			navAgent.Stop();
+			if(beingDamaged == 0 && playerTransform && !attacking){
+				if (Vector3.Distance (playerTransform.position, myTransform.position) < attackDist) {
+					navAgent.Stop ();
+					Attack ();
+				} else {
+					navAgent.SetDestination (playerTransform.position);
+					navAgent.Resume ();
+					myAnim.SetFloat ("speed", navAgent.velocity.magnitude / navAgent.speed);
+				}
+			} else {
+				navAgent.Stop ();
+			}
 		}
 	}
 
@@ -78,11 +110,16 @@ public class DuckHealth : MonoBehaviour {
 		Debug.Log("finished attacking");
 		attacking = false;
 	}
-	
+
+	override public void ShootHit(Vector3 hitpos=default(Vector3), Vector3 hitnorm=default(Vector3)){
+		base.PlayHitSound();
+		Damage(hitpos, hitnorm);
+	}
+
 	public void Damage(Vector3 hitpos, Vector3 hitnorm){
-		if(beingDamaged == 0){
+		//if(beingDamaged == 0){
 			StartCoroutine(BeDamaged());
-			myAudio.PlayOneShot(damageSound);
+			//myAudio.PlayOneShot(damageSound);
 			
 			GameObject hitedFX = GameObject.Instantiate(damageFX, hitpos, Quaternion.identity);
 			hitedFX.transform.localScale = new Vector3 (fxScale, fxScale, fxScale);
@@ -94,7 +131,7 @@ public class DuckHealth : MonoBehaviour {
 			life -= 1;
 			if (life < 0)
 				Death (hitpos, hitnorm);
-		}			
+		//}			
 	}
 
 	IEnumerator BeDamaged(){
@@ -109,10 +146,18 @@ public class DuckHealth : MonoBehaviour {
 		GameObject hitedFX = GameObject.Instantiate(deathFX, hitpos, Quaternion.identity);
 		hitedFX.transform.localScale = new Vector3 (2*fxScale, 2*fxScale, 2*fxScale);
 		hitedFX.transform.up = hitnorm;
+		PlayerControlPlus algoz = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerControlPlus>();
+		levelManager.LogMessage("player killed me "+gameObject.name+";shotsCounter;"+algoz.shotsCounter.ToString());
 		Destroy(hitedFX, fxTime);
 		Destroy(gameObject);
 	}
-	
+	void FacePlayer(){
+		if (playerTransform) {
+			Vector3 playerDir = (playerTransform.position - myTransform.position).normalized;
+			myTransform.forward = Vector3.Lerp (myTransform.forward, playerDir, timeToFace * Time.deltaTime);	
+		}
+	}
+
 	//void OnCollisionEnter(Collision collision){
 	//	Debug.Log ("<color=red>"+gameObject.name+"collided with: "+collision.gameObject.name+"</color>");
 	//}

@@ -1,0 +1,382 @@
+fileFormatVersion: 2
+guid: de397a22243819f4ea6867e7093e580a
+timeCreated: 1508309966
+licenseType: Free
+ModelImporter:
+  serializedVersion: 21
+  fileIDToRecycleName:
+    100000: //RootNode
+    100002: allCtrl
+    100004: b_head
+    100006: b_headTip
+    100008: b_leftCalf
+    100010: b_leftClavicle
+    100012: b_leftFinger0
+    100014: b_leftFinger01
+    100016: b_leftFinger0Nub
+    100018: b_leftFinger1
+    100020: b_leftFinger11
+    100022: b_leftFinger1Nub
+    100024: b_leftFoot
+    100026: b_leftForearm
+    100028: b_leftHand
+    100030: b_leftThigh
+    100032: b_leftToe0
+    100034: b_leftToe0Nub
+    100036: b_leftUpperArm
+    100038: b_neck
+    100040: b_pelvis
+    100042: b_rightCalf
+    100044: b_rightClavicle
+    100046: b_rightFinger0
+    100048: b_rightFinger01
+    100050: b_rightFinger0Nub
+    100052: b_rightFinger1
+    100054: b_rightFinger11
+    100056: b_rightFinger1Nub
+    100058: b_rightFoot
+    100060: b_rightForearm
+    100062: b_rightHand
+    100064: b_rightThigh1
+    100066: b_rightToe0
+    100068: b_rightToe0Nub
+    100070: b_rightUpperArm
+    100072: b_root
+    100074: b_spine
+    100076: b_spine1
+    100078: b_spine2
+    100080: boyBody
+    100082: face
+    100084: hair
+    100086: littleBoy
+    100088: rootCtrl
+    400000: //RootNode
+    400002: allCtrl
+    400004: b_head
+    400006: b_headTip
+    400008: b_leftCalf
+    400010: b_leftClavicle
+    400012: b_leftFinger0
+    400014: b_leftFinger01
+    400016: b_leftFinger0Nub
+    400018: b_leftFinger1
+    400020: b_leftFinger11
+    400022: b_leftFinger1Nub
+    400024: b_leftFoot
+    400026: b_leftForearm
+    400028: b_leftHand
+    400030: b_leftThigh
+    400032: b_leftToe0
+    400034: b_leftToe0Nub
+    400036: b_leftUpperArm
+    400038: b_neck
+    400040: b_pelvis
+    400042: b_rightCalf
+    400044: b_rightClavicle
+    400046: b_rightFinger0
+    400048: b_rightFinger01
+    400050: b_rightFinger0Nub
+    400052: b_rightFinger1
+    400054: b_rightFinger11
+    400056: b_rightFinger1Nub
+    400058: b_rightFoot
+    400060: b_rightForearm
+    400062: b_rightHand
+    400064: b_rightThigh1
+    400066: b_rightToe0
+    400068: b_rightToe0Nub
+    400070: b_rightUpperArm
+    400072: b_root
+    400074: b_spine
+    400076: b_spine1
+    400078: b_spine2
+    400080: boyBody
+    400082: face
+    400084: hair
+    400086: littleBoy
+    400088: rootCtrl
+    4300000: hair
+    4300002: face
+    4300004: boyBody
+    7400000: afroSleep
+    7400002: afroBadDream
+    7400004: afroWakeUp
+    7400006: afroSpooked
+    7400008: afroLeaveBedI
+    7400010: afroLeaveBedII
+    7400012: afroclean
+    9500000: //RootNode
+    13700000: boyBody
+    13700002: face
+    13700004: hair
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 0
+    animationRotationError: 0
+    animationPositionError: 0
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: afroSleep
+      takeName: Take 001
+      firstFrame: 732
+      lastFrame: 754
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: afroBadDream
+      takeName: Take 001
+      firstFrame: 779
+      lastFrame: 802
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: afroWakeUp
+      takeName: Take 001
+      firstFrame: 803
+      lastFrame: 820
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: afroSpooked
+      takeName: Take 001
+      firstFrame: 821
+      lastFrame: 835
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: afroLeaveBedI
+      takeName: Take 001
+      firstFrame: 836
+      lastFrame: 875
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: afroLeaveBedII
+      takeName: Take 001
+      firstFrame: 876
+      lastFrame: 895
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: afroclean
+      takeName: Take 001
+      firstFrame: 728
+      lastFrame: 730
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 0
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 129
+    normalImportMode: 1
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

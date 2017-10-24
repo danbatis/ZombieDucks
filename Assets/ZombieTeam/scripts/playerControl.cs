@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 [RequireComponent(typeof(CharacterController))]
 
-public class playerControl : MonoBehaviour {
+public class PlayerControl : MonoBehaviour {
 	Transform myTransform;
 	public float baseSpeed = 5.0f;
 	float speed;

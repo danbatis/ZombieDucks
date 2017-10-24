@@ -6551,57 +6551,6 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: e78ffc706c8bf5b4b98b17fd48149821, type: 2}
   m_IsPrefabParent: 0
---- !u!1 &847012489 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1115939480614906, guid: 2862fa36debb7fe45902f2d04c4bc6f8,
-    type: 2}
-  m_PrefabInternal: {fileID: 1576212076}
---- !u!114 &847012490
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 847012489}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 478a2083ad114a07d000fbfb8d76c639, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  shader: {fileID: 4800000, guid: e9ba2083ad114a07d000fbfb8d76c639, type: 3}
-  blurAmount: 0.56
-  extraBlur: 0
---- !u!114 &847012491
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 847012489}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 97e9b95cf609d96409b6c40519432957, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  filterType: 2
-  preview: 0
-  previewScale: {x: 1, y: 1, z: 1}
-  movementScale: 0
-  rotationScale: 1
-  maxVelocity: 8
-  minVelocity: 0.1
-  velocityScale: 0.375
-  softZDistance: 0.005
-  velocityDownsample: 1
-  excludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  shader: {fileID: 4800000, guid: 85a88efa8c871af4a9d17c64791b6f4f, type: 3}
-  dx11MotionBlurShader: {fileID: 4800000, guid: f1b13d7a80660504a858ea24cfa418c6,
-    type: 3}
-  replacementClear: {fileID: 4800000, guid: 7699c5fbfa27745a1abe111ab7bf9785, type: 3}
-  noiseTexture: {fileID: 2800000, guid: 31f5a8611c4ed1245b18456206e798dc, type: 3}
-  jitter: 0.05
-  showVelocity: 0
-  showVelocityScale: 1
 --- !u!1001 &887012115
 Prefab:
   m_ObjectHideFlags: 0
@@ -6882,6 +6831,10 @@ Prefab:
     - target: {fileID: 128080, guid: 4ceab975dbce2d34f93800f4e5250356, type: 2}
       propertyPath: m_NavMeshLayer
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 128080, guid: 4ceab975dbce2d34f93800f4e5250356, type: 2}
+      propertyPath: m_TagString
+      value: fuzeBox
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4ceab975dbce2d34f93800f4e5250356, type: 2}
@@ -9186,7 +9139,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4225065990380780, guid: bc6d3dc991af9dc458c0c91aa58363c5, type: 2}
       propertyPath: m_LocalPosition.x
-      value: -66.75651
+      value: -54.61
       objectReference: {fileID: 0}
     - target: {fileID: 4225065990380780, guid: bc6d3dc991af9dc458c0c91aa58363c5, type: 2}
       propertyPath: m_LocalPosition.y
@@ -9215,6 +9168,11 @@ Prefab:
     - target: {fileID: 4225065990380780, guid: bc6d3dc991af9dc458c0c91aa58363c5, type: 2}
       propertyPath: m_RootOrder
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 114450351132508066, guid: bc6d3dc991af9dc458c0c91aa58363c5,
+        type: 2}
+      propertyPath: taskProtect
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: bc6d3dc991af9dc458c0c91aa58363c5, type: 2}
@@ -9301,10 +9259,6 @@ Prefab:
     - target: {fileID: 4576874846594026, guid: 2862fa36debb7fe45902f2d04c4bc6f8, type: 2}
       propertyPath: m_RootOrder
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4576874846594026, guid: 2862fa36debb7fe45902f2d04c4bc6f8, type: 2}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 100.269005
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2862fa36debb7fe45902f2d04c4bc6f8, type: 2}
@@ -10478,7 +10432,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   duckObj: {fileID: 1102405174008206, guid: bc6d3dc991af9dc458c0c91aa58363c5, type: 2}
-  spawnRate: 100
+  spawnRate: 5
   spawnPoints:
   - {fileID: 731907858}
   - {fileID: 1374855350}
