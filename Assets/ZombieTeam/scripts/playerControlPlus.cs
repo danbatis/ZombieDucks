@@ -79,6 +79,10 @@ public class PlayerControlPlus : MonoBehaviour {
 	bool beingDamaged;
 	AlignToCamera myAlign;
 	GameObject mygun;
+	public Texture allKeys;
+	public Texture disabledKeys1;
+	public Texture disabledKeys2;
+	public Texture disabledKeys3;
 	public bool haveGun = true;
 	public bool canEvade = true;
 	public bool canJump = true;
@@ -124,6 +128,8 @@ public class PlayerControlPlus : MonoBehaviour {
 		
 		mygun.SetActive(haveGun);
 		crossHairs.enabled = haveGun;
+
+		UpdateControls();
 		
 		if (camTransform == null)
 			camTransform = GameObject.FindGameObjectWithTag("MainCamera").transform;
@@ -132,7 +138,9 @@ public class PlayerControlPlus : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		mygun.SetActive(haveGun);
-		crossHairs.enabled = haveGun;
+
+		if(!gameWon)
+			crossHairs.enabled = haveGun;
 
 		if ((Input.GetKeyDown(KeyCode.LeftControl) || Input.GetKeyDown(KeyCode.F))&& !busy && canEvade){
 			StartCoroutine(Evade());
@@ -216,12 +224,12 @@ public class PlayerControlPlus : MonoBehaviour {
 		if (Input.GetMouseButtonDown (0) && !gameEnded && !evading && !levelManager.pausedGame && haveGun) {
 			RaycastHit shootHit;
 			if (Physics.Raycast (camTransform.position, camTransform.forward, out shootHit, aimMask)) {
-				Debug.Log ("<color=blue>shooting on " + shootHit.transform.name + "</color>");
+				//Debug.Log ("<color=blue>shooting on " + shootHit.transform.name + "</color>");
 				//check if target object is in front of the player or not
 				Vector3 shootDir = shootHit.point - myTransform.position;
 				Vector3 shootDirProj = Vector3.ProjectOnPlane (shootDir, Vector3.up);
 				float angleCrossShootDir = Vector3.Angle (Vector3.Cross (myTransform.right, shootDirProj), Vector3.up);
-				Debug.Log ("<color=blue>angle: " + angleCrossShootDir.ToString () + "</color>");
+				//Debug.Log ("<color=blue>angle: " + angleCrossShootDir.ToString () + "</color>");
 				if (angleCrossShootDir == 180) {
 					StartCoroutine (Shoot(true, shootHit.point));
 					HitExplosion (shootHit.point, shootHit.normal);
@@ -313,10 +321,31 @@ public class PlayerControlPlus : MonoBehaviour {
 	}
 
 	void AimGun(Vector3 aimTarget){
+		//upperArm
 		upperArm.right = -(aimTarget - Vector3.up*aimOffset - arm.position);
-		upperArm.Rotate(180f,0f,0f);
+		if(Vector3.Angle(upperArm.up, Vector3.up) < 90f)
+			upperArm.Rotate(180f,0f,0f);
+		/*
+		Vector3 projXY = Vector3.ProjectOnPlane(Vector3.up, upperArm.right);
+		Vector3 fakeRIGHT = Vector3.Cross(upperArm.up, projXY);
+		if(Vector3.Angle(fakeRIGHT,upperArm.right) < 1f)
+			upperArm.Rotate(-Vector2.Angle(upperArm.up, projXY),0f,0f);
+		else
+			upperArm.Rotate(Vector2.Angle(upperArm.up, projXY),0f,0f);
+		*/
+
+		//arm
 		arm.right = -(aimTarget - arm.position);
-		arm.Rotate(180f,0f,0f);	
+		if(Vector3.Angle(arm.up, Vector3.up) < 90f)
+			arm.Rotate(180f,0f,0f);
+		/*
+		Vector3 projxy = Vector3.ProjectOnPlane(Vector3.up, arm.right);
+		Vector3 fakeRight = Vector3.Cross(arm.up, projxy);
+		if(Vector3.Angle(fakeRight,arm.right) < 1f)
+			arm.Rotate(-Vector2.Angle(arm.up, projxy),0f,0f);
+		else
+			arm.Rotate(Vector2.Angle(arm.up, projxy),0f,0f);
+		*/
 	}
 
 	void FlickerLight(){
@@ -344,10 +373,10 @@ public class PlayerControlPlus : MonoBehaviour {
 	}
 	void OnTriggerEnter(Collider other){
 		//Debug.Log ("<color=green>"+gameObject.name+"collided with: "+other.gameObject.name+"</color>");
-		if (other.gameObject.tag == "Finish") {
+		if (other.gameObject.tag == "Finish" && !gameWon) {
 			if(candlesLit >= minCandlesLit2Advance) {
 				levelManager.LogMessage ("shotsFired;" + shotsCounter.ToString ());
-				WinGame ();
+				WinGame();
 			}
 		}
 	}
@@ -391,6 +420,7 @@ public class PlayerControlPlus : MonoBehaviour {
 			GameObject deathDoll = GameObject.Instantiate(deathPrefab, myTransform.position, myTransform.rotation);
 			camTransform.GetComponent<ThirdPersonCamera> ().target = deathDoll.transform;
 			loseMsg.enabled = true;
+			loseMsg.text = "you lost";
 			flickeringLight.enabled = true;
 			levelManager.GameOver(6.0f);
 			Destroy(gameObject);
@@ -400,11 +430,14 @@ public class PlayerControlPlus : MonoBehaviour {
 		gameWon = true;
 		ZeroInput();
 		winMsg.enabled = true;
+		winMsg.text = "Good Job";
+		crossHairs.enabled = false;
 		gameEnded = true;
 		Debug.Log ("<color=yellow>Win Game!!</color>");
 		Time.timeScale = 0.2f;
 		flickeringLight.enabled = true;
 		levelManager.winGame = true;
+		levelManager.CloseLogFile ();
 		StartCoroutine(EndGame());
 	}
 
@@ -450,6 +483,22 @@ public class PlayerControlPlus : MonoBehaviour {
 		horIn = 0f;
 		myAnim.SetFloat("forth",vertIn);
 		myAnim.SetFloat("side",horIn);
+	}
+	public void UpdateControls(){
+		if (canJump) {
+			levelManager.controls.texture = allKeys;
+		} else {
+			if (haveGun) {
+				levelManager.controls.texture = disabledKeys3;
+			} else {
+				if (canEvade) {
+					levelManager.controls.texture = disabledKeys2;
+				}
+				else{
+					levelManager.controls.texture = disabledKeys1;
+				}
+			}
+		}
 	}
 }
 

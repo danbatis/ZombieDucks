@@ -24,7 +24,9 @@ public class Spawner : MonoBehaviour {
 			if (myTimer > spawnRate) {
 				myTimer = 0.0f;
 				int spawnIndex = Random.Range (0, spawnPoints.Count);
-				GameObject.Instantiate (duckObj, spawnPoints [spawnIndex].position, Quaternion.identity);					
+				GameObject newDuck = GameObject.Instantiate (duckObj, spawnPoints [spawnIndex].position, Quaternion.identity);					
+				if(Random.Range(0.0f,1.0f) < 0.5f)
+					newDuck.GetComponent<DuckHealth>().taskProtect = true;
 			}			
 		}
 	}

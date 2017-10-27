@@ -47,8 +47,9 @@ public class IntroCut : MonoBehaviour {
 
 	public GameObject guiderStarterPrefab;
 
+
 	// Use this for initialization
-	void Start () {
+	void Start () {		
 		cutScener = GameObject.Find ("level").GetComponent<CutScener>();
 
 		GameObject guiderStarterObj = Instantiate(guiderStarterPrefab);

@@ -12,10 +12,17 @@ public class CutSceneTrigger : MonoBehaviour {
 
 	public GameObject optionalMessage;
 
+	//adjusting camera
+	ThirdPersonCamera trdCam;
+	float camLateralDisplace = 1.0f;
+	float camLatDisplaceClose = 0.5f;
+
+
 	// Use this for initialization
 	void Start () {
 		playerControlPlus = GameObject.FindGameObjectWithTag ("Player").GetComponent<PlayerControlPlus> ();
 		cutScener = GameObject.Find ("level").GetComponent<CutScener>();
+		trdCam = Camera.main.GetComponent<ThirdPersonCamera>();
 	}
 	
 	// Update is called once per frame
@@ -63,6 +70,8 @@ public class CutSceneTrigger : MonoBehaviour {
 					cutScener.spawnerState = true;
 					cutScener.BringGuider2Player();
 					cutScener.EnableGamePlay(true, true);
+					trdCam.lateralDisplace = camLateralDisplace;
+					trdCam.lateralDisplaceClose = camLatDisplaceClose;
 
 					if(optionalMessage)
 						optionalMessage.SetActive (true);

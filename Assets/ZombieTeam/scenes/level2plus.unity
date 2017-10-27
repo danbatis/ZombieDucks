@@ -1084,7 +1084,7 @@ Prefab:
     - target: {fileID: 114400773593381870, guid: e10e634bd8f19e941b70443da32dc08c,
         type: 2}
       propertyPath: objectives.Array.size
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4773087332240990, guid: e10e634bd8f19e941b70443da32dc08c, type: 2}
       propertyPath: m_LocalPosition.x
@@ -1555,12 +1555,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 458bd61c1909dda4ea3fb91eaafc7cbc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  controls: {fileID: 0}
   reloadTime: 2
   pausedGame: 0
   winGame: 0
   skipKey: 13
   altSkipKey: 32
-  msgFadeTime: 1.5
+  msgFadeTime: 0.3
 --- !u!114 &528326206
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1578,6 +1579,12 @@ MonoBehaviour:
   guiderStarter: {fileID: 1263372266}
   normalDuckPrefab: {fileID: 1797923873621932, guid: 8c6351d7175913741a9212b7d5233e82,
     type: 2}
+  enemiesToTransform: []
+  formerEnemiesToSpawn: []
+  transformFX: {fileID: 1000010826686036, guid: 265afe68fbd86e1438c2d5b7f46a090d,
+    type: 2}
+  minMonsterScale: 10
+  shrinkSpeed: 25
 --- !u!1001 &535486846
 Prefab:
   m_ObjectHideFlags: 0
@@ -1893,7 +1900,7 @@ Prefab:
     - target: {fileID: 114633604472192708, guid: 36373d0fc2222d04f877bb340cdfba55,
         type: 2}
       propertyPath: objectives.Array.size
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4636283644963540, guid: 36373d0fc2222d04f877bb340cdfba55, type: 2}
       propertyPath: m_LocalPosition.x
@@ -4522,6 +4529,11 @@ Prefab:
       propertyPath: m_LocalPosition.y
       value: 14.5
       objectReference: {fileID: 0}
+    - target: {fileID: 114716378889125452, guid: caf392c1004cd334294aaf398ce906df,
+        type: 2}
+      propertyPath: nextObjective
+      value: 
+      objectReference: {fileID: 1050622968}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: caf392c1004cd334294aaf398ce906df, type: 2}
   m_IsPrefabParent: 0

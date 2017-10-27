@@ -59,17 +59,22 @@ public class DuckHealth : ShotSensitive {
 	void Update(){
 		if(taskProtect){
 			if(beingDamaged == 0 && targetToProtect && !attacking){
-				if (Vector3.Distance (targetToProtect.position, myTransform.position) < protectDist) {
+				if (Vector3.Distance (playerTransform.position, myTransform.position) < attackDist) {
 					navAgent.Stop ();
-					FacePlayer();
-					if (Vector3.Distance (playerTransform.position, myTransform.position) < attackDist)
-						Attack ();
-					
-					//just stay there close to what he is protecting
+					Attack ();
 				} else {
-					navAgent.SetDestination (targetToProtect.position);
-					navAgent.Resume ();
-					myAnim.SetFloat ("speed", navAgent.velocity.magnitude / navAgent.speed);
+					if (Vector3.Distance (targetToProtect.position, myTransform.position) < protectDist) {
+						navAgent.Stop ();
+						FacePlayer ();
+						if (Vector3.Distance (playerTransform.position, myTransform.position) < attackDist)
+							Attack ();
+					
+						//just stay there close to what he is protecting
+					} else {
+						navAgent.SetDestination (targetToProtect.position);
+						navAgent.Resume ();
+						myAnim.SetFloat ("speed", navAgent.velocity.magnitude / navAgent.speed);
+					}
 				}
 			} else {
 				navAgent.Stop ();
@@ -115,6 +120,7 @@ public class DuckHealth : ShotSensitive {
 		base.PlayHitSound();
 		Damage(hitpos, hitnorm);
 	}
+
 
 	public void Damage(Vector3 hitpos, Vector3 hitnorm){
 		//if(beingDamaged == 0){

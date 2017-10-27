@@ -21,6 +21,7 @@ public class GunProp : MonoBehaviour {
 	void OnTriggerEnter(Collider other){
 		if (other.tag == "Player") {
 			other.GetComponent<PlayerControlPlus>().haveGun = true;
+			other.GetComponent<PlayerControlPlus> ().UpdateControls();
 			levelManager.LogMessage("player acquired gun");
 			levelManager.UIMessage ("Click with the mouse to fire your gun", KeyCode.Mouse0, KeyCode.Mouse0);
 			Destroy(gameObject);

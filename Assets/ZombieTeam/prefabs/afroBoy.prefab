@@ -1969,7 +1969,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   baseSpeed: 5
   gravity: 50
-  jumpPower: 18
+  jumpPower: 12
   impulseAnimTime: 0.15
   hitFX: {fileID: 1000013267560804, guid: 0ab55775e6458e944a57a5cf69c4b398, type: 2}
   shootingFX: {fileID: 1000012264517964, guid: f6d13cef4188a3042a481ef36e06f60c, type: 2}
@@ -1986,7 +1986,7 @@ MonoBehaviour:
   aiming: 0
   aimMask:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 260
   crossfadeTime: 0.3
   aimHere: {fileID: 0}
   deathPrefab: {fileID: 1978249884157010, guid: 38a1772d66e387647bbf56cd562eba5c,
@@ -1999,6 +1999,10 @@ MonoBehaviour:
   shiningSpeed: 0.5
   inAirLimit: 10
   evadeTime: 0.75
+  allKeys: {fileID: 2800000, guid: 1cfd3e2bc7a8ef0478693485cab45ac4, type: 3}
+  disabledKeys1: {fileID: 2800000, guid: 2bb3c42b299c9074e998c0928f78ee51, type: 3}
+  disabledKeys2: {fileID: 2800000, guid: db44081b35daac04cb30de562101fa77, type: 3}
+  disabledKeys3: {fileID: 2800000, guid: bfbcadc8a601b734bb0c45f89164c47c, type: 3}
   haveGun: 1
   canEvade: 1
   canJump: 1

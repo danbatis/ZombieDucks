@@ -13,7 +13,7 @@ public class GuiderStarter : MonoBehaviour {
 	public Transform[] objectives;
 
 	GameObject guiderObj;
-	Guider guider;
+	public Guider guider;
 	Light guideLight;
 	public bool guiding;
 	bool activated;

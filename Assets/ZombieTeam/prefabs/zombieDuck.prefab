@@ -1178,7 +1178,7 @@ MonoBehaviour:
   fxTime: 0.5
   damageTime: 0.5
   attackDist: 0.8
-  protectDist: 3
+  protectDist: 2
   attackTime: 0.75
   taskProtect: 0
   timeToFace: 10

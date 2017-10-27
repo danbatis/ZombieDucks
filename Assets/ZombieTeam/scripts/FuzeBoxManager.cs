@@ -33,7 +33,7 @@ public class FuzeBoxManager : ShotSensitive {
 	PlayerControlPlus playerControl;
 
 	Animator doorAnimator;
-	bool lockDestroyed;
+	public bool lockDestroyed;
 	Animator sleepBoyAnim;
 	public Transform sleepBoyBirdViewPoint;
 
@@ -46,7 +46,7 @@ public class FuzeBoxManager : ShotSensitive {
 	public GameObject boyFace;
 	public float influenceAreaDist = 1000000;
 
-	bool animRewarded;
+	public bool animRewarded;
 
 	// Use this for initialization
 	void Start () {
@@ -110,8 +110,10 @@ public class FuzeBoxManager : ShotSensitive {
 
 	public void PlayerHit(){
 		hitShots++;
-		if (hitShots == shootsToOpen)
-			OpenFuzeBox();
+		if (hitShots == shootsToOpen) {
+			lvlManager.LogMessage("Fuze box opened");
+			OpenFuzeBox ();
+		}
 	}
 
 	void OpenFuzeBox(){
@@ -119,24 +121,31 @@ public class FuzeBoxManager : ShotSensitive {
 		Instantiate(brokenLockPrefab, lockerMesh.position, lockerMesh.rotation);
 		Destroy(lockerMesh.gameObject);
 
-		doorAnimator.SetBool("open",true);
 		messageToRearm.SetActive (true);
 		Debug.Log("<color=blue>Successfully opened fuze box!!!</color>");
 		StartCoroutine(DestroyLock());
 	}
 	IEnumerator DestroyLock(){
-		yield return new WaitForSeconds(1.0f);
+		yield return new WaitForSeconds(0.5f);
+		gameObject.GetComponent<BoxCollider>().enabled = false;
+		doorAnimator.SetBool("open",true);
 		lockDestroyed = true;
 	}
+	/*
+	Moved to FuzeBoxSensor.cs
 	void OnTriggerEnter(Collider other){
 		if (other.tag == "Player" && lockDestroyed && !animRewarded) {
 			Debug.Log ("<color=blue>Trigger Enter, final animation!!!!</color>");
-			animRewarded = true;
 			LastRewardAnim();
 		}
 	}
+	*/
 
-	void LastRewardAnim(){		
+	public void LastRewardAnim(){
+			lvlManager.LogMessage("rearmed Power Box");	
+			lvlManager.LogMessage("beat Level 3");
+			lvlManager.CloseLogFile();
+			animRewarded = true;	
 			fuzeBoxDoorOpened = true;
 			litStartTime = Time.time;
 

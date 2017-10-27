@@ -32,6 +32,8 @@ public class BathTubCut : MonoBehaviour {
 	PlayerControlPlus playerControl;
 	Transform playerLightTransform;
 
+	GameObject bathTubDuck;
+
 	bool finished;
 
 
@@ -73,6 +75,8 @@ public class BathTubCut : MonoBehaviour {
 		cineCam = Camera.main.GetComponent<CinematicCam>();
 		cineCam.InitializeCinePath(cinematicPoints, maxCamSpeed, camAcel, percDist, lerpCamSpeed, cinematicPoints[1]);
 		cineCam.FadeIn (new Color (0f, 0f, 0f, 0f), 1.0f);
+
+		bathTubDuck = GameObject.Find("duckBathTubCut");
 
 		StartCoroutine(DuckScare());
 	}
@@ -121,9 +125,11 @@ public class BathTubCut : MonoBehaviour {
 		backgroundMusic.backSongs[3].fadeInTime = 0.5f;
 
 		playerControl.canEvade = true;
+		playerControl.UpdateControls();
 		//Message teaching the evade
 		levelManager.UIMessage("Press 'F' or 'Left CTRL' to evade the enemies", KeyCode.LeftControl, KeyCode.F);
 
+		Destroy(bathTubDuck);
 		Destroy(gameObject);
 	}
 }

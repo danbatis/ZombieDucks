@@ -31,6 +31,10 @@ public class CandleManager : ShotSensitive {
 
 	public float influenceAreaDist = 5.0f;
 	public bool recoverSpawnState;
+	LevelManager lvlManager;
+
+	//public Transform nextObjective;
+	//Guider guider;
 
 	// Use this for initialization
 	void Start () {
@@ -38,11 +42,23 @@ public class CandleManager : ShotSensitive {
 		myAudio = GetComponent<AudioSource>();
 		myLight = GetComponent<Light> ();
 		cutScener = GameObject.Find ("level").GetComponent<CutScener>();
+		lvlManager = GameObject.Find ("level").GetComponent<LevelManager>(); 
 		cineCam = Camera.main.GetComponent<CinematicCam>();
 
 		playerTransform = GameObject.FindGameObjectWithTag ("Player").transform;
 		playerControl = playerTransform.GetComponent<PlayerControlPlus> ();
 		myTransform = transform;
+
+		/*
+		GameObject guiderObj = GameObject.Find ("guider");
+		if (!guiderObj) {
+			guider = GameObject.Find ("guiderStarter").GetComponent<GuiderStarter>().guider;
+			Debug.Log ("<color=red>Got guider from guiderstarter ----------------------------------------</color>");
+		} 
+		else {
+			guider = guiderObj.GetComponent<Guider> ();
+		}
+		*/
 	}
 	
 	// Update is called once per frame
@@ -90,8 +106,10 @@ public class CandleManager : ShotSensitive {
 
 	public void PlayerHit(){
 		hitShots++;
-		if (hitShots == shootsToLight)
-			LightCandle();
+		if (hitShots == shootsToLight) {
+			lvlManager.LogMessage("candle lit");
+			LightCandle ();
+		}
 	}
 
 	void LightCandle(){
@@ -186,6 +204,15 @@ public class CandleManager : ShotSensitive {
 		cutScener.spawnerState = recoverSpawnState;
 		cutScener.BringGuider2Player();
 		cutScener.EnableGamePlay(true, true);
+
+		/*
+		if (nextObjective) {
+			Transform[] objs = new Transform[1];
+			objs [0] = nextObjective;
+			guider.objectives = objs;
+			guider.currentDestination = 0;
+		}
+		*/
 		litStart = false;
 	}
 }
