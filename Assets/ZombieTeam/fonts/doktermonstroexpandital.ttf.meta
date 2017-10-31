@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: ac4fe234579c03e42bf6a813c7410c36
+timeCreated: 1509428714
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Dokter Monstro Expanded Italic
+  fontNames:
+  - Dokter Monstro Expanded Italic
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: 836776dc780f8d942b7b05fd40a0432e
+timeCreated: 1509428714
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Monster Hunter Condensed Italic
+  fontNames:
+  - Monster Hunter Condensed Italic
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

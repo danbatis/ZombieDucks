@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: 9fa93f4ea9a3c074c8f43ed64a341bbd
+timeCreated: 1509428714
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Monster Hunter Super-Italic
+  fontNames:
+  - Monster Hunter Super-Italic
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

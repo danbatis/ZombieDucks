@@ -12,14 +12,14 @@ public class LevelManager : MonoBehaviour {
 	bool gameEnded;
 	public float reloadTime = 2.0f;
 	public bool pausedGame;
-	int currentLevel;
+	public int currentLevel;
 	int nextLevel;
 	public bool winGame;
 	Text uiMessage;
 	RawImage backgroundMsg;
 	KeyCode keyToDismiss;
 	KeyCode secKeyToDismiss;
-	bool uiLocked;
+	public bool uiLocked;
 	public KeyCode skipKey = KeyCode.Return;
 	public KeyCode altSkipKey = KeyCode.Space;
 
@@ -31,8 +31,25 @@ public class LevelManager : MonoBehaviour {
 	Color msgBcolor;
 	RawImage controlsBack;
 
+	bool restarting;
+	bool rollingCredits;
+
 	System.IO.FileStream logFile;
 	string logFileName = "mws_log";
+	bool logFileOpened;
+
+	public GameObject currentTriggeredSound;
+	public string creditsString = "Thanks for Playing, The Monsters We See was a game made by Daniel Batista and Ken Egu. We would like to thank everyone who contributed to this game in some form, specially our professor Richard Lemarchand for his advices and our friend Kelsey Rice for her voice line work.";
+	public int creditLettersVisible = 20;
+	public float creditsUpdateRate = 0.5f;
+	public float firstCreditLineTime = 3.0f;
+	float startCredits;
+	int credits_i;
+	public bool creditsHorizontal;
+	Text creditsNormal;
+	Vector2 creditPos;
+	public float creditNormalSpeed = 10.0f;
+	public float normalCreditLimitPos = 800.0f;
 
 	void Awake(){
 		controls = GameObject.Find ("basicCanvas/controls").GetComponent<RawImage>();
@@ -45,6 +62,10 @@ public class LevelManager : MonoBehaviour {
 	void Start () {
 		blackScreen = GameObject.Find ("basicCanvas/BlackScreen").GetComponent<Image>();
 
+		creditsNormal = GameObject.Find("basicCanvas/credits").GetComponent<Text>();
+		creditPos = creditsNormal.rectTransform.anchoredPosition;
+		creditsNormal.enabled = false;
+
 		uiMessage = GameObject.Find("basicCanvas/msg").GetComponent<Text>();
 		msgColor = uiMessage.color;
 		uiMessage.enabled = false;
@@ -56,30 +77,51 @@ public class LevelManager : MonoBehaviour {
 		blackScreen.color = new Color(0f,0f,0f,0f);
 		fadeToGameOver = 0f;
 
-		currentLevel = int.Parse(SceneManager.GetActiveScene().name.Replace("level","").Replace("plus",""));
+		try{
+			currentLevel = int.Parse(SceneManager.GetActiveScene().name.Replace("level","").Replace("plus",""));
+		}
+		catch{
+			currentLevel = 0;
+		}
 		nextLevel = currentLevel+1;
 		Debug.Log("nextLevel: "+nextLevel.ToString());
 
 		if(nextLevel > 3)
 			GameObject.Find("basicCanvas/winMsg").GetComponent<Text>().text = "You Win!!!";
-
-		initLogFile();		
+		if(currentLevel>0 && currentLevel <= 3)
+			initLogFile();		
 	}
 	
 	// Update is called once per frame
 	void Update () {
+		/*
+		//Debug credits...
+		if(Input.GetKeyDown(KeyCode.C)){
+			winGame = true;
+			gameEnded = true;
+			ReloadGame ();
+		}
+		*/
+
 		if (uiLocked) {
 			//fade in
 			if (msgFadeIn) {				
 				msgColor.a = (Time.realtimeSinceStartup - timeMsgStarted) / msgFadeTime;
 				msgBcolor.a = msgColor.a;
 				uiMessage.color = msgColor;
-				uiMessage.enabled = true;
+				if (rollingCredits && !creditsHorizontal)
+					uiMessage.enabled = false;
+				else
+					uiMessage.enabled = true;
+				
 				backgroundMsg.color = msgBcolor;
 				backgroundMsg.enabled = true;
 
 				if (((Time.realtimeSinceStartup - timeMsgStarted) / msgFadeTime) >= 1.0f) {
 					msgFadeIn = false;
+
+					if(rollingCredits)
+						creditsNormal.enabled = true;
 				}
 			} else {
 				if (msgFadeOut) {
@@ -102,7 +144,7 @@ public class LevelManager : MonoBehaviour {
 			}
 		}
 
-		if (Input.GetKeyDown (KeyCode.R))
+		if (Input.GetKeyDown (KeyCode.L))
 			ReloadGame();
 
 		if(!pausedGame)
@@ -126,14 +168,19 @@ public class LevelManager : MonoBehaviour {
 		}
 		
 		if (gameEnded) {
-			if (fadeToGameOver > fadeToGameOverTime) {				
-				StartCoroutine(RestartGame());
-			}
+			if (!restarting) {
+				if (fadeToGameOver > fadeToGameOverTime) {				
+					StartCoroutine (RestartGame ());
+				} else {
+					fadeToGameOver += Time.unscaledDeltaTime;
+					blackScreen.color = new Color (0f, 0f, 0f, fadeToGameOver / fadeToGameOverTime);
+				}
+			} 
 			else {
-				fadeToGameOver += Time.unscaledDeltaTime;
-				blackScreen.color = new Color(0f,0f,0f,fadeToGameOver / fadeToGameOverTime);
+				if (rollingCredits)
+					RollCredits ();
 			}
-		}		
+		}
 	}
 
 	public void GameOver(float FadeToGameOverTime){
@@ -142,8 +189,9 @@ public class LevelManager : MonoBehaviour {
 	}
 
 	IEnumerator RestartGame(){
+		restarting = true;
 		yield return new WaitForSecondsRealtime(reloadTime);
-		ReloadGame ();
+		ReloadGame();
 	}
 
 	public void ReloadGame(){
@@ -156,9 +204,22 @@ public class LevelManager : MonoBehaviour {
 				SceneManager.LoadScene(nextLevel);
 			}
 			else{				
-				LogMessage("restarted game to title");
+				LogMessage("finished game, restarting to title after credits");
 				logFile.Close();
-				SceneManager.LoadScene(0);
+				rollingCredits = true;
+				uiLocked = true;
+				if (creditsHorizontal) {
+					startCredits = Time.realtimeSinceStartup + firstCreditLineTime;
+					string currentCreditLine = "";
+					for (int i = 0; i < creditLettersVisible; i++) {
+						currentCreditLine += creditsString [i];
+					}
+					uiMessage.text = currentCreditLine;
+				} else {
+					startCredits = Time.realtimeSinceStartup;
+					msgFadeIn = true;
+					timeMsgStarted = Time.realtimeSinceStartup;
+				}
 			}
 		}
 		else{
@@ -167,8 +228,41 @@ public class LevelManager : MonoBehaviour {
 			SceneManager.LoadScene(SceneManager.GetActiveScene().name);
 		}
 	}
+	void RollCredits(){
+		if (creditsHorizontal) {
+			if (Time.realtimeSinceStartup >= startCredits + creditsUpdateRate) {
+				credits_i++;
+				if (credits_i + creditLettersVisible < creditsString.Length) {
+					string currentCreditLine = "";
+					for (int i = 0; i < creditLettersVisible; i++) {
+						currentCreditLine += creditsString [i + credits_i];
+					}
+					uiMessage.text = currentCreditLine;
+					startCredits = Time.realtimeSinceStartup;
+				} else {
+					rollingCredits = false;
+					StartCoroutine (FinishedCredits ());
+				}
+			}
+		}
+		else{
+			uiMessage.enabled = false;
+			//Debug.Log("current pos: "+creditPos.ToString());
+			creditPos.y += creditNormalSpeed*Time.deltaTime;
+			creditsNormal.rectTransform.anchoredPosition = creditPos;
 
+			if(creditPos.y >= normalCreditLimitPos)
+				StartCoroutine (FinishedCredits ());
+		}
+	}
+	IEnumerator FinishedCredits(){
+		yield return new WaitForSecondsRealtime(2.0f);
+
+		//if finished rolling, reload game
+		SceneManager.LoadScene(0);
+	}
 	void initLogFile(){
+		logFileOpened = true;
 		logFileName += "user_"+System.DateTime.Now.ToShortDateString().Replace ("/", "_");
 		logFileName += "_"+ System.DateTime.Now.ToShortTimeString().Replace(":","_").Replace(" ","_");
 		logFileName += "_lv_"+currentLevel.ToString()+".txt";
@@ -183,10 +277,12 @@ public class LevelManager : MonoBehaviour {
 			logFile = System.IO.File.Create(fullFileName);
 	}
 	public void LogMessage(string msg){
-		string message = "\n"+Time.time.ToString () + ";" + msg;
-		byte[] byteData = System.Text.Encoding.UTF8.GetBytes(message);
+		if (logFileOpened) {
+			string message = "\n" + Time.time.ToString () + ";" + msg;
+			byte[] byteData = System.Text.Encoding.UTF8.GetBytes (message);
 
-		logFile.Write(byteData,0,byteData.Length);
+			logFile.Write (byteData, 0, byteData.Length);
+		}
 	}
 
 	public void UIMessage(string Msg, KeyCode KeyToDismiss, KeyCode SecKeyToDismiss){
@@ -204,7 +300,9 @@ public class LevelManager : MonoBehaviour {
 		CloseLogFile();		
 	}
 
-	public void CloseLogFile(){
-		logFile.Close();
+	void CloseLogFile(){
+		if (logFileOpened) {
+			logFile.Close ();
+		}
 	}
 }

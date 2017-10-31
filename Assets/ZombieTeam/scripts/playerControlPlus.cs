@@ -61,6 +61,9 @@ public class PlayerControlPlus : MonoBehaviour {
 	public float speedDrag = 2.5f;
 	public float recoverTime = 3.0f;
 	public float recoverRate = 5.0f;
+	Vector3 initialHealthBarPos;
+	Vector3 initialHealthSize;
+	Vector3 currentHealthPos;
 
 	Text winMsg;
 	Text loseMsg;
@@ -92,6 +95,7 @@ public class PlayerControlPlus : MonoBehaviour {
 	public AudioClip hurtSound1;
 	public AudioClip hurtSound2;
 	public AudioClip hurtSound3;
+	public AudioClip jumpSound;
 
 	public int candlesLit;
 	public int minCandlesLit2Advance = 1;
@@ -124,12 +128,17 @@ public class PlayerControlPlus : MonoBehaviour {
 		speed = baseSpeed;
 		gameEnded = false;
 
+		initialHealthBarPos = healthIndicator.rectTransform.localPosition;
+		currentHealthPos = initialHealthBarPos;
+		initialHealthSize = healthIndicator.rectTransform.localScale;
+
 		mygun = GameObject.Find(gameObject.name+"/b_root/b_pelvis/b_spine/b_spine1/b_spine2/b_neck/b_rightClavicle/b_rightUpperArm/b_rightForearm/b_rightHand/weapon_gun");
 		
 		mygun.SetActive(haveGun);
 		crossHairs.enabled = haveGun;
 
 		UpdateControls();
+		UpdateLife();
 		
 		if (camTransform == null)
 			camTransform = GameObject.FindGameObjectWithTag("MainCamera").transform;
@@ -188,12 +197,13 @@ public class PlayerControlPlus : MonoBehaviour {
 					busy = true;
 					jumpReleased = false;
 					myAnim.SetBool("jump", true);
+					myAudio.PlayOneShot(jumpSound);
 					preparingJump = true;
 					StartCoroutine(PrepareJump());
 				}
 			}			
 		} else {
-			if(!levelManager.pausedGame){
+			if(!levelManager.pausedGame && !levelManager.uiLocked){
 				inAir++;
 				if(inAir >= inAirLimit)
 					myAnim.SetBool("airborne", true);
@@ -387,6 +397,7 @@ public class PlayerControlPlus : MonoBehaviour {
 	}
 	public void DuckDamage(Vector3 DamageDir, int damageAmount){
 		if(!evading && !beingDamaged){
+			beingDamaged = true;
 			switch (Random.Range(0, 2)) {
 			case 0:myAudio.PlayOneShot(hurtSound1,0.5f);
 				break;
@@ -437,7 +448,7 @@ public class PlayerControlPlus : MonoBehaviour {
 		Time.timeScale = 0.2f;
 		flickeringLight.enabled = true;
 		levelManager.winGame = true;
-		levelManager.CloseLogFile ();
+
 		StartCoroutine(EndGame());
 	}
 
@@ -447,14 +458,14 @@ public class PlayerControlPlus : MonoBehaviour {
 		levelManager.GameOver(2.0f);
 	}
 	IEnumerator Evade(){
+		evading = true;
+		vertIn = 0.0f;
+		horIn = 0f;
 		Debug.Log("<color=red>started evade</color>");
 		float prepareFactor = 0.2f;
-		evading = true;
 		myAlign.enabled = false;
 		busy = true;
 		myAnim.SetBool("evading",true);
-		vertIn = 0.0f;
-		horIn = 0f;
 		yield return new WaitForSeconds(prepareFactor*evadeTime);
 		vertIn = 1.0f;
 		yield return new WaitForSeconds((1-prepareFactor)*evadeTime);

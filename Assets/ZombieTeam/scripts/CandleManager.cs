@@ -32,6 +32,13 @@ public class CandleManager : ShotSensitive {
 	public float influenceAreaDist = 5.0f;
 	public bool recoverSpawnState;
 	LevelManager lvlManager;
+	BackMusicManager backgroundMusic;
+
+	public GameObject lastCandleLitSoundPrefab;
+
+	public GameObject fireFX;
+	public GameObject fireFailFX;
+	public float fireOffset = 0.1f;
 
 	//public Transform nextObjective;
 	//Guider guider;
@@ -44,6 +51,7 @@ public class CandleManager : ShotSensitive {
 		cutScener = GameObject.Find ("level").GetComponent<CutScener>();
 		lvlManager = GameObject.Find ("level").GetComponent<LevelManager>(); 
 		cineCam = Camera.main.GetComponent<CinematicCam>();
+		backgroundMusic = GameObject.Find("BackMusicManager").GetComponent<BackMusicManager>();
 
 		playerTransform = GameObject.FindGameObjectWithTag ("Player").transform;
 		playerControl = playerTransform.GetComponent<PlayerControlPlus> ();
@@ -64,7 +72,7 @@ public class CandleManager : ShotSensitive {
 	// Update is called once per frame
 	void Update () {
 		if (litStart) {
-			if (litStart && Time.time - litStartTime < time2Light) {
+			if (Time.time - litStartTime < time2Light) {
 				myLight.intensity = maxLight * (Time.time - litStartTime) / time2Light;
 			}
 
@@ -91,9 +99,10 @@ public class CandleManager : ShotSensitive {
 				//go to cinematicPoint
 				Transform[] cinePoint = new Transform[1];
 				cinePoint [0] = cinematicPoint; 
-				cineCam.InitializeCinePath (cinePoint, 10f, 0.5f, 3.0f, 0.6f, myTransform);
+				cineCam.InitializeCinePath(cinePoint, 10f, 2f, 3.0f, 0.6f, myTransform);
 				cameBack = true;
 				finished = false;
+				litStartTime = Time.time;
 				StartCoroutine (cutScener.TurnZombiesBack (lightSpreadTime, myTransform.position, influenceAreaDist));
 			}
 		}
@@ -106,8 +115,11 @@ public class CandleManager : ShotSensitive {
 
 	public void PlayerHit(){
 		hitShots++;
+		GameObject.Instantiate(fireFailFX, transform.position+fireOffset*Vector3.up, Quaternion.identity);
 		if (hitShots == shootsToLight) {
 			lvlManager.LogMessage("candle lit");
+			cutScener.TurnOffGuideLight();
+			GameObject.Instantiate(fireFX, transform.position, Quaternion.identity);
 			LightCandle ();
 		}
 	}
@@ -115,8 +127,6 @@ public class CandleManager : ShotSensitive {
 	void LightCandle(){
 		
 			litStart = true;
-			litStartTime = Time.time;
-
 			playerControl.candlesLit++;
 
 			cutScener.EnableGamePlay(false, true);
@@ -204,6 +214,27 @@ public class CandleManager : ShotSensitive {
 		cutScener.spawnerState = recoverSpawnState;
 		cutScener.BringGuider2Player();
 		cutScener.EnableGamePlay(true, true);
+
+		//switch sound to a nice soothing sound
+		switch(lvlManager.currentLevel){
+		case 1:
+			backgroundMusic.backSongs [4].startFadeOut = backgroundMusic.timer;
+			backgroundMusic.backSongs [5].startFadeIN = backgroundMusic.timer;
+			GameObject.Instantiate(lastCandleLitSoundPrefab,transform.position, Quaternion.identity);
+
+			break;
+		case 2:
+			//only do if the prefab exists, it means it is the last candle
+			if (lastCandleLitSoundPrefab) {
+				backgroundMusic.backSongs [0].startFadeOut = backgroundMusic.timer;
+				backgroundMusic.backSongs [1].startFadeIN = backgroundMusic.timer;
+				GameObject.Instantiate (lastCandleLitSoundPrefab, transform.position, Quaternion.identity);
+				Destroy(lvlManager.currentTriggeredSound);
+			}
+			break;
+			case 3:
+			break;
+		}
 
 		/*
 		if (nextObjective) {

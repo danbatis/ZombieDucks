@@ -55,14 +55,16 @@ public class Guider : MonoBehaviour {
 					//navAgent.SetDestination (playerTransform.position);
 				} else {
 					//check distance to currentDestination
-					navAgent.SetDestination (objectives [currentDestination].position);
-					navAgent.Resume();
+					if(objectives [currentDestination]){
+						navAgent.SetDestination (objectives [currentDestination].position);
+						navAgent.Resume();
 
-					float distDestiny = Vector3.Distance (Vector3.ProjectOnPlane (myTransform.position, Vector3.up), Vector3.ProjectOnPlane (objectives [currentDestination].position, Vector3.up)); 
-					if(distDestiny < distFarPlayer){
-						if (currentDestination < objectives.Length - 1) {
-							currentDestination++;
-							navAgent.SetDestination (objectives [currentDestination].position);
+						float distDestiny = Vector3.Distance (Vector3.ProjectOnPlane (myTransform.position, Vector3.up), Vector3.ProjectOnPlane (objectives [currentDestination].position, Vector3.up)); 
+						if(distDestiny < distFarPlayer){
+							if (currentDestination < objectives.Length - 1) {
+								currentDestination++;
+								navAgent.SetDestination (objectives [currentDestination].position);
+							}
 						}
 					}
 				/*

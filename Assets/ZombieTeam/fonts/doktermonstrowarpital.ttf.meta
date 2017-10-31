@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: 6313f6d2a2547584a800eea4177c212c
+timeCreated: 1509428714
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Dokter Monstro Warped Italic
+  fontNames:
+  - Dokter Monstro Warped Italic
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

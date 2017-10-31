@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: be97d15df9d989940b8ba018fec34a54
+timeCreated: 1509428714
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Monster Hunter 3D Italic
+  fontNames:
+  - Monster Hunter 3D Italic
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

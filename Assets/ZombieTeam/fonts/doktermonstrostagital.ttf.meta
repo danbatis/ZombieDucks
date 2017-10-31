@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: ab1bb5c23c232264db82944415454a19
+timeCreated: 1509428714
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Dokter Monstro Staggered Italic
+  fontNames:
+  - Dokter Monstro Staggered Italic
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

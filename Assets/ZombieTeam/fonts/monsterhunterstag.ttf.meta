@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: e21d411243296814ead29091de6bc12f
+timeCreated: 1509428715
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Monster Hunter Staggered
+  fontNames:
+  - Monster Hunter Staggered
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

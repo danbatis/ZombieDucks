@@ -46,15 +46,25 @@ public class IntroCut : MonoBehaviour {
 	public float openEyesTime = 2.5f;
 
 	public GameObject guiderStarterPrefab;
+	public GameObject[] afroBedObjs;
+
+	bool finishedFirstZoom;
+	bool ready4Nightmare;
+	public float startNightmareTime = 1.0f;
+	public float startNightmareReactionTime = 1.0f;
+
+	public GameObject MomBathScreamPrefab;
+	LevelManager lvlManager;
 
 
 	// Use this for initialization
 	void Start () {		
 		cutScener = GameObject.Find ("level").GetComponent<CutScener>();
+		lvlManager = GameObject.Find ("level").GetComponent<LevelManager>();
 
 		GameObject guiderStarterObj = Instantiate(guiderStarterPrefab);
 		guiderStarterObj.name = "guiderStarter";
-		GameObject introObjective = GameObject.Find("level/furniture/Toilet_1");
+		GameObject introObjective = GameObject.Find("levelModels/furniture/Toilet_1");
 		Transform[] objectivesArr = new Transform[1];
 		objectivesArr[0] = introObjective.transform;
 
@@ -76,9 +86,9 @@ public class IntroCut : MonoBehaviour {
 		cineCam = Camera.main.GetComponent<CinematicCam>();
 		cineCam.InitializeCinePath(initialPositions, maxCamSpeed, camAcel, percDist, lerpCamSpeed, sleepingBoy);
 		cineCam.FadeIn (new Color (0f, 0f, 0f, 0f), 1.0f);
-		waitForLine = 3;
+		waitForLine = 2;
 
-		dialogManager = GameObject.Find(gameObject.name+"/DialogManager").GetComponent<DialogManager>();
+		dialogManager = GameObject.Find("DialogManager").GetComponent<DialogManager>();
 		backgroundMusic = GameObject.Find("BackMusicManager").GetComponent<BackMusicManager>();
 		blanketDestroyer = GameObject.Find ("blanketDestroyer").GetComponent<BlanketDestroyer>();
 		myAudio = GetComponent<AudioSource> ();
@@ -94,44 +104,53 @@ public class IntroCut : MonoBehaviour {
 
 		//skip
 		if (Input.GetKeyDown(cutScener.skipKey) || Input.GetKeyDown(cutScener.altSkipKey)) {
-			backgroundMusic.Skip(backgroundMusic.backSongs[2].startFadeIN);
+			//backgroundMusic.Skip(backgroundMusic.backSongs[2].startFadeIN);
+			backgroundMusic.backSongs[0].fadeOutTime = 0f;
+			backgroundMusic.backSongs[1].fadeOutTime = 0f;
+			backgroundMusic.backSongs[0].startFadeOut = backgroundMusic.timer;
+
 			ReleaseGameplay ();
 		}
 
 		if (cineCam.camFree) {
 			switch(cutscenePart) {
-			case 0:
-				sleepingBoyAnim.SetBool("nightmare",true);
+			case 0:			
 
 				//Debug.Log("cam is free, cutpart is zero");
-				if(dialogManager.currentLine >= waitForLine){
-					cutscenePart++;
-					sleepingBoyAnim.SetBool("nightmare",false);
-					cineCam.Teleport (fuzeBoxBirdViewPoint.position, fuzeBoxTransform);
-					cineCam.InitializeCinePath (fuzeBoxPathPoints, 2.0f, 2.0f, 0.5f, lerpCamSpeed, fuzeBoxTransform);
-					cineCam.FadeIn (new Color (0f, 0f, 0f, 0f), 0.5f);
-					StartCoroutine(ThunderFuze());
-					waitForLine = 5;
+				if (dialogManager.currentLine >= waitForLine) {
+					if (!ready4Nightmare)
+						StartCoroutine (Nightmare ());
+				
+					if (finishedFirstZoom) {
+						cutscenePart++;
+						sleepingBoyAnim.SetBool ("nightmare", false);
+						cineCam.Teleport (fuzeBoxBirdViewPoint.position, fuzeBoxTransform);
+						cineCam.InitializeCinePath (fuzeBoxPathPoints, 2.0f, 2.0f, 0.5f, lerpCamSpeed, fuzeBoxTransform);
+						cineCam.FadeIn (new Color (0f, 0f, 0f, 0f), 0.5f);
+						StartCoroutine (ThunderFuze ());
+						waitForLine = 5;
+					}
 				}
 				break;
 			case 1:
 				//Debug.Log("cam is free, cutpart is one, waitForLine: "+waitForLine.ToString());
-				if(dialogManager.currentLine >= waitForLine){
+				//if(dialogManager.currentLine >= waitForLine){
 					Debug.Log("cam is free, going back to boy");
 					cutscenePart++;
 					cineCam.Teleport (initialPositions[initialPositions.Length-1].position, sleepingBoyHip);
 					cineCam.InitializeCinePath(returnBoyPositions, 2.0f, 2.0f, 0.5f, lerpCamSpeed, sleepingBoyHip);
 					cineCam.FadeIn (new Color (0f, 0f, 0f, 0f), 0.5f);
 					waitForLine = 14;
-				}
+					StartCoroutine(WakeAndOpenEyes());
+				//}
 				break;
 			case 2:
 				//Debug.Log("cam is free, cutpart is one");
-				if(dialogManager.currentLine >= waitForLine){
+				//if(dialogManager.currentLine >= waitForLine){
 					cutscenePart++;
 					StartCoroutine(WakeAndOpenEyes());
 
-				}
+				//}
 				break;
 			}
 			//sleepingBoyAnim.SetBool("wakeup",true);
@@ -143,15 +162,17 @@ public class IntroCut : MonoBehaviour {
 		yield return new WaitForSeconds(wakeupTime);
 		sleepingBoyAnim.SetBool("nightmare",false);
 		sleepingBoyAnim.SetBool("wakeup",true);
-		yield return new WaitForSeconds(openEyesTime);
+		yield return new WaitForSeconds(openEyesTime/2);
 		boyFace.GetComponent<Renderer>().material.SetTexture("_MainTex",openEyesTex);
+		yield return new WaitForSeconds(openEyesTime/2);
 		yield return new WaitForSeconds(wakeAnimTime);
 		ReleaseGameplay();
 	}
 
 	IEnumerator ThunderFuze(){
-		yield return new WaitForSeconds(thunderTime);
+		yield return new WaitForSeconds(thunderTime/2);
 		myAudio.PlayOneShot(thunderSound);
+		yield return new WaitForSeconds(thunderTime/2);
 
 		fuzeLightning.enabled = true;
 		yield return new WaitForSeconds(0.1f);
@@ -166,7 +187,7 @@ public class IntroCut : MonoBehaviour {
 		fuzeLightning.enabled = false;
 
 		fuzeSparks.SetActive(true);
-		yield return new WaitForSeconds(3.0f);
+		yield return new WaitForSeconds(4.0f);
 		fuzeSparks.SetActive(false);
 	}
 
@@ -175,11 +196,38 @@ public class IntroCut : MonoBehaviour {
 		lsliper.SetActive(false);
 		cutScener.spawnerState = false;
 		cutScener.EnableGamePlay(true, true);
+
+		//make nightmare sound fade immediately
+		backgroundMusic.backSongs[1].startFadeOut = backgroundMusic.timer;
+		backgroundMusic.backSongs[2].startFadeIN = backgroundMusic.timer;
+
+		for (int i = 0; i < afroBedObjs.Length; i++) {
+			afroBedObjs[i].SetActive (false);
+		}
+
+		dialogManager.Stop();
+		dialogManager.currentLine = 2;
+		dialogManager.AdjustCurrentLineDelay(2.5f);
+		lvlManager.currentTriggeredSound = GameObject.Instantiate(MomBathScreamPrefab, cutScener.guiderStarter.objectives[0].position, Quaternion.identity);
+
 		Destroy(gameObject);	
 	}
 
 	IEnumerator HidePlayer(){
 		yield return new WaitForSeconds (0.2f);
 		cutScener.EnableGamePlay(false, false);
+	}
+
+	IEnumerator Nightmare(){
+		ready4Nightmare = true;
+		yield return new WaitForSeconds(startNightmareTime);
+		//make nightmare sound start immediately
+		backgroundMusic.backSongs[0].startFadeOut = backgroundMusic.timer;
+		backgroundMusic.backSongs[1].startFadeIN = backgroundMusic.timer;
+
+		yield return new WaitForSeconds(startNightmareReactionTime/2);
+		sleepingBoyAnim.SetBool ("nightmare", true);
+		yield return new WaitForSeconds(startNightmareReactionTime/2);
+		finishedFirstZoom = true;
 	}
 }

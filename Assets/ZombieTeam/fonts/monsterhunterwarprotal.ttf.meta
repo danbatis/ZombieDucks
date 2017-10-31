@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: fcc63d14574e1fe4087a8f4c8a1b92ca
+timeCreated: 1509428715
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Monster Hunter Warped Rotalic
+  fontNames:
+  - Monster Hunter Warped Rotalic
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

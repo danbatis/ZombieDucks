@@ -9,7 +9,7 @@ public class DialogManager : MonoBehaviour {
 		[SerializeField]
 		public AudioClip voiceLine;
 		[SerializeField]
-		public float voiceLineTime;
+		public float delayVoiceTime;
 	}
 
 	public List<VoiceLine> voiceLines;
@@ -37,15 +37,27 @@ public class DialogManager : MonoBehaviour {
 			if (!myAudio.isPlaying){
 				timer += Time.deltaTime;
 
-				if (timer >= voiceLines[currentLine].voiceLineTime) {
-					myAudio.clip = voiceLines [currentLine].voiceLine;
-					myAudio.Play();
-					timer = 0f;
-					currentLine += 1;
-					if (currentLine >= voiceLines.Count)
-						sleeping = true;
+				if (timer >= voiceLines[currentLine].delayVoiceTime) {
+					PlayNextLine();
 				}
 			}
 		}
+	}
+
+	public void AdjustCurrentLineDelay(float delayTime){
+		voiceLines [currentLine].delayVoiceTime = timer + delayTime;
+	}
+
+	public void Stop(){
+		myAudio.Stop();
+	}
+
+	void PlayNextLine(){
+		myAudio.clip = voiceLines [currentLine].voiceLine;
+		myAudio.Play();
+		timer = 0f;
+		currentLine += 1;
+		if (currentLine >= voiceLines.Count)
+			sleeping = true;
 	}
 }

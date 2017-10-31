@@ -53,9 +53,10 @@ public class BathTubCut : MonoBehaviour {
 		//instantiate new one
 		GameObject guiderStarterObj = Instantiate(guiderStarterPrefab);
 		guiderStarterObj.name = "guiderStarter";
-		GameObject introObjective = GameObject.Find("level/furniture/Queen_Bed_2/Bed_1");
-		Transform[] objectivesArr = new Transform[1];
-		objectivesArr[0] = introObjective.transform;
+
+		Transform[] objectivesArr = new Transform[2];
+		objectivesArr[0] = GameObject.Find("levelModels/furniture/bathtubMasterBedRoom").transform;
+		objectivesArr[1] = GameObject.Find("levelModels/weapon_gunProp").transform;
 
 		GuiderStarter currguiderStarter = guiderStarterObj.GetComponent<GuiderStarter>();
 		currguiderStarter.objectives = objectivesArr;
@@ -120,9 +121,7 @@ public class BathTubCut : MonoBehaviour {
 		cutScener.EnableGamePlay(true, true);
 		//adjust musics
 		backgroundMusic.backSongs[2].startFadeOut = backgroundMusic.timer;
-		backgroundMusic.backSongs[2].fadeOutTime = 3.0f;
 		backgroundMusic.backSongs[3].startFadeIN = backgroundMusic.timer;
-		backgroundMusic.backSongs[3].fadeInTime = 0.5f;
 
 		playerControl.canEvade = true;
 		playerControl.UpdateControls();

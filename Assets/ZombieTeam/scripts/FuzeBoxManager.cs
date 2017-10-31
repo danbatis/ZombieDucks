@@ -43,10 +43,14 @@ public class FuzeBoxManager : ShotSensitive {
 	public AudioClip justABadDream;
 
 	public Texture closedEyesTex;
+	public Texture openEyesTex;
 	public GameObject boyFace;
 	public float influenceAreaDist = 1000000;
 
 	public bool animRewarded;
+	public GameObject celebrateSoundPrefab;
+	public GameObject momWakeUpFinalPrefab;
+	BackMusicManager backgroundMusic;
 
 	// Use this for initialization
 	void Start () {
@@ -60,6 +64,7 @@ public class FuzeBoxManager : ShotSensitive {
 		myTransform = transform;
 
 		lvlManager = GameObject.Find ("level").GetComponent<LevelManager>();
+		backgroundMusic = GameObject.Find("BackMusicManager").GetComponent<BackMusicManager>();
 
 		doorAnimator = GameObject.Find (transform.parent.name + "/fuzeDoorHinge").GetComponent<Animator> ();
 		sleepBoyAnim = GameObject.Find("afroBed").GetComponent<Animator>();
@@ -144,7 +149,7 @@ public class FuzeBoxManager : ShotSensitive {
 	public void LastRewardAnim(){
 			lvlManager.LogMessage("rearmed Power Box");	
 			lvlManager.LogMessage("beat Level 3");
-			lvlManager.CloseLogFile();
+			
 			animRewarded = true;	
 			fuzeBoxDoorOpened = true;
 			litStartTime = Time.time;
@@ -158,7 +163,11 @@ public class FuzeBoxManager : ShotSensitive {
 			
 			cutScener.EnableGamePlay(false, true);
 			cutScener.DisableEnemies ();
-
+			
+			GameObject.Instantiate (celebrateSoundPrefab, transform.position, Quaternion.identity);
+			backgroundMusic.backSongs[0].startFadeOut = backgroundMusic.timer;
+			backgroundMusic.backSongs[1].startFadeIN = backgroundMusic.timer;
+			
 			//closeup in candle
 			Transform[] cinePoint = new Transform[1];
 			cinePoint [0] = myTransform; 
@@ -203,30 +212,46 @@ public class FuzeBoxManager : ShotSensitive {
 		//fuzeBoxDoorOpened = false;
 
 		//closeup in little boy awakening
+		boyFace.GetComponent<Renderer>().material.SetTexture("_MainTex",closedEyesTex);
 		cineCam.Teleport(sleepBoyBirdViewPoint.position, sleepingBoy);
 		Transform[] cinePoint = new Transform[1];
 		cinePoint [0] = sleepingBoy; 
 		cineCam.InitializeCinePath(cinePoint, 10f, 0.5f, 3.0f, 0.6f, sleepingBoy);
 		cineCam.FadeIn(new Color (0f, 0f, 0f, 0f), 1.0f);
 
-		//trigger waking up
-		sleepBoyAnim.SetBool("justWakeUp", true);
 		StartCoroutine (PreventLoopAnim());
 }
 
 	IEnumerator PreventLoopAnim(){
+		Camera.main.GetComponent<UnityStandardAssets.ImageEffects.MotionBlur>().enabled = false;
+		GameObject.Instantiate(momWakeUpFinalPrefab, transform.position, Quaternion.identity);
+
+		yield return new WaitForSeconds(5.0f);
+
+		//trigger waking up
+		sleepBoyAnim.SetBool("justWakeUp", true);
+		boyFace.GetComponent<Renderer>().material.SetTexture("_MainTex",openEyesTex);
 		yield return new WaitForSeconds(2.0f);
 		sleepBoyAnim.SetBool("justWakeUp", false);
-		myAudio.PlayOneShot(justABadDream);
-		yield return new WaitForSeconds(6.0f);
-		sleepBoyAnim.SetBool("backToSleep", true);
-		yield return new WaitForSeconds(0.5f);
 		boyFace.GetComponent<Renderer>().material.SetTexture("_MainTex",closedEyesTex);
-		yield return new WaitForSeconds(3.0f);
-		//show credits
-		lvlManager.UIMessage("Thanks For Playing", KeyCode.Space, KeyCode.Mouse0);
+		yield return new WaitForSeconds(0.5f);
+		boyFace.GetComponent<Renderer>().material.SetTexture("_MainTex",openEyesTex);
+		//myAudio.PlayOneShot(justABadDream);
 		yield return new WaitForSeconds(2.0f);
-		//load gameTitle
-		SceneManager.LoadScene(0);
+		//sleepBoyAnim.SetBool("backToSleep", true);
+		boyFace.GetComponent<Renderer>().material.SetTexture("_MainTex",closedEyesTex);
+		yield return new WaitForSeconds(0.5f);
+		boyFace.GetComponent<Renderer>().material.SetTexture("_MainTex",openEyesTex);
+		yield return new WaitForSeconds(0.3f);
+		boyFace.GetComponent<Renderer>().material.SetTexture("_MainTex",closedEyesTex);
+		yield return new WaitForSeconds(0.3f);
+		boyFace.GetComponent<Renderer>().material.SetTexture("_MainTex",openEyesTex);
+		yield return new WaitForSeconds(2.0f);
+		//show credits
+		lvlManager.UIMessage("Thanks for playing", KeyCode.Space, KeyCode.Mouse0);
+		yield return new WaitForSecondsRealtime(3.0f);
+		//roll credits
+		lvlManager.winGame = true;
+		lvlManager.GameOver(2.0f);
 	}
 }

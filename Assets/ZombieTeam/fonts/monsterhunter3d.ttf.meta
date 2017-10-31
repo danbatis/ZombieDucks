@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: 3aac75e1aa024f545bcc20b0b8998d44
+timeCreated: 1509428713
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Monster Hunter 3D
+  fontNames:
+  - Monster Hunter 3D
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: ea4351b30b9d4c64cac2003e347ef4f3
+timeCreated: 1509428715
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Dokter Monstro Semi-Italic
+  fontNames:
+  - Dokter Monstro Semi-Italic
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

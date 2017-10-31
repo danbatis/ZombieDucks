@@ -58,7 +58,7 @@ public class DuckHealth : ShotSensitive {
 	// Update is called once per frame
 	void Update(){
 		if(taskProtect){
-			if(beingDamaged == 0 && targetToProtect && !attacking){
+			if(beingDamaged == 0 && targetToProtect && !attacking && playerTransform){
 				if (Vector3.Distance (playerTransform.position, myTransform.position) < attackDist) {
 					navAgent.Stop ();
 					Attack ();

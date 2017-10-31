@@ -9,6 +9,7 @@ public class BlanketDestroyer : MonoBehaviour {
 	public float maxLightIntensity = 11.0f;
 	public float lightSpeed = 10.0f;
 	Guider guider;
+	public GameObject afroBedObj;
 
 	// Use this for initialization
 	void Awake () {
@@ -33,6 +34,8 @@ public class BlanketDestroyer : MonoBehaviour {
 	void OnTriggerEnter(Collider other){
 		Debug.Log ("<color=red>" + gameObject.name + "collided with: " + other.gameObject.name + "</color>");
 		if (other.tag == "Player") {
+			Destroy (afroBedObj);
+
 			Destroy(blanket);
 			Destroy(gameObject);
 		}

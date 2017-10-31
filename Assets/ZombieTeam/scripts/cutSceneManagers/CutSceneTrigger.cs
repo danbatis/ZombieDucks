@@ -9,20 +9,18 @@ public class CutSceneTrigger : MonoBehaviour {
 	public int cutID = 2;
 	PlayerControlPlus playerControlPlus;
 	CutScener cutScener;
+	LevelManager lvlManager;
+
+	DialogManager dialogManager;
 
 	public GameObject optionalMessage;
-
-	//adjusting camera
-	ThirdPersonCamera trdCam;
-	float camLateralDisplace = 1.0f;
-	float camLatDisplaceClose = 0.5f;
-
 
 	// Use this for initialization
 	void Start () {
 		playerControlPlus = GameObject.FindGameObjectWithTag ("Player").GetComponent<PlayerControlPlus> ();
 		cutScener = GameObject.Find ("level").GetComponent<CutScener>();
-		trdCam = Camera.main.GetComponent<ThirdPersonCamera>();
+		lvlManager = GameObject.Find ("level").GetComponent<LevelManager>(); 
+		dialogManager = GameObject.Find("DialogManager").GetComponent<DialogManager>();
 	}
 	
 	// Update is called once per frame
@@ -34,6 +32,11 @@ public class CutSceneTrigger : MonoBehaviour {
 		
 		if (other.gameObject.tag == "Player") {
 			if (cutID == 2) {
+				//Kill previous sounds in case they are still playing
+				dialogManager.Stop();
+				if (lvlManager.currentTriggeredSound)
+					Destroy(lvlManager.currentTriggeredSound);
+
 				GameObject bathCut = Instantiate(cutscenePrefab);
 				CinematicPoints cinePoints = GetComponent<CinematicPoints>();
 
@@ -70,8 +73,6 @@ public class CutSceneTrigger : MonoBehaviour {
 					cutScener.spawnerState = true;
 					cutScener.BringGuider2Player();
 					cutScener.EnableGamePlay(true, true);
-					trdCam.lateralDisplace = camLateralDisplace;
-					trdCam.lateralDisplaceClose = camLatDisplaceClose;
 
 					if(optionalMessage)
 						optionalMessage.SetActive (true);

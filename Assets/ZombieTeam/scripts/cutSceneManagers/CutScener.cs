@@ -115,6 +115,9 @@ public class CutScener : MonoBehaviour {
 	public void BringGuider2Player(){
 		guiderStarter.BringGuider(playerObj.transform.position);
 	}
+	public void TurnOffGuideLight(){
+		guiderStarter.TurnOffGuideLight ();
+	}
 	public void DisableEnemies(){
 		//Disable all enemies
 		enemies = GameObject.FindGameObjectsWithTag("Enemy");

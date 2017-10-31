@@ -66,4 +66,9 @@ public class GuiderStarter : MonoBehaviour {
 	public void BringGuider(Vector3 Destination){
 		guiderObj.transform.position = Destination;	
 	}
+
+	public void TurnOffGuideLight(){
+		guideLight.intensity = 0f;
+		//activated = false;
+	}
 }

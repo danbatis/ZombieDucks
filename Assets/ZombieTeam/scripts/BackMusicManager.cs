@@ -40,6 +40,10 @@ public class BackMusicManager : MonoBehaviour {
 			audioSources [i].volume = 0.0f;
 			audioSources [i].clip = backSongs [i].music;
 			audioSources [i].loop = backSongs [i].loop;
+			//if (backSongs [i].fadeInTime == 0f)
+			//	backSongs [i].fadeInTime = 0.01f;
+			//if (backSongs [i].fadeOutTime == 0f)
+			//	backSongs [i].fadeOutTime = 0.01f;
 		}
 	}
 	

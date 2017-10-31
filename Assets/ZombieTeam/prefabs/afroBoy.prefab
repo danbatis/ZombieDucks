@@ -1995,7 +1995,7 @@ MonoBehaviour:
   perceptibleDelta: 0.5
   speedDrag: 2.5
   recoverTime: 3
-  recoverRate: 5
+  recoverRate: 2
   shiningSpeed: 0.5
   inAirLimit: 10
   evadeTime: 0.75
@@ -2007,9 +2007,10 @@ MonoBehaviour:
   canEvade: 1
   canJump: 1
   shotsCounter: 0
-  hurtSound1: {fileID: 8300000, guid: 9c8b1921d7155554893d5d145d61b297, type: 3}
+  hurtSound1: {fileID: 8300000, guid: 358be07dee7d804448309544e33e470f, type: 3}
   hurtSound2: {fileID: 8300000, guid: 448051cfdc047fc4f94df8ae9667f5a4, type: 3}
   hurtSound3: {fileID: 8300000, guid: 41417e2a9577f0f47933f090a72fe2e3, type: 3}
+  jumpSound: {fileID: 8300000, guid: 74e089d0e136add4fa16f8b50def93df, type: 3}
   candlesLit: 0
   minCandlesLit2Advance: 1
 --- !u!137 &137149605111630798
