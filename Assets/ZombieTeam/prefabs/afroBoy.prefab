@@ -209,6 +209,7 @@ GameObject:
   - component: {fileID: 82756465698176462}
   - component: {fileID: 54289165601796462}
   - component: {fileID: 65161058008348656}
+  - component: {fileID: 81921610803619560}
   m_Layer: 0
   m_Name: afroBoy
   m_TagString: Player
@@ -1781,6 +1782,13 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!81 &81921610803619560
+AudioListener:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1231445887417384}
+  m_Enabled: 1
 --- !u!82 &82756465698176462
 AudioSource:
   m_ObjectHideFlags: 1
@@ -1887,9 +1895,9 @@ Light:
   m_Enabled: 1
   serializedVersion: 8
   m_Type: 2
-  m_Color: {r: 0.32963884, g: 0.33076304, b: 0.49264705, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Intensity: 2.14
-  m_Range: 9.35
+  m_Range: 10
   m_SpotAngle: 30
   m_CookieSize: 10
   m_Shadows:
@@ -2009,8 +2017,9 @@ MonoBehaviour:
   shotsCounter: 0
   hurtSound1: {fileID: 8300000, guid: 358be07dee7d804448309544e33e470f, type: 3}
   hurtSound2: {fileID: 8300000, guid: 448051cfdc047fc4f94df8ae9667f5a4, type: 3}
-  hurtSound3: {fileID: 8300000, guid: 41417e2a9577f0f47933f090a72fe2e3, type: 3}
+  hurtSound3: {fileID: 8300000, guid: 9c8b1921d7155554893d5d145d61b297, type: 3}
   jumpSound: {fileID: 8300000, guid: 74e089d0e136add4fa16f8b50def93df, type: 3}
+  landSound: {fileID: 8300000, guid: d5c3a34bacd47fb419e9359d98ac40e5, type: 3}
   candlesLit: 0
   minCandlesLit2Advance: 1
 --- !u!137 &137149605111630798

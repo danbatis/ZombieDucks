@@ -74,7 +74,7 @@ public class IntroCut : MonoBehaviour {
 		currguiderStarter.appearTime = 1.0f;
 		currguiderStarter.startLightTime = 1.0f;
 		currguiderStarter.lightTime = 2.0f;
-		currguiderStarter.startGuideTime = 4.0f;
+		currguiderStarter.startGuideTime = 2.0f;
 			
 		cutScener.guiderStarter = currguiderStarter;
 
@@ -86,7 +86,7 @@ public class IntroCut : MonoBehaviour {
 		cineCam = Camera.main.GetComponent<CinematicCam>();
 		cineCam.InitializeCinePath(initialPositions, maxCamSpeed, camAcel, percDist, lerpCamSpeed, sleepingBoy);
 		cineCam.FadeIn (new Color (0f, 0f, 0f, 0f), 1.0f);
-		waitForLine = 2;
+		waitForLine = 4;
 
 		dialogManager = GameObject.Find("DialogManager").GetComponent<DialogManager>();
 		backgroundMusic = GameObject.Find("BackMusicManager").GetComponent<BackMusicManager>();
@@ -206,11 +206,11 @@ public class IntroCut : MonoBehaviour {
 		}
 
 		dialogManager.Stop();
-		dialogManager.currentLine = 2;
-		dialogManager.AdjustCurrentLineDelay(2.5f);
+		dialogManager.currentLine = 4;
+		dialogManager.AdjustCurrentLineDelay(1.5f);
 		lvlManager.currentTriggeredSound = GameObject.Instantiate(MomBathScreamPrefab, cutScener.guiderStarter.objectives[0].position, Quaternion.identity);
 
-		Destroy(gameObject);	
+		Destroy(gameObject,3.0f);	
 	}
 
 	IEnumerator HidePlayer(){

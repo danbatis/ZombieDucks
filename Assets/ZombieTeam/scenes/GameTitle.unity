@@ -6186,6 +6186,14 @@ Prefab:
       propertyPath: RainForwardOffset
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 18204160, guid: 69b40ef7ee16c834c844b3fa26e0fdda, type: 2}
+      propertyPath: m_WindMain
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 18204160, guid: 69b40ef7ee16c834c844b3fa26e0fdda, type: 2}
+      propertyPath: m_WindTurbulence
+      value: 60
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 69b40ef7ee16c834c844b3fa26e0fdda, type: 2}
   m_IsPrefabParent: 0

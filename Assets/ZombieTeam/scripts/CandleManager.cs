@@ -39,6 +39,7 @@ public class CandleManager : ShotSensitive {
 	public GameObject fireFX;
 	public GameObject fireFailFX;
 	public float fireOffset = 0.1f;
+	public AudioClip achievement;
 
 	//public Transform nextObjective;
 	//Guider guider;
@@ -102,7 +103,6 @@ public class CandleManager : ShotSensitive {
 				cineCam.InitializeCinePath(cinePoint, 10f, 2f, 3.0f, 0.6f, myTransform);
 				cameBack = true;
 				finished = false;
-				litStartTime = Time.time;
 				StartCoroutine (cutScener.TurnZombiesBack (lightSpreadTime, myTransform.position, influenceAreaDist));
 			}
 		}
@@ -125,9 +125,31 @@ public class CandleManager : ShotSensitive {
 	}
 
 	void LightCandle(){
-		
+			myAudio.PlayOneShot (achievement);
 			litStart = true;
+			litStartTime = Time.time;
 			playerControl.candlesLit++;
+			
+			//switch sound to a nice soothing sound
+			switch(lvlManager.currentLevel){
+			case 1:
+				backgroundMusic.backSongs [4].startFadeOut = backgroundMusic.timer;
+				backgroundMusic.backSongs [5].startFadeIN = backgroundMusic.timer;
+				GameObject.Instantiate(lastCandleLitSoundPrefab,transform.position, Quaternion.identity);
+
+				break;
+			case 2:
+				//only do if the prefab exists, it means it is the last candle
+				if (lastCandleLitSoundPrefab) {
+					backgroundMusic.backSongs [0].startFadeOut = backgroundMusic.timer;
+					backgroundMusic.backSongs [1].startFadeIN = backgroundMusic.timer;
+					GameObject.Instantiate (lastCandleLitSoundPrefab, transform.position, Quaternion.identity);
+					Destroy(lvlManager.currentTriggeredSound);
+				}
+				break;
+			case 3:
+				break;
+			}
 
 			cutScener.EnableGamePlay(false, true);
 
@@ -214,27 +236,6 @@ public class CandleManager : ShotSensitive {
 		cutScener.spawnerState = recoverSpawnState;
 		cutScener.BringGuider2Player();
 		cutScener.EnableGamePlay(true, true);
-
-		//switch sound to a nice soothing sound
-		switch(lvlManager.currentLevel){
-		case 1:
-			backgroundMusic.backSongs [4].startFadeOut = backgroundMusic.timer;
-			backgroundMusic.backSongs [5].startFadeIN = backgroundMusic.timer;
-			GameObject.Instantiate(lastCandleLitSoundPrefab,transform.position, Quaternion.identity);
-
-			break;
-		case 2:
-			//only do if the prefab exists, it means it is the last candle
-			if (lastCandleLitSoundPrefab) {
-				backgroundMusic.backSongs [0].startFadeOut = backgroundMusic.timer;
-				backgroundMusic.backSongs [1].startFadeIN = backgroundMusic.timer;
-				GameObject.Instantiate (lastCandleLitSoundPrefab, transform.position, Quaternion.identity);
-				Destroy(lvlManager.currentTriggeredSound);
-			}
-			break;
-			case 3:
-			break;
-		}
 
 		/*
 		if (nextObjective) {

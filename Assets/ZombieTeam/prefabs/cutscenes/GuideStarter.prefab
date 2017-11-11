@@ -51,11 +51,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0372b0569a2962345abcfbfb7ed842f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  idealLightIntensity: 11
+  idealLightIntensity: 1
   appearTime: 1
   startLightTime: 1
   lightTime: 1
   startGuideTime: 4
   objectives:
   - {fileID: 0}
+  guider: {fileID: 0}
   guiding: 0

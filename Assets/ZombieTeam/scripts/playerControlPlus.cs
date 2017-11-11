@@ -96,6 +96,7 @@ public class PlayerControlPlus : MonoBehaviour {
 	public AudioClip hurtSound2;
 	public AudioClip hurtSound3;
 	public AudioClip jumpSound;
+	public AudioClip landSound;
 
 	public int candlesLit;
 	public int minCandlesLit2Advance = 1;
@@ -187,6 +188,7 @@ public class PlayerControlPlus : MonoBehaviour {
 			inAir = 0;
 			if(myAnim.GetBool("airborne")){
 				myAnim.SetBool("airborne", false);
+				myAudio.PlayOneShot(landSound);
 				StartCoroutine(FreePC(0.3f));
 			}
 			if(!preparingJump){
@@ -219,8 +221,7 @@ public class PlayerControlPlus : MonoBehaviour {
 				preparingJump = false;
 			}
 		}
-		//Debug.Log("inAir: "+inAir.ToString());
-		
+		//Debug.Log("<color=orange>inAir: "+inAir.ToString()+"</color>");		
 		movement = forthMove * myTransform.forward + latMove * myTransform.right + vertMove *Time.deltaTime* Vector3.up + damageVector*Time.deltaTime;
 		if (movement.magnitude != 0)
 			myControl.Move (movement);
@@ -395,7 +396,7 @@ public class PlayerControlPlus : MonoBehaviour {
 		healthIndicator.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal,(life*2));
 		healthIndicator.rectTransform.localPosition = new Vector3(life-100.0f,0f,0f);
 	}
-	public void DuckDamage(Vector3 DamageDir, int damageAmount){
+	public void DuckDamage(Vector3 DamageDir, int damageAmount, bool twist){
 		if(!evading && !beingDamaged){
 			beingDamaged = true;
 			switch (Random.Range(0, 2)) {
@@ -406,13 +407,18 @@ public class PlayerControlPlus : MonoBehaviour {
 			case 2:myAudio.PlayOneShot(hurtSound3,0.5f);
 				break;
 			}
-			myAnim.SetBool("damage",true);
-			
-			float damX = Vector3.Dot(myTransform.right, DamageDir.normalized);
-			float damY = Vector3.Dot(myTransform.forward, DamageDir.normalized);
-			
-			myAnim.SetFloat("duckDamageX",damX);
-			myAnim.SetFloat("duckDamageY",damY);
+
+			if (twist) {
+				myAnim.SetBool ("damageSlap", true);
+			} else {
+				myAnim.SetBool ("damage", true);
+				float damX = Vector3.Dot(myTransform.right, DamageDir.normalized);
+				float damY = Vector3.Dot(myTransform.forward, DamageDir.normalized);
+
+				myAnim.SetFloat("duckDamageX",damX);
+				myAnim.SetFloat("duckDamageY",damY);
+			}
+
 			StartCoroutine(FreeDamagePC(0.5f));
 			//Debug.Log("<color=red>damage happened X: "+damX.ToString()+" Y: "+damY.ToString()+"</color>");
 			startDamage = 0.0f;
@@ -446,7 +452,7 @@ public class PlayerControlPlus : MonoBehaviour {
 		gameEnded = true;
 		Debug.Log ("<color=yellow>Win Game!!</color>");
 		Time.timeScale = 0.2f;
-		flickeringLight.enabled = true;
+		//flickeringLight.enabled = true;
 		levelManager.winGame = true;
 
 		StartCoroutine(EndGame());
@@ -487,6 +493,7 @@ public class PlayerControlPlus : MonoBehaviour {
 		yield return new WaitForSeconds(freeTime);
 		beingDamaged = false;
 		myAnim.SetBool("damage",false);
+		myAnim.SetBool ("damageSlap", false);
 	}
 
 	public void ZeroInput(){

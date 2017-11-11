@@ -56,10 +56,24 @@ MonoBehaviour:
   controls: {fileID: 0}
   reloadTime: 2
   pausedGame: 0
+  currentLevel: 0
   winGame: 0
+  uiLocked: 0
   skipKey: 13
   altSkipKey: 27
   msgFadeTime: 0.3
+  currentTriggeredSound: {fileID: 0}
+  creditsString: Thanks for Playing, The Monsters We See was a game made by Daniel
+    Batista and Ken Egu. We would like to thank everyone who contributed to this game
+    in some form, specially our professor Richard Lemarchand for his advices and our
+    friend Kelsey Rice for her voice line work.
+  creditLettersVisible: 20
+  creditsUpdateRate: 0.5
+  firstCreditLineTime: 3
+  creditsHorizontal: 0
+  creditNormalSpeed: 10
+  normalCreditLimitPos: 800
+  activeEnemies: 0
 --- !u!114 &114412836554030144
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -77,12 +91,16 @@ MonoBehaviour:
   guiderStarter: {fileID: 0}
   normalDuckPrefab: {fileID: 1797923873621932, guid: 8c6351d7175913741a9212b7d5233e82,
     type: 2}
+  normalPenguimPrefab: {fileID: 1976990011446774, guid: d7b7444ec0f0c3241b3ab5cb7472985f,
+    type: 2}
   enemiesToTransform: []
   formerEnemiesToSpawn: []
   transformFX: {fileID: 1000010826686036, guid: 265afe68fbd86e1438c2d5b7f46a090d,
     type: 2}
-  minMonsterScale: 10
-  shrinkSpeed: 25
+  minDuckScale: 10
+  minPenguimScale: 0.34
+  shrinkSpeedDuck: 25
+  shrinkSpeedPenguim: 1
 --- !u!114 &114470269206345702
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -95,6 +113,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   duckObj: {fileID: 1102405174008206, guid: bc6d3dc991af9dc458c0c91aa58363c5, type: 2}
+  penguimObj: {fileID: 1495603565692904, guid: bd2bb6e501e5e3347858cb83eba37c54, type: 2}
   spawnRate: 8
   spawnPoints:
   - {fileID: 0}
+  penguimProbability: 0.5
+  maxEnemies: 25

@@ -185,7 +185,7 @@ public class PlayerControl : MonoBehaviour {
 					StartCoroutine (Shoot (true, shootHit.point));
 					HitExplosion (shootHit.point, shootHit.normal);
 
-					DuckHealth targetHealth = shootHit.transform.GetComponent<DuckHealth> ();
+					DuckControl targetHealth = shootHit.transform.GetComponent<DuckControl> ();
 					if (targetHealth)
 						targetHealth.Damage (shootHit.point, shootHit.normal);
 				} else {

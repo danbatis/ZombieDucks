@@ -37,5 +37,7 @@ public class introFinalLevel : MonoBehaviour {
 		playerControl.canEvade = true;
 		playerControl.canJump = true;
 		playerControl.haveGun = true;
+
+		Destroy(gameObject);
 	}
 }

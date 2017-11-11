@@ -89,7 +89,7 @@ AudioListener:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1115939480614906}
-  m_Enabled: 1
+  m_Enabled: 0
 --- !u!92 &92923110558411060
 Behaviour:
   m_ObjectHideFlags: 1
@@ -156,6 +156,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   camTarget: {fileID: 0}
   camPositions: []
+  camPos_i: 0
   maxCamSpeed: 1.4
   camAcel: 0.5
   percDist: 0.2

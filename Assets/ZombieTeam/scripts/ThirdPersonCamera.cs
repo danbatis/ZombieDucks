@@ -26,10 +26,18 @@ public class ThirdPersonCamera : MonoBehaviour {
 	public bool useMouse;
 	public float XSensitivity=0.5f;
 	public float YSensitivity=0.5f;
+	public float camOffSet = 0.5f;
 
 	public float perceptibleDist=10f;
-	public bool cameraOcluded = false;
-	public List<string> ocludingElements;
+
+	Vector3 futurePos;
+	Vector3 raycastOrigin;
+	Vector3 raycastDir;
+	Vector3 visionTarget;
+	Vector3 newForth;
+	float futureLateralDelta;
+	float futureEffectiveCamDistance;
+	RaycastHit hit;
 
 	void Start(){
 		myTransform = transform;
@@ -50,14 +58,8 @@ public class ThirdPersonCamera : MonoBehaviour {
 
 	void Update ()
 	{
-		/*
-		if (Input.GetKey ("left shift")) {
-			targetVirtual = target.position + camDistance * target.forward + camHeight*target.up;
-			myTransform.forward = Vector3.Lerp (myTransform.forward, -1 * target.forward, Time.deltaTime * smoothRot);	
-			Debug.Log ("pressing left shift");
-		} else {
-		*/
-		Vector3 newForth = target.forward;
+		newForth = target.forward;
+		CalculateFuturePos();
 		if (useMouse) {			
 			float xRot = CrossPlatformInputManager.GetAxis ("Mouse X") * XSensitivity;
 			float yRot = CrossPlatformInputManager.GetAxis ("Mouse Y") * YSensitivity;
@@ -69,46 +71,48 @@ public class ThirdPersonCamera : MonoBehaviour {
 		}
 
 		myTransform.forward = Vector3.Lerp (myTransform.forward, newForth, Time.deltaTime * smoothRot);
-		targetVirtual = target.position - effectiveCamDistance * newForth + camHeight*target.up + lateralDelta*myTransform.right;
 
-		RaycastHit hit;
-		Vector3 visionTarget = target.position + Vector3.up * targetHeight;
-		Debug.DrawRay(myTransform.position, visionTarget - myTransform.position, new Color (0.0f, 0.5f, 0.5f));
-		if (Physics.Raycast(myTransform.position, visionTarget - myTransform.position, out hit)) {
+		visionTarget = target.position + Vector3.up * targetHeight;
+		raycastOrigin = myTransform.position - camOffSet*(visionTarget - myTransform.position).normalized;
+		raycastDir = visionTarget - raycastOrigin;
+		Debug.DrawRay(myTransform.position, raycastDir, new Color (0.0f, 0.5f, 0.5f));
+
+		if (Physics.Raycast (raycastOrigin, raycastDir, out hit)) {
 			//Debug.Log ("camera ray hiting: "+hit.transform.gameObject.name);
 			if (hit.transform.gameObject.tag == "Player") {
-				//check if futurePosition will be ocluded before going for it:
-				float futureEffectiveCamDistance = effectiveCamDistance + approachCameraSpeed * Time.deltaTime;
-				if (futureEffectiveCamDistance >= camDistance)
-					futureEffectiveCamDistance = camDistance;
-
-				float futureLateralDelta = lateralDelta + approachCameraSpeed * Time.deltaTime;
-				if (futureLateralDelta > lateralDisplace)
-					futureLateralDelta = lateralDisplace;
-
-				Vector3 futurePos;
-				futurePos = target.position - futureEffectiveCamDistance * newForth + camHeight * target.up + futureLateralDelta*myTransform.right;
-
-				if (Physics.Raycast (futurePos, visionTarget - futurePos, out hit)) {
+				raycastOrigin = futurePos - camOffSet * (visionTarget - futurePos).normalized;
+				raycastDir = visionTarget - raycastOrigin;
+				//trying to get farther
+				if (Physics.Raycast (raycastOrigin, raycastDir, out hit)) {
 					if (hit.transform.gameObject.tag == "Player") {
 						effectiveCamDistance = futureEffectiveCamDistance;
 						lateralDelta = futureLateralDelta;
 					}
+					/*
+				else {
+					effectiveCamDistance -= approachCameraSpeed;
+					if (effectiveCamDistance <= camDistanceClose)
+						effectiveCamDistance = camDistanceClose;
+
+					lateralDelta -= approachCameraSpeed*Time.deltaTime;
+					if (lateralDelta <= lateralDisplaceClose)
+						lateralDelta = lateralDisplaceClose;						
 				}
-			} 
-			else {
+				*/
+				}
+			} else {
 				//Time.timeScale = 0;
-				effectiveCamDistance -= approachCameraSpeed*Time.deltaTime;
+				effectiveCamDistance -= approachCameraSpeed * Time.deltaTime;
 				if (effectiveCamDistance <= camDistanceClose)
 					effectiveCamDistance = camDistanceClose;
 
-				lateralDelta -= approachCameraSpeed*Time.deltaTime;
+				lateralDelta -= approachCameraSpeed * Time.deltaTime;
 				if (lateralDelta <= lateralDisplaceClose)
 					lateralDelta = lateralDisplaceClose;
 			}
 		}
-		else {
-			Debug.Log ("camera ray not hitting anything!");
+		else{
+			Debug.Log ("camera not hitting anything!");
 			//Time.timeScale = 0;
 			effectiveCamDistance -= approachCameraSpeed;
 			if (effectiveCamDistance <= camDistanceClose)
@@ -120,9 +124,23 @@ public class ThirdPersonCamera : MonoBehaviour {
 		}
 
 		targetVirtual = target.position - effectiveCamDistance * newForth + camHeight*target.up + lateralDelta*myTransform.right;
-
 		myTransform.position = Vector3.Lerp (myTransform.position, targetVirtual, Time.deltaTime * smoothTrans);
 	}
+
+	void CalculateFuturePos(){
+		//check if futurePosition will be ocluded before going for it:
+		futureEffectiveCamDistance = effectiveCamDistance + approachCameraSpeed * Time.deltaTime;
+		if (futureEffectiveCamDistance >= camDistance)
+			futureEffectiveCamDistance = camDistance;
+
+		futureLateralDelta = lateralDelta + approachCameraSpeed * Time.deltaTime;
+		if (futureLateralDelta > lateralDisplace)
+			futureLateralDelta = lateralDisplace;
+
+		futurePos = target.position - futureEffectiveCamDistance * newForth + camHeight * target.up + futureLateralDelta * myTransform.right;
+		//camPredictor.futurePos = futurePos;
+	}
+
 	/*
 	void OnTriggerEnter(Collider other){
 		Debug.Log(gameObject.name+"trigger with: "+other.gameObject.name);
@@ -131,6 +149,7 @@ public class ThirdPersonCamera : MonoBehaviour {
 		}
 		cameraOcluded = true;
 	}
+
 	void OnTriggerExit(Collider other){
 		Debug.Log (gameObject.name+"trigger out: "+other.gameObject.name);
 		if (ocludingElements.Contains (other.gameObject.name)) {
@@ -141,6 +160,7 @@ public class ThirdPersonCamera : MonoBehaviour {
 		if(ocludingElements.Count==0)
 			cameraOcluded = false;
 	}
+
 	void OnCollisionEnter(Collision collision){
 		Debug.Log (gameObject.name+"collided with: "+collision.gameObject.name);
 	}

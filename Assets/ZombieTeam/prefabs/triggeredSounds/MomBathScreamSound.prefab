@@ -132,7 +132,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9dccf9e3cdf4cbd4aa3cea7af1f99ccd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeToStart: 13
+  timeToStart: 6
   timeToAutoDestroy: 1
   followUpObj: {fileID: 1894384442903420, guid: af0d1c5b80bec614d8454a02aefc6600,
     type: 2}

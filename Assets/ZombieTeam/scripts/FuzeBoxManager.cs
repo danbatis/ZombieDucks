@@ -50,6 +50,8 @@ public class FuzeBoxManager : ShotSensitive {
 	public bool animRewarded;
 	public GameObject celebrateSoundPrefab;
 	public GameObject momWakeUpFinalPrefab;
+	public GameObject sleepBoyRoom;
+
 	BackMusicManager backgroundMusic;
 
 	// Use this for initialization
@@ -68,6 +70,7 @@ public class FuzeBoxManager : ShotSensitive {
 
 		doorAnimator = GameObject.Find (transform.parent.name + "/fuzeDoorHinge").GetComponent<Animator> ();
 		sleepBoyAnim = GameObject.Find("afroBed").GetComponent<Animator>();
+		sleepBoyRoom.SetActive(false);
 	}
 	
 	// Update is called once per frame
@@ -162,8 +165,9 @@ public class FuzeBoxManager : ShotSensitive {
 			Destroy(oldGuider);
 			
 			cutScener.EnableGamePlay(false, true);
-			cutScener.DisableEnemies ();
-			
+			cutScener.DisableEnemies ();			
+
+			sleepBoyRoom.SetActive(true);
 			GameObject.Instantiate (celebrateSoundPrefab, transform.position, Quaternion.identity);
 			backgroundMusic.backSongs[0].startFadeOut = backgroundMusic.timer;
 			backgroundMusic.backSongs[1].startFadeIN = backgroundMusic.timer;
@@ -178,8 +182,9 @@ public class FuzeBoxManager : ShotSensitive {
 	}
 
 	void ReleaseGameplay(){
+		myLight.enabled = false;
 		fuzeBoxDoorOpened = false;
-		myLight.intensity = maxLight;
+
 		Debug.Log ("<color=blue>Release final animation!!!!</color>");
 
 		/*

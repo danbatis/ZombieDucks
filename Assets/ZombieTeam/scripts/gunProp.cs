@@ -13,6 +13,8 @@ public class GunProp : MonoBehaviour {
 	float camLateralDisplace = 1.0f;
 	float camLatDisplaceClose = 0.5f;
 
+	public GameObject TriggeredSoundBathroom;
+
 	// Use this for initialization
 	void Start () {
 		myTransform = transform;	
@@ -28,6 +30,9 @@ public class GunProp : MonoBehaviour {
 
 	void OnTriggerEnter(Collider other){
 		if (other.tag == "Player") {
+			if(TriggeredSoundBathroom)
+				TriggeredSoundBathroom.SetActive (false);
+
 			other.GetComponent<PlayerControlPlus>().haveGun = true;
 			other.GetComponent<PlayerControlPlus> ().UpdateControls();
 			levelManager.LogMessage("player acquired gun");

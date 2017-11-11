@@ -35,9 +35,15 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/ZombieTeam/scenes/level1plus.unity
     guid: 7a47a3bb80a60064fa051ad4f3cb98dd
+  - enabled: 0
+    path: Assets/ZombieTeam/scenes/level2plusStaticFurniture.unity
+    guid: dda7230cb9598df4ca4fc5a3af7db4fb
+  - enabled: 0
+    path: Assets/ZombieTeam/scenes/level3plusStaticFurniture.unity
+    guid: 9356261cbff883e42817ec9ffcbb8f6e
   - enabled: 1
     path: Assets/ZombieTeam/scenes/level2plus.unity
-    guid: dda7230cb9598df4ca4fc5a3af7db4fb
+    guid: 8104266342dc72e4899a26e9cb462e53
   - enabled: 1
     path: Assets/ZombieTeam/scenes/level3plus.unity
-    guid: 9356261cbff883e42817ec9ffcbb8f6e
+    guid: 73cdd629b48f4524ebe717a3fb8ee988

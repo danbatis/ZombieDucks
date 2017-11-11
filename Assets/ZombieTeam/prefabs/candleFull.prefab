@@ -21,10 +21,10 @@ GameObject:
   - component: {fileID: 4877393663823746}
   - component: {fileID: 33324758181108082}
   - component: {fileID: 23398527439621526}
-  - component: {fileID: 65680161501793786}
   - component: {fileID: 114518256878550188}
   - component: {fileID: 108371287771673212}
   - component: {fileID: 82337108478581580}
+  - component: {fileID: 135080536426890798}
   m_Layer: 0
   m_Name: candleFuze
   m_TagString: Untagged
@@ -124,7 +124,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1756987321945780}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -2.92, y: 5.6779118, z: 5.37}
+  m_LocalPosition: {x: -4.53, y: 5.6779118, z: 6.01}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4886293419098620}
@@ -191,7 +191,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1537488138698952}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 3.52, y: -0.697, z: -3.74}
+  m_LocalPosition: {x: 0.6815381, y: 0.608, z: -13.12}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4085699296756026}
@@ -356,18 +356,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1350497171140854}
   m_Mesh: {fileID: 4300000, guid: 33bfa006305eaf149ad4dc2ffd27b5ee, type: 3}
---- !u!65 &65680161501793786
-BoxCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1187006373978036}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 2.8, y: 0.64, z: 2.38}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!82 &82337108478581580
 AudioSource:
   m_ObjectHideFlags: 1
@@ -490,8 +478,8 @@ Light:
   m_GameObject: {fileID: 1187006373978036}
   m_Enabled: 1
   serializedVersion: 8
-  m_Type: 2
-  m_Color: {r: 0.62072885, g: 0.6544118, b: 0.6544118, a: 1}
+  m_Type: 1
+  m_Color: {r: 0.99264705, g: 0.76784164, b: 0.43063363, a: 1}
   m_Intensity: 0
   m_Range: 200
   m_SpotAngle: 30
@@ -554,12 +542,26 @@ MonoBehaviour:
   guiderStarterPrefab: {fileID: 1828929474010584, guid: 36373d0fc2222d04f877bb340cdfba55,
     type: 2}
   finalObjective: {fileID: 0}
-  influenceAreaDist: 10
-  recoverSpawnState: 1
-  lastCandleLitSoundPrefab: {fileID: 0}
+  influenceAreaDist: 10000
+  recoverSpawnState: 0
+  lastCandleLitSoundPrefab: {fileID: 1894384442903420, guid: 61427042d70fe01488bfba0a2d0fe8be,
+    type: 2}
   fireFX: {fileID: 1923293715897346, guid: 4ca20e0f85ada1447b4150bceb91f43a, type: 2}
   fireFailFX: {fileID: 1661838339272488, guid: 657a271991bed8f48b0f36767b1e4d83, type: 2}
   fireOffset: 0.1
+  achievement: {fileID: 8300000, guid: 04b99f17cdec53f46bfbb010e7270785, type: 3}
+--- !u!135 &135080536426890798
+SphereCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1187006373978036}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.46
+  m_Center: {x: 0, y: 0.00000047683716, z: -0.000015258789}
 --- !u!136 &136429804295155402
 CapsuleCollider:
   m_ObjectHideFlags: 1

@@ -35,6 +35,7 @@ public class BathTubCut : MonoBehaviour {
 	GameObject bathTubDuck;
 
 	bool finished;
+	bool cutActive;
 
 
 	// Use this for initialization
@@ -112,23 +113,26 @@ public class BathTubCut : MonoBehaviour {
 	}
 
 	void ReleaseGameplay(){
-		for (int i = 0; i < threatPoints.Length; i++) {
-			Instantiate(zombieDuckPrefab, threatPoints[i].position, Quaternion.identity);
+		if (!cutActive) {
+			for (int i = 0; i < threatPoints.Length; i++) {
+				Instantiate (zombieDuckPrefab, threatPoints [i].position, Quaternion.identity);
+			}
+
+			cutScener.spawnerState = false;
+			cutScener.BringGuider2Player ();
+			cutScener.EnableGamePlay (true, true);
+			//adjust musics
+			backgroundMusic.backSongs [2].startFadeOut = backgroundMusic.timer;
+			backgroundMusic.backSongs [3].startFadeIN = backgroundMusic.timer;
+
+			playerControl.canEvade = true;
+			playerControl.UpdateControls ();
+			//Message teaching the evade
+			levelManager.UIMessage ("Press 'F' or 'Left CTRL' to evade the enemies", KeyCode.LeftControl, KeyCode.F);
+
+			Destroy (bathTubDuck);
+			cutActive = true;
+			Destroy (gameObject, 3.0f);
 		}
-
-		cutScener.spawnerState = false;
-		cutScener.BringGuider2Player();
-		cutScener.EnableGamePlay(true, true);
-		//adjust musics
-		backgroundMusic.backSongs[2].startFadeOut = backgroundMusic.timer;
-		backgroundMusic.backSongs[3].startFadeIN = backgroundMusic.timer;
-
-		playerControl.canEvade = true;
-		playerControl.UpdateControls();
-		//Message teaching the evade
-		levelManager.UIMessage("Press 'F' or 'Left CTRL' to evade the enemies", KeyCode.LeftControl, KeyCode.F);
-
-		Destroy(bathTubDuck);
-		Destroy(gameObject);
 	}
 }

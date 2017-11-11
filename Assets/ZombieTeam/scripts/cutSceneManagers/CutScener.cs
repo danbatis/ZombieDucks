@@ -27,12 +27,17 @@ public class CutScener : MonoBehaviour {
 	public GuiderStarter guiderStarter;
 	GameObject[] enemies;
 	public GameObject normalDuckPrefab;
+	public GameObject normalPenguimPrefab;
 
 	public List<GameObject> enemiesToTransform;
 	public List<GameObject> formerEnemiesToSpawn;
 	public GameObject transformFX;
-	public float minMonsterScale = 10f;
-	public float shrinkSpeed = 25f;
+	public float minDuckScale = 10f;
+	public float minPenguimScale = 0.34f;
+	public float shrinkSpeedDuck = 25f;
+	public float shrinkSpeedPenguim = 1f;
+	AudioListener cinematicAudioListener;
+	AudioListener playerAudioListener;
 
 	// Use this for initialization
 	void Awake () {
@@ -48,10 +53,12 @@ public class CutScener : MonoBehaviour {
 		lvlManager = GameObject.Find ("level").GetComponent<LevelManager>();
 
 		playerObj = GameObject.FindGameObjectWithTag("Player");
-		playerCtrl = playerObj.GetComponent<PlayerControlPlus> ();
+		playerCtrl = playerObj.GetComponent<PlayerControlPlus>();
+		playerAudioListener = playerObj.GetComponent<AudioListener>();
 
 		trdCam = Camera.main.GetComponent<ThirdPersonCamera>();
-		cineCam = Camera.main.GetComponent<CinematicCam> ();
+		cineCam = Camera.main.GetComponent<CinematicCam>();
+		cinematicAudioListener = Camera.main.GetComponent<AudioListener>();
 
 		enemiesToTransform = new List<GameObject>();
 		formerEnemiesToSpawn = new List<GameObject>();
@@ -66,14 +73,27 @@ public class CutScener : MonoBehaviour {
 			int i = 0;
 			while(i < enemiesToTransform.Count){
 				Vector3 monsterScale = enemiesToTransform [i].transform.localScale;
-				monsterScale -= shrinkSpeed * Time.deltaTime*Vector3.one;
+
+				float minMonsterScale = minDuckScale;
+				float shrinkRaw = shrinkSpeedDuck;
+				if (enemiesToTransform [i].GetComponent<PenguimControl> ()) {
+					minMonsterScale = minPenguimScale;
+					shrinkRaw = shrinkSpeedPenguim;
+				}
+
+				monsterScale -= shrinkRaw * Time.deltaTime*Vector3.one;
 				enemiesToTransform [i].transform.localScale = monsterScale;
+
+
+
 				if (monsterScale.magnitude <= minMonsterScale) {
 					Instantiate (formerEnemiesToSpawn[i], enemiesToTransform [i].transform.position, enemiesToTransform [i].transform.rotation);
 					Instantiate (transformFX, enemiesToTransform [i].transform.position, enemiesToTransform [i].transform.rotation);
-					formerEnemiesToSpawn.Remove(formerEnemiesToSpawn [i]);
-					Destroy (enemiesToTransform[i]);
-					enemiesToTransform.Remove(enemiesToTransform[i]);
+					formerEnemiesToSpawn.Remove(formerEnemiesToSpawn[i]);
+
+					GameObject toDestroy = enemiesToTransform [i];
+					enemiesToTransform.Remove(toDestroy);
+					Destroy (toDestroy);
 					i--;
 				}
 				i++;
@@ -89,6 +109,9 @@ public class CutScener : MonoBehaviour {
 		health2UI.enabled = Enable;
 		//winUI.enabled = Enable;
 		//loseUI.enabled = Enable;
+
+		cinematicAudioListener.enabled = !Enable;
+		playerAudioListener.enabled = Enable;
 
 		//enemy spawner
 		if (Enable) {
@@ -116,22 +139,25 @@ public class CutScener : MonoBehaviour {
 		guiderStarter.BringGuider(playerObj.transform.position);
 	}
 	public void TurnOffGuideLight(){
-		guiderStarter.TurnOffGuideLight ();
+		guiderStarter.TurnOffGuideLight();
 	}
 	public void DisableEnemies(){
 		//Disable all enemies
 		enemies = GameObject.FindGameObjectsWithTag("Enemy");
 		for (int i = 0; i < enemies.Length; i++) {
 			//try for ducks
-			DuckHealth duckControl = enemies[i].GetComponent<DuckHealth>();
+			DuckControl duckControl = enemies[i].GetComponent<DuckControl>();
 			if (duckControl)
 				duckControl.enabled = false;
+
+			PenguimControl penguimControl = enemies [i].GetComponent<PenguimControl> ();
+			if (penguimControl)
+				penguimControl.enabled = false;
 
 			NavMeshAgent navAgent = enemies [i].GetComponent<NavMeshAgent>();
 			if (navAgent)
 				navAgent.enabled = false;
-			//try for penguims
-			//maybe more?
+
 		}
 	}
 
@@ -144,17 +170,32 @@ public class CutScener : MonoBehaviour {
 			NavMeshAgent enemyNavAgent = enemies [i].GetComponent<NavMeshAgent> (); 
 
 			//try for ducks
-			DuckHealth duckControl = enemies [i].GetComponent<DuckHealth> ();
+			DuckControl duckControl = enemies [i].GetComponent<DuckControl> ();
+
+			//for penguins
+			PenguimControl penguimControl = enemies [i].GetComponent<PenguimControl> ();
+
 			if (duckControl) {
 				if (Vector3.Distance (enemies [i].transform.position, lightPos) <= influenceAreaDist) {
-					enemiesToTransform.Add(enemies [i]);
+					enemiesToTransform.Add(enemies[i]);
 					formerEnemiesToSpawn.Add(normalDuckPrefab);
 				} else {
 					enemyNavAgent.enabled = true;
 					duckControl.enabled = true;
 				}
 			} else {
-				Debug.Log("<color=orange>Could not find what type of animal ----------------------------------------------------</color>");
+				if (penguimControl) {
+					if (Vector3.Distance (enemies [i].transform.position, lightPos) <= influenceAreaDist) {
+						enemiesToTransform.Add (enemies [i]);
+						formerEnemiesToSpawn.Add (normalPenguimPrefab);
+					} else {
+						enemyNavAgent.enabled = true;
+						penguimControl.enabled = true;
+					}
+				} 
+				else {
+					Debug.Log ("<color=orange>Could not find what type of animal ----------------------------------------------------</color>");
+				}
 			}
 			//try for penguims
 			//maybe more?

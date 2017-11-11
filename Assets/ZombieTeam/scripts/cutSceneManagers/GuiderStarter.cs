@@ -39,7 +39,9 @@ public class GuiderStarter : MonoBehaviour {
 				guider.enabled = true;
 
 			if (timer >= startLightTime && ((timer - startLightTime) / lightTime) <= 1.0f)
-				guideLight.intensity = idealLightIntensity*(timer - startLightTime) / lightTime;
+				guideLight.intensity = idealLightIntensity * (timer - startLightTime) / lightTime;
+			else
+				guideLight.intensity = idealLightIntensity;
 		}
 	}
 
