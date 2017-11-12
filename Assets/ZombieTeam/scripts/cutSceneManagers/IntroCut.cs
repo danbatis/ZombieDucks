@@ -53,7 +53,8 @@ public class IntroCut : MonoBehaviour {
 	public float startNightmareTime = 1.0f;
 	public float startNightmareReactionTime = 1.0f;
 
-	public GameObject MomBathScreamPrefab;
+	//public GameObject MomBathScreamPrefab;
+	public int gameStartVoiceID;
 	LevelManager lvlManager;
 
 
@@ -208,7 +209,9 @@ public class IntroCut : MonoBehaviour {
 		dialogManager.Stop();
 		dialogManager.currentLine = 4;
 		dialogManager.AdjustCurrentLineDelay(1.5f);
-		lvlManager.currentTriggeredSound = GameObject.Instantiate(MomBathScreamPrefab, cutScener.guiderStarter.objectives[0].position, Quaternion.identity);
+
+		//lvlManager.currentTriggeredSound = GameObject.Instantiate(MomBathScreamPrefab, cutScener.guiderStarter.objectives[0].position, Quaternion.identity);
+		dialogManager.PlayDialogLine(gameStartVoiceID);
 
 		Destroy(gameObject,3.0f);	
 	}

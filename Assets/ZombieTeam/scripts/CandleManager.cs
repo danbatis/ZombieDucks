@@ -33,8 +33,10 @@ public class CandleManager : ShotSensitive {
 	public bool recoverSpawnState;
 	LevelManager lvlManager;
 	BackMusicManager backgroundMusic;
+	DialogManager dialogManager;
 
-	public GameObject lastCandleLitSoundPrefab;
+	//public GameObject lastCandleLitSoundPrefab;
+	public int lastCandleVoiceID;
 
 	public GameObject fireFX;
 	public GameObject fireFailFX;
@@ -53,6 +55,7 @@ public class CandleManager : ShotSensitive {
 		lvlManager = GameObject.Find ("level").GetComponent<LevelManager>(); 
 		cineCam = Camera.main.GetComponent<CinematicCam>();
 		backgroundMusic = GameObject.Find("BackMusicManager").GetComponent<BackMusicManager>();
+		dialogManager = GameObject.Find("DialogManager").GetComponent<DialogManager>();
 
 		playerTransform = GameObject.FindGameObjectWithTag ("Player").transform;
 		playerControl = playerTransform.GetComponent<PlayerControlPlus> ();
@@ -135,16 +138,17 @@ public class CandleManager : ShotSensitive {
 			case 1:
 				backgroundMusic.backSongs [4].startFadeOut = backgroundMusic.timer;
 				backgroundMusic.backSongs [5].startFadeIN = backgroundMusic.timer;
-				GameObject.Instantiate(lastCandleLitSoundPrefab,transform.position, Quaternion.identity);
-
+				//GameObject.Instantiate(lastCandleLitSoundPrefab,transform.position, Quaternion.identity);
+				dialogManager.PlayDialogLine(lastCandleVoiceID);
 				break;
 			case 2:
 				//only do if the prefab exists, it means it is the last candle
-				if (lastCandleLitSoundPrefab) {
+				if(lastCandleVoiceID > 0) {
 					backgroundMusic.backSongs [0].startFadeOut = backgroundMusic.timer;
 					backgroundMusic.backSongs [1].startFadeIN = backgroundMusic.timer;
-					GameObject.Instantiate (lastCandleLitSoundPrefab, transform.position, Quaternion.identity);
-					Destroy(lvlManager.currentTriggeredSound);
+					//GameObject.Instantiate (lastCandleLitSoundPrefab, transform.position, Quaternion.identity);
+					//Destroy(lvlManager.currentTriggeredSound);
+					dialogManager.PlayDialogLine(lastCandleVoiceID);					
 				}
 				break;
 			case 3:

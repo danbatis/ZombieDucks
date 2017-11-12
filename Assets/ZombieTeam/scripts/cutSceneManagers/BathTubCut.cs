@@ -132,7 +132,7 @@ public class BathTubCut : MonoBehaviour {
 
 			Destroy (bathTubDuck);
 			cutActive = true;
-			Destroy (gameObject, 3.0f);
+			Destroy(gameObject);
 		}
 	}
 }

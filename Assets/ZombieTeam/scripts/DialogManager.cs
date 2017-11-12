@@ -48,6 +48,13 @@ public class DialogManager : MonoBehaviour {
 		voiceLines [currentLine].delayVoiceTime = timer + delayTime;
 	}
 
+	public void Play(){
+		myAudio.Play();
+	}
+
+	public void Pause(){
+		myAudio.Pause();
+	}
 	public void Stop(){
 		myAudio.Stop();
 	}
@@ -59,5 +66,16 @@ public class DialogManager : MonoBehaviour {
 		currentLine += 1;
 		if (currentLine >= voiceLines.Count)
 			sleeping = true;
+	}
+	public void PlayDialogLine(int DialogLineID){
+		if (DialogLineID < voiceLines.Count) {
+			myAudio.Stop ();
+			currentLine = DialogLineID;
+			PlayNextLine ();
+		}
+		else{
+			myAudio.Stop();
+			Debug.Log("<color=red> Error!! Voice Line ID required not existent! </color>");
+		}
 	}
 }

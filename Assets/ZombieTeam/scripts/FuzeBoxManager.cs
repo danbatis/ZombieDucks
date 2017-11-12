@@ -50,9 +50,14 @@ public class FuzeBoxManager : ShotSensitive {
 	public bool animRewarded;
 	public GameObject celebrateSoundPrefab;
 	public GameObject momWakeUpFinalPrefab;
+
+	public int celebrateVoiceID;
+	public int momFinalWakeUpVoiceID;
+
 	public GameObject sleepBoyRoom;
 
 	BackMusicManager backgroundMusic;
+	DialogManager dialogManager;
 
 	// Use this for initialization
 	void Start () {
@@ -67,6 +72,7 @@ public class FuzeBoxManager : ShotSensitive {
 
 		lvlManager = GameObject.Find ("level").GetComponent<LevelManager>();
 		backgroundMusic = GameObject.Find("BackMusicManager").GetComponent<BackMusicManager>();
+		dialogManager = GameObject.Find("DialogManager").GetComponent<DialogManager>();
 
 		doorAnimator = GameObject.Find (transform.parent.name + "/fuzeDoorHinge").GetComponent<Animator> ();
 		sleepBoyAnim = GameObject.Find("afroBed").GetComponent<Animator>();
@@ -168,7 +174,8 @@ public class FuzeBoxManager : ShotSensitive {
 			cutScener.DisableEnemies ();			
 
 			sleepBoyRoom.SetActive(true);
-			GameObject.Instantiate (celebrateSoundPrefab, transform.position, Quaternion.identity);
+			//GameObject.Instantiate (celebrateSoundPrefab, transform.position, Quaternion.identity);
+			dialogManager.PlayDialogLine(celebrateVoiceID);
 			backgroundMusic.backSongs[0].startFadeOut = backgroundMusic.timer;
 			backgroundMusic.backSongs[1].startFadeIN = backgroundMusic.timer;
 			
@@ -229,7 +236,8 @@ public class FuzeBoxManager : ShotSensitive {
 
 	IEnumerator PreventLoopAnim(){
 		Camera.main.GetComponent<UnityStandardAssets.ImageEffects.MotionBlur>().enabled = false;
-		GameObject.Instantiate(momWakeUpFinalPrefab, transform.position, Quaternion.identity);
+		//GameObject.Instantiate(momWakeUpFinalPrefab, transform.position, Quaternion.identity);
+		dialogManager.PlayDialogLine(momFinalWakeUpVoiceID);
 
 		yield return new WaitForSeconds(5.0f);
 
