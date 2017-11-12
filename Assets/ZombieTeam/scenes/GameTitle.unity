@@ -5967,7 +5967,7 @@ MonoBehaviour:
   sceneToLoad: level1plus
   hintTime: 0.1
   backgroundMusicObj: {fileID: 306107714}
-  firstLine: {fileID: 8300000, guid: 795ccc5a3cb9bca40a75c7a50b5b265d, type: 3}
+  firstLine: {fileID: 8300000, guid: a125a467069b0194581fc52e80a69c85, type: 3}
   zoomPoint: {fileID: 982598236}
   zoomMaxSpeed: 10
   zoomAcel: 10

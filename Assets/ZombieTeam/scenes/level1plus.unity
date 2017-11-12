@@ -1112,7 +1112,7 @@ Prefab:
     - target: {fileID: 114518256878550188, guid: 2e6fe608a3e066e4d8f271ae22329928,
         type: 2}
       propertyPath: lastCandleVoiceID
-      value: 10
+      value: 11
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2e6fe608a3e066e4d8f271ae22329928, type: 2}
@@ -4166,6 +4166,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rotSpeed: 150
+  gameONVoiceID: 10
   TriggeredSoundBathroom: {fileID: 80344229}
 --- !u!4 &536873036
 Transform:
@@ -14952,7 +14953,7 @@ Prefab:
     - target: {fileID: 114385863194393108, guid: cfb10ab6bf8641b408c3d9590ba55769,
         type: 2}
       propertyPath: voiceLines.Array.size
-      value: 13
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 4114159985866134, guid: cfb10ab6bf8641b408c3d9590ba55769, type: 2}
       propertyPath: m_LocalPosition.x
@@ -15010,7 +15011,7 @@ Prefab:
         type: 2}
       propertyPath: voiceLines.Array.data[1].voiceLine
       value: 
-      objectReference: {fileID: 8300000, guid: c182d36a4b8aca04ab500edd7fb11a80, type: 3}
+      objectReference: {fileID: 8300000, guid: a0761766ef0389348b8f2040c7fa0559, type: 3}
     - target: {fileID: 114385863194393108, guid: cfb10ab6bf8641b408c3d9590ba55769,
         type: 2}
       propertyPath: voiceLines.Array.data[2].voiceLine
@@ -15020,12 +15021,12 @@ Prefab:
         type: 2}
       propertyPath: voiceLines.Array.data[3].voiceLine
       value: 
-      objectReference: {fileID: 8300000, guid: e2209566eb47d5d4fb06ec70afdadf1e, type: 3}
+      objectReference: {fileID: 8300000, guid: 5b161fca296d0db4f856f55b1ac2a5ab, type: 3}
     - target: {fileID: 114385863194393108, guid: cfb10ab6bf8641b408c3d9590ba55769,
         type: 2}
       propertyPath: voiceLines.Array.data[4].voiceLine
       value: 
-      objectReference: {fileID: 8300000, guid: 17fe217fd564c574c8bd4ece95e50f24, type: 3}
+      objectReference: {fileID: 8300000, guid: 129f50511ebb22040b6fa6b4b2e53125, type: 3}
     - target: {fileID: 114385863194393108, guid: cfb10ab6bf8641b408c3d9590ba55769,
         type: 2}
       propertyPath: voiceLines.Array.data[5].voiceLine
@@ -15040,7 +15041,7 @@ Prefab:
         type: 2}
       propertyPath: voiceLines.Array.data[6].voiceLine
       value: 
-      objectReference: {fileID: 8300000, guid: 3648b3bd6eccaae48a43d345aa78b8b6, type: 3}
+      objectReference: {fileID: 8300000, guid: b4926e5179160694fb99403e3f96f0cb, type: 3}
     - target: {fileID: 114385863194393108, guid: cfb10ab6bf8641b408c3d9590ba55769,
         type: 2}
       propertyPath: voiceLines.Array.data[6].delayVoiceTime
@@ -15050,7 +15051,7 @@ Prefab:
         type: 2}
       propertyPath: voiceLines.Array.data[7].voiceLine
       value: 
-      objectReference: {fileID: 8300000, guid: 8c23f36e2dfd4814d9d0e44178106160, type: 3}
+      objectReference: {fileID: 8300000, guid: c61ac522a3cbb2645acc3373eeb4f9d6, type: 3}
     - target: {fileID: 114385863194393108, guid: cfb10ab6bf8641b408c3d9590ba55769,
         type: 2}
       propertyPath: voiceLines.Array.data[7].delayVoiceTime
@@ -15060,7 +15061,7 @@ Prefab:
         type: 2}
       propertyPath: voiceLines.Array.data[8].voiceLine
       value: 
-      objectReference: {fileID: 8300000, guid: b344479136200aa439136e5775b73708, type: 3}
+      objectReference: {fileID: 8300000, guid: 2c25420def0de2542bdc0d70000b60b5, type: 3}
     - target: {fileID: 114385863194393108, guid: cfb10ab6bf8641b408c3d9590ba55769,
         type: 2}
       propertyPath: voiceLines.Array.data[8].delayVoiceTime
@@ -15075,12 +15076,12 @@ Prefab:
         type: 2}
       propertyPath: voiceLines.Array.data[9].voiceLine
       value: 
-      objectReference: {fileID: 8300000, guid: 6f335393a9666f04db7fa8ccf14c373e, type: 3}
+      objectReference: {fileID: 8300000, guid: 151970d661be3514e808e3886afb62bd, type: 3}
     - target: {fileID: 114385863194393108, guid: cfb10ab6bf8641b408c3d9590ba55769,
         type: 2}
       propertyPath: voiceLines.Array.data[10].voiceLine
       value: 
-      objectReference: {fileID: 8300000, guid: c49fc308fed1d544e8bd5ecf0b563cb7, type: 3}
+      objectReference: {fileID: 8300000, guid: 23b2d4602b210fe4c9f4fcdb9572dcc7, type: 3}
     - target: {fileID: 114385863194393108, guid: cfb10ab6bf8641b408c3d9590ba55769,
         type: 2}
       propertyPath: voiceLines.Array.data[10].delayVoiceTime
@@ -15090,21 +15091,31 @@ Prefab:
         type: 2}
       propertyPath: voiceLines.Array.data[11].voiceLine
       value: 
-      objectReference: {fileID: 8300000, guid: a4860f3ce4ad7a94e9a70a1d0c91b08c, type: 3}
+      objectReference: {fileID: 8300000, guid: c49fc308fed1d544e8bd5ecf0b563cb7, type: 3}
     - target: {fileID: 114385863194393108, guid: cfb10ab6bf8641b408c3d9590ba55769,
         type: 2}
       propertyPath: voiceLines.Array.data[11].delayVoiceTime
-      value: 0.5
+      value: 1000000
       objectReference: {fileID: 0}
     - target: {fileID: 114385863194393108, guid: cfb10ab6bf8641b408c3d9590ba55769,
         type: 2}
       propertyPath: voiceLines.Array.data[12].voiceLine
       value: 
-      objectReference: {fileID: 8300000, guid: e4920f259905744419bc7e5f91b7a6b2, type: 3}
+      objectReference: {fileID: 8300000, guid: 92aba31e54645744d8a3e4c7ea71a7ed, type: 3}
     - target: {fileID: 114385863194393108, guid: cfb10ab6bf8641b408c3d9590ba55769,
         type: 2}
       propertyPath: voiceLines.Array.data[12].delayVoiceTime
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 114385863194393108, guid: cfb10ab6bf8641b408c3d9590ba55769,
+        type: 2}
+      propertyPath: voiceLines.Array.data[13].voiceLine
+      value: 
+      objectReference: {fileID: 8300000, guid: 628c58a58c2e0c34eb63ab3b4487b13d, type: 3}
+    - target: {fileID: 114385863194393108, guid: cfb10ab6bf8641b408c3d9590ba55769,
+        type: 2}
+      propertyPath: voiceLines.Array.data[13].delayVoiceTime
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: cfb10ab6bf8641b408c3d9590ba55769, type: 2}
@@ -19495,7 +19506,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a1fd68b02706ba43bab8058f10ba153, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  triggeredSoundPrefab: {fileID: 0}
   nextObjToActivate: {fileID: 0}
   dialogID: 9
 --- !u!23 &2011446483

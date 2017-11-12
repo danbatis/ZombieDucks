@@ -6539,7 +6539,7 @@ Prefab:
         type: 2}
       propertyPath: voiceLines.Array.data[0].voiceLine
       value: 
-      objectReference: {fileID: 8300000, guid: ab9a5441cab59e649985c54a0e20fec2, type: 3}
+      objectReference: {fileID: 8300000, guid: f4cc13e7437630a40afe8fabcee2f64f, type: 3}
     - target: {fileID: 114385863194393108, guid: cfb10ab6bf8641b408c3d9590ba55769,
         type: 2}
       propertyPath: voiceLines.Array.data[0].delayVoiceTime
@@ -6554,12 +6554,12 @@ Prefab:
         type: 2}
       propertyPath: voiceLines.Array.data[2].voiceLine
       value: 
-      objectReference: {fileID: 8300000, guid: 5375ec261edef9b4fb13abff99a6158d, type: 3}
+      objectReference: {fileID: 8300000, guid: cf5be55b23cee464ca1ffcb23b0e87fd, type: 3}
     - target: {fileID: 114385863194393108, guid: cfb10ab6bf8641b408c3d9590ba55769,
         type: 2}
       propertyPath: voiceLines.Array.data[3].voiceLine
       value: 
-      objectReference: {fileID: 8300000, guid: 1beb00957e70a834dbd539197c075b59, type: 3}
+      objectReference: {fileID: 8300000, guid: b664a9e136fc6f54c9e76e72e4779055, type: 3}
     - target: {fileID: 114385863194393108, guid: cfb10ab6bf8641b408c3d9590ba55769,
         type: 2}
       propertyPath: voiceLines.Array.data[3].delayVoiceTime
@@ -6574,7 +6574,7 @@ Prefab:
         type: 2}
       propertyPath: voiceLines.Array.data[5].voiceLine
       value: 
-      objectReference: {fileID: 8300000, guid: 41c461beaa73a0f4486c96275faa2964, type: 3}
+      objectReference: {fileID: 8300000, guid: 1bdd6e0968762be4d82a7cde25163d17, type: 3}
     - target: {fileID: 114385863194393108, guid: cfb10ab6bf8641b408c3d9590ba55769,
         type: 2}
       propertyPath: voiceLines.Array.data[5].delayVoiceTime
@@ -6599,12 +6599,12 @@ Prefab:
         type: 2}
       propertyPath: voiceLines.Array.data[7].voiceLine
       value: 
-      objectReference: {fileID: 8300000, guid: e590dec709fd6cb4a93bb43be0e29e13, type: 3}
+      objectReference: {fileID: 8300000, guid: 5bba58fe8a1fb094d915270a100f49a3, type: 3}
     - target: {fileID: 114385863194393108, guid: cfb10ab6bf8641b408c3d9590ba55769,
         type: 2}
       propertyPath: voiceLines.Array.data[8].voiceLine
       value: 
-      objectReference: {fileID: 8300000, guid: b654344e68d0a1540a6c5c524fd8a76b, type: 3}
+      objectReference: {fileID: 8300000, guid: 25c3bd03b4f956149a7b26371ad2cbb7, type: 3}
     - target: {fileID: 114385863194393108, guid: cfb10ab6bf8641b408c3d9590ba55769,
         type: 2}
       propertyPath: voiceLines.Array.data[9].voiceLine
