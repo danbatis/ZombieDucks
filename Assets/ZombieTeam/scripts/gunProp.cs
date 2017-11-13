@@ -13,7 +13,7 @@ public class GunProp : MonoBehaviour {
 	//adjusting camera
 	ThirdPersonCamera trdCam;
 	float camLateralDisplace = 1.0f;
-	float camLatDisplaceClose = 0.5f;
+	float camLatDisplaceClose = 0.37f;
 
 	public GameObject TriggeredSoundBathroom;
 

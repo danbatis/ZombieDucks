@@ -41,7 +41,7 @@ public class StartScreen : MonoBehaviour {
 	public float zoomLineTime = 1.5f;
 	float camTotalDist;
 
-	RawImage fadeFX;
+	Image fadeFX;
 	bool fadingIn;
 	float startFadeTime;
 	Color fadeFXcolor;
@@ -66,7 +66,7 @@ public class StartScreen : MonoBehaviour {
 		startMsgColor.a = 0f;
 		startMsg.color = startMsgColor;
 
-		fadeFX = GameObject.Find (gameObject.name+"/fadeFX").GetComponent<RawImage>();
+		fadeFX = GameObject.Find (gameObject.name+"/fadeFX").GetComponent<Image>();
 
 		myAudio = GetComponent<AudioSource>();
 		backMusic = backgroundMusicObj.GetComponent<AudioSource>();

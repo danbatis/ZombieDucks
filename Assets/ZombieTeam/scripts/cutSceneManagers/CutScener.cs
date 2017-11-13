@@ -12,6 +12,8 @@ public class CutScener : MonoBehaviour {
 	Image health2UI;
 	Text winUI;
 	Text loseUI;
+	Text overheatUI;
+	Image ammoBar;
 
 	Spawner spwner;
 	public bool spawnerState;
@@ -62,6 +64,9 @@ public class CutScener : MonoBehaviour {
 
 		enemiesToTransform = new List<GameObject>();
 		formerEnemiesToSpawn = new List<GameObject>();
+
+		ammoBar = GameObject.Find("basicCanvas/ammoBar").GetComponent<Image>();
+		overheatUI = GameObject.Find("basicCanvas/overheatUI").GetComponent<Text>();
 	}
 	
 	// Update is called once per frame
@@ -107,6 +112,9 @@ public class CutScener : MonoBehaviour {
 		healthUI.enabled = Enable;
 		healthCoreUI.enabled = Enable;
 		health2UI.enabled = Enable;
+		ammoBar.enabled = Enable;
+		overheatUI.enabled = Enable;
+
 		//winUI.enabled = Enable;
 		//loseUI.enabled = Enable;
 

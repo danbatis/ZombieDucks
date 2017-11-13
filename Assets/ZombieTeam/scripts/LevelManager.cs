@@ -51,6 +51,7 @@ public class LevelManager : MonoBehaviour {
 	public float creditNormalSpeed = 10.0f;
 	public float normalCreditLimitPos = 800.0f;
 	public int activeEnemies;
+	public int protectors;
 
 	void Awake(){
 		controls = GameObject.Find ("basicCanvas/controls").GetComponent<RawImage>();

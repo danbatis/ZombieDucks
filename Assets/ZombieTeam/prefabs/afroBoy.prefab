@@ -158,7 +158,7 @@ GameObject:
   - component: {fileID: 65526057851356766}
   - component: {fileID: 23279448547066410}
   m_Layer: 0
-  m_Name: Cube
+  m_Name: barrelDetail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -209,8 +209,8 @@ GameObject:
   - component: {fileID: 82756465698176462}
   - component: {fileID: 54289165601796462}
   - component: {fileID: 65161058008348656}
-  - component: {fileID: 81921610803619560}
-  m_Layer: 0
+  - component: {fileID: 81498407581035408}
+  m_Layer: 1
   m_Name: afroBoy
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -305,7 +305,7 @@ GameObject:
   - component: {fileID: 65574401628069282}
   - component: {fileID: 23662283997363564}
   m_Layer: 0
-  m_Name: Cube (1)
+  m_Name: barrelTipDetail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -582,7 +582,7 @@ GameObject:
   - component: {fileID: 65012478899941320}
   - component: {fileID: 23394992887203244}
   m_Layer: 0
-  m_Name: Cube (2)
+  m_Name: indicator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -964,8 +964,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1231445887417384}
-  m_LocalRotation: {x: -0, y: -0.9440184, z: -0, w: -0.3298928}
-  m_LocalPosition: {x: 0.245, y: 0.623, z: -0.57}
+  m_LocalRotation: {x: -0, y: 0.7069943, z: -0, w: 0.70721924}
+  m_LocalPosition: {x: -73.741, y: 0.6, z: 18.718}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4787805706995500}
@@ -1782,7 +1782,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!81 &81921610803619560
+--- !u!81 &81498407581035408
 AudioListener:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -1895,7 +1895,7 @@ Light:
   m_Enabled: 1
   serializedVersion: 8
   m_Type: 2
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 0.97515213, b: 0.9485294, a: 1}
   m_Intensity: 2.14
   m_Range: 10
   m_SpotAngle: 30
@@ -2020,8 +2020,13 @@ MonoBehaviour:
   hurtSound3: {fileID: 8300000, guid: 9c8b1921d7155554893d5d145d61b297, type: 3}
   jumpSound: {fileID: 8300000, guid: 74e089d0e136add4fa16f8b50def93df, type: 3}
   landSound: {fileID: 8300000, guid: d5c3a34bacd47fb419e9359d98ac40e5, type: 3}
+  gunFailSound: {fileID: 8300000, guid: d8413a3b9d69a2847864065a04a478d0, type: 3}
   candlesLit: 0
   minCandlesLit2Advance: 1
+  overheatLimit: 6
+  recoverGunPowerRate: 20
+  overHeatTime: 5
+  overheatUIfreq: 5
 --- !u!137 &137149605111630798
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

@@ -142,10 +142,10 @@ public class PenguimControl : ShotSensitive {
 			atk.twist = true;
 			myTransform.LookAt(playerTransform);
 			myAnim.SetBool("slap", true);
-			yield return new WaitForSeconds(0.25f*attackTime);
-			atk.lethal = true;
 
-			yield return new WaitForSeconds(0.5f*attackTime);
+			yield return new WaitForSeconds(0.1f*attackTime);
+			atk.lethal = true;
+			yield return new WaitForSeconds(0.65f*attackTime);
 			atk.lethal = false;
 			yield return new WaitForSeconds(0.25f*attackTime);
 			myAnim.SetBool("slap", false);
@@ -190,7 +190,7 @@ public class PenguimControl : ShotSensitive {
 
 			life -= 1;
 			if (life < 0)
-				Death (hitpos, hitnorm);
+				Death(hitpos, hitnorm);
 		//}			
 	}
 
@@ -209,6 +209,8 @@ public class PenguimControl : ShotSensitive {
 		PlayerControlPlus algoz = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerControlPlus>();
 		levelManager.LogMessage("player killed me "+gameObject.name+";shotsCounter;"+algoz.shotsCounter.ToString());
 		levelManager.activeEnemies--;
+		if (taskProtect)
+			levelManager.protectors--;
 		Destroy(hitedFX, fxTime);
 		Destroy(gameObject);
 	}

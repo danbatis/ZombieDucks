@@ -137,7 +137,7 @@ public class DuckControl : ShotSensitive {
 
 			life -= 1;
 			if (life < 0)
-				Death (hitpos, hitnorm);
+				Death(hitpos, hitnorm);
 		//}			
 	}
 
@@ -156,6 +156,8 @@ public class DuckControl : ShotSensitive {
 		PlayerControlPlus algoz = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerControlPlus>();
 		levelManager.LogMessage("player killed me "+gameObject.name+";shotsCounter;"+algoz.shotsCounter.ToString());
 		levelManager.activeEnemies--;
+		if (taskProtect)
+			levelManager.protectors--;
 		Destroy(hitedFX, fxTime);
 		Destroy(gameObject);
 	}

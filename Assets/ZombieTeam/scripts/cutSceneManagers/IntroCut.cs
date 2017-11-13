@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class IntroCut : MonoBehaviour {
 	CinematicCam cineCam;
@@ -34,6 +35,8 @@ public class IntroCut : MonoBehaviour {
 	DialogManager dialogManager;
 	BackMusicManager backgroundMusic;
 	int waitForLine = 0;
+
+	Image ammoBar;
 
 	AudioSource myAudio;
 	public AudioClip thunderSound;
@@ -92,6 +95,10 @@ public class IntroCut : MonoBehaviour {
 		dialogManager = GameObject.Find("DialogManager").GetComponent<DialogManager>();
 		backgroundMusic = GameObject.Find("BackMusicManager").GetComponent<BackMusicManager>();
 		blanketDestroyer = GameObject.Find ("blanketDestroyer").GetComponent<BlanketDestroyer>();
+
+		ammoBar = GameObject.Find("basicCanvas/ammoBar").GetComponent<Image>();
+		ammoBar.enabled = false;
+
 		myAudio = GetComponent<AudioSource> ();
 		fuzeSparks.SetActive(false);
 		fuzeLightning.enabled = false;

@@ -70,6 +70,7 @@ public class PlayerControlPlus : MonoBehaviour {
 	bool alive = true;
 
 	Image healthIndicator;
+	Image ammoBar;
 
 	bool gameEnded;
 	LevelManager levelManager;
@@ -82,6 +83,10 @@ public class PlayerControlPlus : MonoBehaviour {
 	bool beingDamaged;
 	AlignToCamera myAlign;
 	GameObject mygun;
+	GameObject gunIndicator;
+	Renderer gunIndicatorRender;
+	Color initialGunIndicatorColor;
+
 	public Texture allKeys;
 	public Texture disabledKeys1;
 	public Texture disabledKeys2;
@@ -98,8 +103,29 @@ public class PlayerControlPlus : MonoBehaviour {
 	public AudioClip jumpSound;
 	public AudioClip landSound;
 
+	public AudioClip gunFailSound;
+
 	public int candlesLit;
 	public int minCandlesLit2Advance = 1;
+
+	public int overheatLimit = 6;
+	public float recoverGunPowerRate = 10f;
+	public float overHeatTime = 3.0f;
+	float overHeatStarted;
+	float gunPower = 100f;
+	bool gunOverheat;
+	bool recoverGunPower = false;
+	Text overheatUI;
+	int overheatUIsize = 28;
+	public float overheatUIfreq = 10f;
+	Vector3 ammoBarSize;
+	Vector3 ammoBarPos;
+
+	float ammoBarInitialPos;
+	float screenWidth;
+	Vector2 initialAmmoBar;
+	float moveAmmoBar = 100f;
+
 	bool gameWon;
 
 	void Awake(){
@@ -129,12 +155,25 @@ public class PlayerControlPlus : MonoBehaviour {
 		speed = baseSpeed;
 		gameEnded = false;
 
+		overheatUI = GameObject.Find("basicCanvas/overheatUI").GetComponent<Text>();
+		overheatUI.enabled = false;
+		ammoBar = GameObject.Find("basicCanvas/ammoBar").GetComponent<Image>();
+		ammoBarSize = ammoBar.rectTransform.localScale;
+		ammoBarPos = ammoBar.rectTransform.position;
+		ammoBarInitialPos = ammoBar.rectTransform.rect.xMax;
+		initialAmmoBar = ammoBar.rectTransform.sizeDelta;
+		moveAmmoBar = ammoBar.rectTransform.localPosition.x / 5f;
+
 		initialHealthBarPos = healthIndicator.rectTransform.localPosition;
 		currentHealthPos = initialHealthBarPos;
 		initialHealthSize = healthIndicator.rectTransform.localScale;
 
 		mygun = GameObject.Find(gameObject.name+"/b_root/b_pelvis/b_spine/b_spine1/b_spine2/b_neck/b_rightClavicle/b_rightUpperArm/b_rightForearm/b_rightHand/weapon_gun");
 		
+		gunIndicator = GameObject.Find(gameObject.name+"/b_root/b_pelvis/b_spine/b_spine1/b_spine2/b_neck/b_rightClavicle/b_rightUpperArm/b_rightForearm/b_rightHand/weapon_gun/weapon/indicator");
+		gunIndicatorRender = gunIndicator.GetComponent<Renderer>();
+		initialGunIndicatorColor = gunIndicatorRender.material.color;
+
 		mygun.SetActive(haveGun);
 		crossHairs.enabled = haveGun;
 
@@ -143,14 +182,21 @@ public class PlayerControlPlus : MonoBehaviour {
 		
 		if (camTransform == null)
 			camTransform = GameObject.FindGameObjectWithTag("MainCamera").transform;
+
+		Canvas mycanvas = GameObject.Find("basicCanvas").GetComponent<Canvas>();
+		screenWidth = mycanvas.scaleFactor * mycanvas.pixelRect.width;
+		Debug.Log("screen size: "+ screenWidth.ToString()+" scaleFactor "+mycanvas.scaleFactor.ToString()+" pixelRect.width "+mycanvas.pixelRect.width.ToString());
+		Debug.Log("ammoBar rect: " + ammoBar.rectTransform.rect.ToString());
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		mygun.SetActive(haveGun);
 
-		if(!gameWon)
+		if (!gameWon) {
 			crossHairs.enabled = haveGun;
+			ammoBar.enabled = haveGun;
+		}
 
 		if ((Input.GetKeyDown(KeyCode.LeftControl) || Input.GetKeyDown(KeyCode.F))&& !busy && canEvade){
 			StartCoroutine(Evade());
@@ -169,6 +215,8 @@ public class PlayerControlPlus : MonoBehaviour {
 		if(Input.GetKeyDown("h"))
 			DuckDamage(10*myTransform.right, 1);
 		*/
+
+		UpdateGunPower();
 
 		//drive animations		
 		if(!evading && !levelManager.pausedGame && !beingDamaged && !gameWon){
@@ -233,42 +281,47 @@ public class PlayerControlPlus : MonoBehaviour {
 			damageVector = Vector3.zero;
 
 		if (Input.GetMouseButtonDown (0) && !gameEnded && !evading && !levelManager.pausedGame && haveGun) {
-			RaycastHit shootHit;
-			if (Physics.Raycast (camTransform.position, camTransform.forward, out shootHit, aimMask)) {
-				//Debug.Log ("<color=blue>shooting on " + shootHit.transform.name + "</color>");
-				//check if target object is in front of the player or not
-				Vector3 shootDir = shootHit.point - myTransform.position;
-				Vector3 shootDirProj = Vector3.ProjectOnPlane (shootDir, Vector3.up);
-				float angleCrossShootDir = Vector3.Angle (Vector3.Cross (myTransform.right, shootDirProj), Vector3.up);
-				//Debug.Log ("<color=blue>angle: " + angleCrossShootDir.ToString () + "</color>");
-				if (angleCrossShootDir == 180) {
-					StartCoroutine (Shoot(true, shootHit.point));
-					HitExplosion (shootHit.point, shootHit.normal);
+			if (gunPower > 0f) {
+				RaycastHit shootHit;
+				if (Physics.Raycast (camTransform.position, camTransform.forward, out shootHit, aimMask)) {
+					//Debug.Log ("<color=blue>shooting on " + shootHit.transform.name + "</color>");
+					//check if target object is in front of the player or not
+					Vector3 shootDir = shootHit.point - myTransform.position;
+					Vector3 shootDirProj = Vector3.ProjectOnPlane (shootDir, Vector3.up);
+					float angleCrossShootDir = Vector3.Angle (Vector3.Cross (myTransform.right, shootDirProj), Vector3.up);
+					//Debug.Log ("<color=blue>angle: " + angleCrossShootDir.ToString () + "</color>");
+					if (angleCrossShootDir == 180) {
+						StartCoroutine (Shoot(true, shootHit.point));
+						HitExplosion (shootHit.point, shootHit.normal);
 
-					ShotSensitive targetShot = shootHit.transform.GetComponent<ShotSensitive> ();
-					if (targetShot) {
-						targetShot.ShootHit(shootHit.point, shootHit.normal);
-					}
-					/*
-					else{
-						CandleManager candleMan = shootHit.transform.GetComponent<CandleManager>();
-						if (candleMan) {
-							candleMan.PlayerHit ();
+						ShotSensitive targetShot = shootHit.transform.GetComponent<ShotSensitive> ();
+						if (targetShot) {
+							targetShot.ShootHit (shootHit.point, shootHit.normal);
 						}
+						/*
 						else{
-							FuzeBoxManager fuzeBox = shootHit.transform.GetComponent<FuzeBoxManager>();
-							if(fuzeBox)
-								fuzeBox.PlayerHit ();
+							CandleManager candleMan = shootHit.transform.GetComponent<CandleManager>();
+							if (candleMan) {
+								candleMan.PlayerHit ();
+							}
+							else{
+								FuzeBoxManager fuzeBox = shootHit.transform.GetComponent<FuzeBoxManager>();
+								if(fuzeBox)
+									fuzeBox.PlayerHit ();
+							}
 						}
+						*/
+						
+					} else {
+						StartCoroutine (Shoot(false, Vector3.zero));
 					}
-					*/
-					
 				} else {
-					StartCoroutine (Shoot(false, Vector3.zero));
+					Debug.Log ("<color=blue>shooting on nothing</color>");
+					StartCoroutine (Shoot(true, upperArm.position + 100f * myTransform.forward));
 				}
-			} else {
-				Debug.Log ("<color=blue>shooting on nothing</color>");
-				StartCoroutine (Shoot(true, upperArm.position + 100f*myTransform.forward));
+			}
+			else{
+				StartCoroutine( ShootFail() );
 			}
 		}
 		
@@ -285,7 +338,8 @@ public class PlayerControlPlus : MonoBehaviour {
 		if (aiming != 0) {
 			//AimGun(aimHere.position);
 			AimGun (aimTarget);
-			FlickerLight();
+			if(gunPower > 0f)
+				FlickerLight();
 		}
 		else {
 			if (!gameEnded) {
@@ -295,11 +349,54 @@ public class PlayerControlPlus : MonoBehaviour {
 		}
 	}
 
+	void UpdateGunPower(){
+		overheatUI.enabled = (gunOverheat && gunPower == 0f);
+		overheatUI.fontSize = overheatUIsize+Mathf.RoundToInt((overheatUIsize/2) * Mathf.Sin(overheatUIfreq*Time.time));
+		gunIndicatorRender.material.color = new Color((1-gunPower/100f)*255f, 255f*(gunPower/100f), initialGunIndicatorColor.b, initialGunIndicatorColor.a);
+
+		ammoBar.rectTransform.localScale = new Vector3((gunPower/100f)*ammoBarSize.x, ammoBarSize.y, ammoBarSize.z);
+		ammoBar.rectTransform.position = new Vector3(ammoBarPos.x - ((1f-gunPower/100f))*moveAmmoBar, ammoBarPos.y, ammoBarPos.z);
+		//Debug.Log("ammobar localPosition"+ammoBar.rectTransform.localPosition+"ammoBar position: "+(ammoBar.rectTransform.position).ToString() + " ammoBar scale: "+ ammoBar.rectTransform.localScale.ToString());
+		//ammoBar.rectTransform.rect = ammoBarInitialPos + (1f-gunPower/100f) * (screenWidth - ammoBar.rectTransform.rect.xMin - ammoBarInitialPos);
+		//ammoBar.rectTransform.sizeDelta = new Vector2((gunPower/100f)*initialAmmoBar.x, initialAmmoBar.y);
+
+		if(recoverGunPower){
+			gunPower += 2*recoverGunPowerRate * Time.deltaTime;
+			if (gunPower > 100f){
+				gunPower = 100f;
+				recoverGunPower = false;
+				gunOverheat = false;
+			}
+		}
+		else{
+			if(!gunOverheat){
+				gunPower += recoverGunPowerRate * Time.deltaTime;
+				if (gunPower > 100f)
+					gunPower = 100f;
+			}
+			else{
+				if(Time.time - overHeatStarted >= overHeatTime){
+					recoverGunPower = true;
+				}
+			}
+		}
+		//Debug.Log("<color=blue>gunpower: "+gunPower.ToString()+"</color>");
+	}
+
 	IEnumerator Shoot(bool shouldAim, Vector3 Target){
 		if (shouldAim) {
 			aiming += 1;
 			aimTarget = Target;
 		}
+		recoverGunPower = false;
+		gunPower -= 100f / overheatLimit;
+		if (gunPower <= 0f) {
+			recoverGunPower = false;
+			gunOverheat = true;
+			gunPower = 0f;
+			overHeatStarted = Time.time;
+		}
+		
 		shotsCounter++;
 		myAudio.PlayOneShot(shootSound);
 		Vector3 shootOrigin = gunTransform.position - gunLength * gunTransform.right + gunHeight * gunTransform.forward;
@@ -321,7 +418,17 @@ public class PlayerControlPlus : MonoBehaviour {
 		if (aiming < 0)
 			aiming = 0;
 	}
+	IEnumerator ShootFail(){
+		aiming += 1;
+		aimTarget = upperArm.position + 100f * myTransform.forward;
+		myAudio.PlayOneShot(gunFailSound);
+		overHeatStarted = Time.time;
 
+		yield return new WaitForSeconds(0.5f);
+		aiming -= 1;
+		if (aiming < 0)
+			aiming = 0;
+	}
 
 	void HitExplosion(Vector3 hitpos, Vector3 hitnorm){
 		GameObject hitedFX = GameObject.Instantiate(hitFX, hitpos, Quaternion.identity);
@@ -449,6 +556,8 @@ public class PlayerControlPlus : MonoBehaviour {
 		winMsg.enabled = true;
 		winMsg.text = "Good Job";
 		crossHairs.enabled = false;
+		ammoBar.enabled = false;
+		gunPower = 1.0f;
 		gameEnded = true;
 		Debug.Log ("<color=yellow>Win Game!!</color>");
 		Time.timeScale = 0.2f;
