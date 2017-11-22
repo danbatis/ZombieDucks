@@ -118,7 +118,8 @@ public class CandleManager : ShotSensitive {
 
 	public void PlayerHit(){
 		hitShots++;
-		GameObject.Instantiate(fireFailFX, transform.position+fireOffset*Vector3.up, Quaternion.identity);
+		if (hitShots < shootsToLight)
+			GameObject.Instantiate(fireFailFX, transform.position+fireOffset*Vector3.up, Quaternion.identity);
 		if (hitShots == shootsToLight) {
 			lvlManager.LogMessage("candle lit");
 			cutScener.TurnOffGuideLight();

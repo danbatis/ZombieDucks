@@ -61,15 +61,17 @@ public class PlayerControlPlus : MonoBehaviour {
 	public float speedDrag = 2.5f;
 	public float recoverTime = 3.0f;
 	public float recoverRate = 5.0f;
-	Vector3 initialHealthBarPos;
-	Vector3 initialHealthSize;
-	Vector3 currentHealthPos;
+
+	float healthBarSize;
+	float healthBarRight;
+	Vector2 healthBarPos;
 
 	Text winMsg;
 	Text loseMsg;
 	bool alive = true;
 
 	Image healthIndicator;
+	Image healthHighlight;
 	Image ammoBar;
 
 	bool gameEnded;
@@ -96,6 +98,7 @@ public class PlayerControlPlus : MonoBehaviour {
 	public bool canJump = true;
 	RawImage crossHairs;
 	public int shotsCounter;
+	bool healthFlashing;
 
 	public AudioClip hurtSound1;
 	public AudioClip hurtSound2;
@@ -118,13 +121,10 @@ public class PlayerControlPlus : MonoBehaviour {
 	Text overheatUI;
 	int overheatUIsize = 28;
 	public float overheatUIfreq = 10f;
-	Vector3 ammoBarSize;
-	Vector3 ammoBarPos;
 
-	float ammoBarInitialPos;
-	float screenWidth;
-	Vector2 initialAmmoBar;
-	float moveAmmoBar = 100f;
+	float ammoBarPosi;
+	float ammoBarMax;
+	Vector2 ammoBarPosf;
 
 	bool gameWon;
 
@@ -146,7 +146,8 @@ public class PlayerControlPlus : MonoBehaviour {
 		
 		flickeringLight = GameObject.Find("flickerLight").GetComponent<Light>();
 		Debug.Log("flicker light father: "+GameObject.Find("flickerLight").transform.parent.name);
-		healthIndicator = GameObject.Find("basicCanvas/healthBar/health").GetComponent<Image>();
+		healthHighlight = GameObject.Find("basicCanvas/healthHighlight").GetComponent<Image>();
+		healthIndicator = GameObject.Find("basicCanvas/healthBar").GetComponent<Image>();
 		crossHairs = GameObject.Find("basicCanvas/aim").GetComponent<RawImage>();
 		winMsg = GameObject.Find("basicCanvas/winMsg").GetComponent<Text>();
 		winMsg.enabled = false;
@@ -158,15 +159,16 @@ public class PlayerControlPlus : MonoBehaviour {
 		overheatUI = GameObject.Find("basicCanvas/overheatUI").GetComponent<Text>();
 		overheatUI.enabled = false;
 		ammoBar = GameObject.Find("basicCanvas/ammoBar").GetComponent<Image>();
-		ammoBarSize = ammoBar.rectTransform.localScale;
-		ammoBarPos = ammoBar.rectTransform.position;
-		ammoBarInitialPos = ammoBar.rectTransform.rect.xMax;
-		initialAmmoBar = ammoBar.rectTransform.sizeDelta;
-		moveAmmoBar = ammoBar.rectTransform.localPosition.x / 5f;
+		ammoBarPosi = ammoBar.rectTransform.offsetMax.x;
+		ammoBarPosf = ammoBar.rectTransform.offsetMax;
+		float screenWidth = GameObject.Find ("basicCanvas").GetComponent<RectTransform> ().rect.width;
+		ammoBarMax =  screenWidth + ammoBarPosf.x - ammoBar.rectTransform.offsetMin.x;
 
-		initialHealthBarPos = healthIndicator.rectTransform.localPosition;
-		currentHealthPos = initialHealthBarPos;
-		initialHealthSize = healthIndicator.rectTransform.localScale;
+		//Debug.Log("screen size: "+Screen.width.ToString()+" in canvas units: "+GameObject.Find("basicCanvas").GetComponent<RectTransform>().rect.width.ToString());
+
+		healthBarRight = healthIndicator.rectTransform.offsetMax.x;
+		healthBarPos = healthIndicator.rectTransform.offsetMax;
+		healthBarSize = screenWidth + healthBarPos.x - healthIndicator.rectTransform.offsetMin.x;
 
 		mygun = GameObject.Find(gameObject.name+"/b_root/b_pelvis/b_spine/b_spine1/b_spine2/b_neck/b_rightClavicle/b_rightUpperArm/b_rightForearm/b_rightHand/weapon_gun");
 		
@@ -182,11 +184,6 @@ public class PlayerControlPlus : MonoBehaviour {
 		
 		if (camTransform == null)
 			camTransform = GameObject.FindGameObjectWithTag("MainCamera").transform;
-
-		Canvas mycanvas = GameObject.Find("basicCanvas").GetComponent<Canvas>();
-		screenWidth = mycanvas.scaleFactor * mycanvas.pixelRect.width;
-		Debug.Log("screen size: "+ screenWidth.ToString()+" scaleFactor "+mycanvas.scaleFactor.ToString()+" pixelRect.width "+mycanvas.pixelRect.width.ToString());
-		Debug.Log("ammoBar rect: " + ammoBar.rectTransform.rect.ToString());
 	}
 	
 	// Update is called once per frame
@@ -354,14 +351,12 @@ public class PlayerControlPlus : MonoBehaviour {
 		overheatUI.fontSize = overheatUIsize+Mathf.RoundToInt((overheatUIsize/2) * Mathf.Sin(overheatUIfreq*Time.time));
 		gunIndicatorRender.material.color = new Color((1-gunPower/100f)*255f, 255f*(gunPower/100f), initialGunIndicatorColor.b, initialGunIndicatorColor.a);
 
-		ammoBar.rectTransform.localScale = new Vector3((gunPower/100f)*ammoBarSize.x, ammoBarSize.y, ammoBarSize.z);
-		ammoBar.rectTransform.position = new Vector3(ammoBarPos.x - ((1f-gunPower/100f))*moveAmmoBar, ammoBarPos.y, ammoBarPos.z);
+		ammoBarPosf.x = ammoBarPosi - ammoBarMax * (1-gunPower / 100.0f);
+		ammoBar.rectTransform.offsetMax = ammoBarPosf; 
 		//Debug.Log("ammobar localPosition"+ammoBar.rectTransform.localPosition+"ammoBar position: "+(ammoBar.rectTransform.position).ToString() + " ammoBar scale: "+ ammoBar.rectTransform.localScale.ToString());
-		//ammoBar.rectTransform.rect = ammoBarInitialPos + (1f-gunPower/100f) * (screenWidth - ammoBar.rectTransform.rect.xMin - ammoBarInitialPos);
-		//ammoBar.rectTransform.sizeDelta = new Vector2((gunPower/100f)*initialAmmoBar.x, initialAmmoBar.y);
 
 		if(recoverGunPower){
-			gunPower += 2*recoverGunPowerRate * Time.deltaTime;
+			gunPower += 4*recoverGunPowerRate * Time.deltaTime;
 			if (gunPower > 100f){
 				gunPower = 100f;
 				recoverGunPower = false;
@@ -388,6 +383,7 @@ public class PlayerControlPlus : MonoBehaviour {
 			aiming += 1;
 			aimTarget = Target;
 		}
+		gunOverheat = false;
 		recoverGunPower = false;
 		gunPower -= 100f / overheatLimit;
 		if (gunPower <= 0f) {
@@ -422,7 +418,7 @@ public class PlayerControlPlus : MonoBehaviour {
 		aiming += 1;
 		aimTarget = upperArm.position + 100f * myTransform.forward;
 		myAudio.PlayOneShot(gunFailSound);
-		overHeatStarted = Time.time;
+		//overHeatStarted = Time.time;
 
 		yield return new WaitForSeconds(0.5f);
 		aiming -= 1;
@@ -500,9 +496,31 @@ public class PlayerControlPlus : MonoBehaviour {
 	}
 
 	void UpdateLife(){
-		healthIndicator.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal,(life*2));
-		healthIndicator.rectTransform.localPosition = new Vector3(life-100.0f,0f,0f);
+		healthBarPos.x = healthBarRight - healthBarSize*(1-life/100.0f);
+		healthIndicator.rectTransform.offsetMax = healthBarPos;
+		//healthIndicator.rectTransform.offsetMax SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal,(life*2));
+		//healthIndicator.rectTransform.localPosition = new Vector3(life-100.0f,0f,0f);
 	}
+
+	IEnumerator FlashHealth(){
+		if (!healthFlashing) {
+			healthFlashing = true;
+			float firstflash = 0.1f;
+			float secflash = 0.3f;
+			Color originalColor = healthHighlight.color;
+			Color flashHealth = new Color (1f, 1f, 1f, 1f);
+
+			healthHighlight.color = flashHealth;
+			yield return new WaitForSeconds (firstflash);
+			healthHighlight.color = originalColor;
+			yield return new WaitForSeconds (firstflash);
+			healthHighlight.color = flashHealth;
+			yield return new WaitForSeconds (secflash);
+			healthHighlight.color = originalColor;
+			healthFlashing = false;
+		}
+	}
+
 	public void DuckDamage(Vector3 DamageDir, int damageAmount, bool twist){
 		if(!evading && !beingDamaged){
 			beingDamaged = true;
@@ -532,8 +550,9 @@ public class PlayerControlPlus : MonoBehaviour {
 			damageVector += DamageDir;
 			life -= damageAmount;
 			UpdateLife();
+			StartCoroutine(FlashHealth());
 			speed = baseSpeed - (1-life/100)*speedDrag;
-			if (life <= 0)
+			if (life <= 1f)
 				Death();
 		}
 	}

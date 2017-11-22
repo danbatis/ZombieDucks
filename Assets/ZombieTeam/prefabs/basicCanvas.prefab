@@ -30,7 +30,7 @@ GameObject:
   m_IsActive: 1
 --- !u!1 &1052695349666596
 GameObject:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
@@ -39,7 +39,7 @@ GameObject:
   - component: {fileID: 222515977322864276}
   - component: {fileID: 114414126848463178}
   m_Layer: 5
-  m_Name: health
+  m_Name: healthBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -158,7 +158,7 @@ GameObject:
   - component: {fileID: 222405467115896388}
   - component: {fileID: 114025666493832514}
   m_Layer: 5
-  m_Name: healthBar
+  m_Name: healthBackground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -475,7 +475,18 @@ MonoBehaviour:
   m_Text: "Thanks for Playing!\n\nThe Monsters We See was made by \n\nDaniel Batista
     \n\nand \n\nKen Egu. \n\nWe would like to thank everyone who contributed to this
     game in some form, specially our professor \n\nRichard Lemarchand \n\nfor his
-    advice \n\nand our friend \n\nKelsey Rice \n\nfor her voice.\n\n\n\n\n\n\nThanks!"
+    advice \n\nand our friends \n\nKelsey Rice\n\nand \n\nCrystal Chan \n\nfor their
+    special voice participation.\n\n\nOther audios used in this game:\n\npenguim https://freesound.org/people/al.barbosa/sounds/150861/\r\npenguim
+    https://freesound.org/people/soundbytez/sounds/111079/\r\nduck dies https://freesound.org/people/vikuserro/sounds/341013/\r\nthunder
+    https://freesound.org/people/juskiddink/sounds/101948/\r\ncreep lullaby https://freesound.org/people/martysonic/sounds/398838/\r\nnice
+    lullaby https://freesound.org/people/Thejack288/sounds/236813/\r\ncreep background
+    https://freesound.org/people/Ephemeral_Rift/sounds/133708/\r\nambience https://freesound.org/people/djfroyd/sounds/331944/\r\nrubber
+    duck https://freesound.org/people/ermfilm/sounds/130011/\r\nrubber squeak https://freesound.org/people/RutgerMuller/sounds/51047/\r\nrubber
+    slide https://freesound.org/people/bhanco3/sounds/231534/\r\nduck background https://freesound.org/people/ingeos/sounds/7519/\r\njingle
+    win plus https://freesound.org/people/LittleRobotSoundFactory/sounds/270402/\r\nachievement
+    https://freesound.org/people/LittleRobotSoundFactory/sounds/270468/\r\njingle
+    win https://freesound.org/people/LittleRobotSoundFactory/sounds/270528/\r\ngun
+    fail: https://freesound.org/people/shorzie/sounds/407715/\n\n\n\nThanks!"
 --- !u!114 &114600187230661850
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -522,7 +533,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 0.76551723, b: 0, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -876,7 +887,7 @@ RectTransform:
   m_LocalScale: {x: 0.9999968, y: 0.9999968, z: 0.9999968}
   m_Children: []
   m_Father: {fileID: 224925262090391004}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -894,7 +905,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 224925262090391004}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -912,7 +923,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 224925262090391004}
-  m_RootOrder: 9
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -930,7 +941,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 224925262090391004}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -947,13 +958,13 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 224932587387794966}
-  m_RootOrder: 0
+  m_Father: {fileID: 224925262090391004}
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -14, y: -12}
+  m_AnchoredPosition: {x: 356.11, y: 275.3}
+  m_SizeDelta: {x: -786.23, y: -585.2}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224536793788776618
 RectTransform:
@@ -966,7 +977,7 @@ RectTransform:
   m_LocalScale: {x: 0.99999523, y: 0.99999523, z: 0.99999523}
   m_Children: []
   m_Father: {fileID: 224925262090391004}
-  m_RootOrder: 11
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -984,7 +995,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 224925262090391004}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -1002,12 +1013,12 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 224925262090391004}
-  m_RootOrder: 13
+  m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 403.25, y: -276}
-  m_SizeDelta: {x: -857, y: -584.8}
+  m_AnchoredPosition: {x: 349.7, y: -276}
+  m_SizeDelta: {x: -759.49, y: -584.8}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224652401773856232
 RectTransform:
@@ -1020,7 +1031,7 @@ RectTransform:
   m_LocalScale: {x: 1.0000001, y: 1.0000001, z: 1.0000001}
   m_Children: []
   m_Father: {fileID: 224925262090391004}
-  m_RootOrder: 10
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -1038,7 +1049,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 224925262090391004}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -1060,8 +1071,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 391.78, y: 275.3}
-  m_SizeDelta: {x: -830.28, y: -566.6}
+  m_AnchoredPosition: {x: 356.9, y: 275.3}
+  m_SizeDelta: {x: -760.5, y: -566.6}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224837855858890554
 RectTransform:
@@ -1074,12 +1085,12 @@ RectTransform:
   m_LocalScale: {x: 0.9999953, y: 0.9999953, z: 0.9999953}
   m_Children: []
   m_Father: {fileID: 224925262090391004}
-  m_RootOrder: 12
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 397.4, y: -249.4}
-  m_SizeDelta: {x: -794, y: -498.8}
+  m_AnchorMin: {x: 1, y: 0}
+  m_AnchorMax: {x: 1, y: 0}
+  m_AnchoredPosition: {x: -136.1, y: 50.600006}
+  m_SizeDelta: {x: 273, y: 101.20001}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224925262090391004
 RectTransform:
@@ -1094,6 +1105,7 @@ RectTransform:
   - {fileID: 224938862247085002}
   - {fileID: 224833433590567596}
   - {fileID: 224932587387794966}
+  - {fileID: 224389866209819908}
   - {fileID: 224053522189522904}
   - {fileID: 224016490580455348}
   - {fileID: 224574385304781062}
@@ -1122,15 +1134,14 @@ RectTransform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.9999968, y: 0.9999968, z: 0.9999968}
-  m_Children:
-  - {fileID: 224389866209819908}
+  m_Children: []
   m_Father: {fileID: 224925262090391004}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 391.5, y: 275.3}
-  m_SizeDelta: {x: -843, y: -573.2}
+  m_AnchoredPosition: {x: 356.6, y: 275.3}
+  m_SizeDelta: {x: -773.3, y: -573.2}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224938862247085002
 RectTransform:
@@ -1147,8 +1158,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.0000095367}
-  m_SizeDelta: {x: -960, y: -500}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: -880, y: -500}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224976857926656686
 RectTransform:
@@ -1161,7 +1172,7 @@ RectTransform:
   m_LocalScale: {x: 0.9999947, y: 0.9999947, z: 0.9999947}
   m_Children: []
   m_Father: {fileID: 224925262090391004}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}

@@ -45,8 +45,8 @@ public class CutScener : MonoBehaviour {
 	void Awake () {
 		//UI
 		aimUI = GameObject.Find("basicCanvas/aim").GetComponent<RawImage>();
-		healthUI = GameObject.Find("basicCanvas/healthBar").GetComponent<Image>();
-		healthCoreUI = GameObject.Find("basicCanvas/healthBar/health").GetComponent<Image>();
+		healthUI = GameObject.Find("basicCanvas/healthBackground").GetComponent<Image>();
+		healthCoreUI = GameObject.Find("basicCanvas/healthBar").GetComponent<Image>();
 		health2UI = GameObject.Find("basicCanvas/healthHighlight").GetComponent<Image>();
 		winUI = GameObject.Find("basicCanvas/winMsg").GetComponent<Text>();
 		loseUI = GameObject.Find("basicCanvas/loseMsg").GetComponent<Text>();

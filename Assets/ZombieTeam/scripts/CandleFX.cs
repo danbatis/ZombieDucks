@@ -11,6 +11,7 @@ public class CandleFX : MonoBehaviour {
 	public float posy = 0.5f;
 	public float igniteTime = 3.0f;
 	float realposy;
+	float timer=0f;
 
 	// Use this for initialization
 	void Start () {
@@ -27,8 +28,9 @@ public class CandleFX : MonoBehaviour {
 			pointPositions [1] = new Vector3 (0f, realposy, 0f);
 		} 
 		else{
-			pointPositions [1] = new Vector3 (0f, realposy + ampy * Mathf.Sin (freqy * Time.time), 0f);
+			pointPositions [1] = new Vector3 (0f, realposy + ampy * Mathf.Sin (freqy * timer), 0f);
 		}
+		timer += Time.deltaTime;
 		lineRender.SetPositions(pointPositions);
 	}
 }

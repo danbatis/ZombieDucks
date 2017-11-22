@@ -1169,7 +1169,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myAudio: {fileID: 0}
-  life: 3
+  life: 0
   damageSound: {fileID: 8300000, guid: d6cd2de05d90ac4478b885ccdc055821, type: 3}
   deathSound: {fileID: 8300000, guid: 425a909a08a5ab64da4e96ee72a20585, type: 3}
   damageFX: {fileID: 1000013063239222, guid: c1787f17a6f6db04d92833771d2491db, type: 2}

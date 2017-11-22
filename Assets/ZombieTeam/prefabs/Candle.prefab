@@ -338,7 +338,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myAudio: {fileID: 0}
-  shootsToLight: 3
+  shootsToLight: 1
   time2Light: 4
   maxLight: 1.3
   cinematicPoint: {fileID: 4920017237698958}
@@ -350,6 +350,11 @@ MonoBehaviour:
   finalObjective: {fileID: 0}
   influenceAreaDist: 5
   recoverSpawnState: 0
+  lastCandleVoiceID: 0
+  fireFX: {fileID: 0}
+  fireFailFX: {fileID: 0}
+  fireOffset: 0.1
+  achievement: {fileID: 0}
 --- !u!136 &136258054032057036
 CapsuleCollider:
   m_ObjectHideFlags: 1

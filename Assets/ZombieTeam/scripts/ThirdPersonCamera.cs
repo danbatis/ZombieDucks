@@ -75,7 +75,7 @@ public class ThirdPersonCamera : MonoBehaviour {
 		visionTarget = target.position + Vector3.up * targetHeight;
 		raycastOrigin = myTransform.position - camOffSet*(visionTarget - myTransform.position).normalized;
 		raycastDir = visionTarget - raycastOrigin;
-		Debug.DrawRay(myTransform.position, raycastDir, new Color (0.0f, 0.5f, 0.5f));
+		//Debug.DrawRay(myTransform.position, raycastDir, new Color (0.0f, 0.5f, 0.5f));
 
 		if (Physics.Raycast (raycastOrigin, raycastDir, out hit)) {
 			//Debug.Log ("camera ray hiting: "+hit.transform.gameObject.name);

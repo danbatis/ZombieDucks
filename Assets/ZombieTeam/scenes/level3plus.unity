@@ -4296,7 +4296,7 @@ Transform:
   m_PrefabParentObject: {fileID: 483376, guid: e8e3d84b4df91a24892ed822cd330e12, type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 827491911}
-  m_LocalRotation: {x: -0.40202817, y: -0.64759874, z: -0.51590896, w: 0.3909311}
+  m_LocalRotation: {x: -0.4020282, y: -0.6475988, z: -0.515909, w: 0.39093113}
   m_LocalPosition: {x: 5.98, y: 0.93, z: 5.2}
   m_LocalScale: {x: 100, y: 100.00001, z: 100.00001}
   m_Children:
@@ -5767,7 +5767,7 @@ Transform:
   m_PrefabParentObject: {fileID: 499524, guid: e8e3d84b4df91a24892ed822cd330e12, type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1050314587}
-  m_LocalRotation: {x: -0.812399, y: -0.11311565, z: 0.037209567, w: 0.5708135}
+  m_LocalRotation: {x: -0.8123991, y: -0.11311566, z: 0.03720957, w: 0.57081354}
   m_LocalPosition: {x: -9.93, y: 5.59, z: -5.61}
   m_LocalScale: {x: 100.000015, y: 100.00003, z: 100.00002}
   m_Children:
@@ -7887,7 +7887,7 @@ Transform:
   m_PrefabParentObject: {fileID: 499524, guid: e8e3d84b4df91a24892ed822cd330e12, type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1536717360}
-  m_LocalRotation: {x: -0.60017323, y: 0.012237783, z: -0.071434565, w: 0.7965798}
+  m_LocalRotation: {x: -0.6001733, y: 0.0122377835, z: -0.07143457, w: 0.79657984}
   m_LocalPosition: {x: -5.67, y: 4.57, z: -5.35}
   m_LocalScale: {x: 100, y: 100.00001, z: 100.00001}
   m_Children:
@@ -10198,15 +10198,6 @@ Prefab:
         type: 2}
       propertyPath: m_Pivot.y
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 114594753963676900, guid: 8fd52e8c276c7e9469a77b0b526e5f4b,
-        type: 2}
-      propertyPath: m_Text
-      value: "Thanks for Playing!\n\nThe Monsters We See was made by \n\nDaniel Batista
-        \n\nand \n\nKen Egu. \n\nWe would like to thank everyone who contributed to
-        this game in some form, specially our professor \n\nRichard Lemarchand \n\nfor
-        his advice \n\nand our friends \n\nKelsey Rice\n\nand \n\nCrystal Chan \n\nfor
-        their special voice participation.\n\n\n\n\n\n\nThanks!"
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 8fd52e8c276c7e9469a77b0b526e5f4b, type: 2}
