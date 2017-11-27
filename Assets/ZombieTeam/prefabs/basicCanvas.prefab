@@ -476,7 +476,8 @@ MonoBehaviour:
     \n\nand \n\nKen Egu. \n\nWe would like to thank everyone who contributed to this
     game in some form, specially our professor \n\nRichard Lemarchand \n\nfor his
     advice \n\nand our friends \n\nKelsey Rice\n\nand \n\nCrystal Chan \n\nfor their
-    special voice participation.\n\n\nOther audios used in this game:\n\npenguim https://freesound.org/people/al.barbosa/sounds/150861/\r\npenguim
+    special voice participation,\n\nUSC Games and USC Annenberg for their support.\n\n\nOther
+    audios used in this game:\n\npenguim https://freesound.org/people/al.barbosa/sounds/150861/\r\npenguim
     https://freesound.org/people/soundbytez/sounds/111079/\r\nduck dies https://freesound.org/people/vikuserro/sounds/341013/\r\nthunder
     https://freesound.org/people/juskiddink/sounds/101948/\r\ncreep lullaby https://freesound.org/people/martysonic/sounds/398838/\r\nnice
     lullaby https://freesound.org/people/Thejack288/sounds/236813/\r\ncreep background
@@ -981,8 +982,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.22849, y: -840}
-  m_SizeDelta: {x: -422, y: 533.6}
+  m_AnchoredPosition: {x: 0.22849, y: -1608}
+  m_SizeDelta: {x: -422, y: 1987.8998}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224574385304781062
 RectTransform:

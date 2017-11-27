@@ -15305,6 +15305,22 @@ Prefab:
       propertyPath: m_RootOrder
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 4054596250999324, guid: 13f517e60d3ee184a9c1ccbea84e1c1d, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: -0.00000002980233
+      objectReference: {fileID: 0}
+    - target: {fileID: 4054596250999324, guid: 13f517e60d3ee184a9c1ccbea84e1c1d, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 4054596250999324, guid: 13f517e60d3ee184a9c1ccbea84e1c1d, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 4054596250999324, guid: 13f517e60d3ee184a9c1ccbea84e1c1d, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: -0.00000002980233
+      objectReference: {fileID: 0}
     - target: {fileID: 1945323202906806, guid: 13f517e60d3ee184a9c1ccbea84e1c1d, type: 2}
       propertyPath: m_Name
       value: fuzeBoxProp
