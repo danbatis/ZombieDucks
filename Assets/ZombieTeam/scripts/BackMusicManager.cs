@@ -63,12 +63,14 @@ public class BackMusicManager : MonoBehaviour {
 
 				//check if need to fade in
 				if (timer <= backSongs [i].startFadeIN + backSongs [i].fadeInTime) {
-					audioSources [i].volume = (timer - backSongs [i].startFadeIN) / backSongs [i].fadeInTime;
+					if(backSongs [i].fadeInTime > 0.0f)
+						audioSources [i].volume = (timer - backSongs [i].startFadeIN) / backSongs [i].fadeInTime;
 				} 
 				else{
 					//check fade out
 					if (timer <= backSongs [i].startFadeOut + backSongs [i].fadeOutTime) {
-						audioSources [i].volume = 1.0f - ((timer - backSongs [i].startFadeOut) / backSongs [i].fadeOutTime);
+						if(backSongs [i].fadeOutTime > 0.0f)
+							audioSources [i].volume = 1.0f - ((timer - backSongs [i].startFadeOut) / backSongs [i].fadeOutTime);
 					}
 					else{
 						if (audioSources [i].isPlaying)

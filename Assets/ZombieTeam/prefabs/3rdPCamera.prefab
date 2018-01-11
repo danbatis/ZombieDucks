@@ -186,8 +186,8 @@ MonoBehaviour:
   camHeight: 1.3
   targetHeight: 0.8
   useMouse: 1
-  XSensitivity: 0.5
-  YSensitivity: 0.5
+  XSensitivity: 0.2
+  YSensitivity: 0.2
   camOffSet: 0.5
   perceptibleDist: 10
 --- !u!124 &124641664929256214

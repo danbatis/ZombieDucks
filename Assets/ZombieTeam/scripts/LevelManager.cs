@@ -90,8 +90,10 @@ public class LevelManager : MonoBehaviour {
 
 		if(nextLevel > 3)
 			GameObject.Find("basicCanvas/winMsg").GetComponent<Text>().text = "You Win!!!";
+		/*
 		if(currentLevel>0 && currentLevel <= 3)
-			initLogFile();		
+			initLogFile();
+		*/
 	}
 	
 	// Update is called once per frame
@@ -202,12 +204,12 @@ public class LevelManager : MonoBehaviour {
 		if(winGame){
 			if (nextLevel <= 3) {				
 				LogMessage("beat level "+currentLevel.ToString());
-				logFile.Close();
+				CloseLogFile();
 				SceneManager.LoadScene(nextLevel);
 			}
 			else{				
 				LogMessage("finished game, restarting to title after credits");
-				logFile.Close();
+				CloseLogFile();
 				rollingCredits = true;
 				uiLocked = true;
 				if (creditsHorizontal) {
@@ -226,7 +228,7 @@ public class LevelManager : MonoBehaviour {
 		}
 		else{
 			LogMessage("restarted game level "+currentLevel.ToString());
-			logFile.Close();
+			CloseLogFile();
 			SceneManager.LoadScene(SceneManager.GetActiveScene().name);
 		}
 	}

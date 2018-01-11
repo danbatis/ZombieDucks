@@ -114,25 +114,32 @@ public class BathTubCut : MonoBehaviour {
 
 	void ReleaseGameplay(){
 		if (!cutActive) {
+			cutActive = true;
 			for (int i = 0; i < threatPoints.Length; i++) {
 				Instantiate (zombieDuckPrefab, threatPoints [i].position, Quaternion.identity);
 			}
-
+			Debug.Log("instantiated zombie ducks");
 			cutScener.spawnerState = false;
-			cutScener.BringGuider2Player ();
+			Debug.Log("spawner state set to false");
+			cutScener.BringGuider2Player();
+			Debug.Log("brought guider to player");
 			cutScener.EnableGamePlay (true, true);
+			Debug.Log("gameplay was just enabled");
 			//adjust musics
 			backgroundMusic.backSongs [2].startFadeOut = backgroundMusic.timer;
 			backgroundMusic.backSongs [3].startFadeIN = backgroundMusic.timer;
-
+			Debug.Log("back musics adjusted");
 			playerControl.canEvade = true;
+			Debug.Log("now player can evade");
 			playerControl.UpdateControls ();
+			Debug.Log("controls are updated");
 			//Message teaching the evade
 			levelManager.UIMessage ("Press 'F' or 'Left CTRL' to evade the enemies", KeyCode.LeftControl, KeyCode.F);
-
+			Debug.Log("UI message to evade");
 			Destroy (bathTubDuck);
-			cutActive = true;
+			Debug.Log("destroyed bathtub duck");			
 			Destroy(gameObject);
+			Debug.Log("destroyed bathtub cut object");
 		}
 	}
 }
